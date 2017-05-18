@@ -1,0 +1,811 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,WebView," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Android-用WebView开发简单的浏览器Android 提供了 WebView 组件，WebView 本身就是一个浏览器实现。 例子中主要用到了 WebView 的以下方法： void loadUrl(String url) 加载指定 url 对应的网页 void goBack() 后退 void goForward() 前进 boolean canGoBack() 根据历史记录判断是否可">
+<meta name="keywords" content="Android,WebView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android：用WebView开发简单的浏览器">
+<meta property="og:url" content="http://yoursite.com/2017/03/26/Android-用WebView开发简单的浏览器/index.html">
+<meta property="og:site_name" content="Duan">
+<meta property="og:description" content="Android-用WebView开发简单的浏览器Android 提供了 WebView 组件，WebView 本身就是一个浏览器实现。 例子中主要用到了 WebView 的以下方法： void loadUrl(String url) 加载指定 url 对应的网页 void goBack() 后退 void goForward() 前进 boolean canGoBack() 根据历史记录判断是否可">
+<meta property="og:image" content="http://img.blog.csdn.net/20170326211407503?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-05-18T12:41:31.040Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android：用WebView开发简单的浏览器">
+<meta name="twitter:description" content="Android-用WebView开发简单的浏览器Android 提供了 WebView 组件，WebView 本身就是一个浏览器实现。 例子中主要用到了 WebView 的以下方法： void loadUrl(String url) 加载指定 url 对应的网页 void goBack() 后退 void goForward() 前进 boolean canGoBack() 根据历史记录判断是否可">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170326211407503?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/26/Android-用WebView开发简单的浏览器/"/>
+
+
+
+
+
+  <title>Android：用WebView开发简单的浏览器 | Duan</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Duan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">The more hard, the more fortunate.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/26/Android-用WebView开发简单的浏览器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James Duan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Duan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android：用WebView开发简单的浏览器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-26T21:22:11+08:00">
+                2017-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Android-用WebView开发简单的浏览器"><a href="#Android-用WebView开发简单的浏览器" class="headerlink" title="Android-用WebView开发简单的浏览器"></a>Android-用WebView开发简单的浏览器</h3><p>Android 提供了 WebView 组件，WebView 本身就是一个浏览器实现。</p>
+<h3 id="例子中主要用到了-WebView-的以下方法："><a href="#例子中主要用到了-WebView-的以下方法：" class="headerlink" title="例子中主要用到了 WebView 的以下方法："></a>例子中主要用到了 WebView 的以下方法：</h3><ul>
+<li>void loadUrl(String url) 加载指定 url 对应的网页</li>
+<li>void goBack() 后退</li>
+<li>void goForward() 前进</li>
+<li>boolean canGoBack() 根据<code>历史记录</code>判断是否可以回退</li>
+<li>boolean canGoForward() 根据<code>历史记录</code>判断是否可以前进</li>
+<li>WebSettings getSettings() 获得对 WebView 进行控制的 WebSettings 对象<br>（调用其<code>setJavaScriptEnabled</code>方法使<code>WebView</code>支持<code>JavaScript</code>）</li>
+<li>void setWebViewClient(WebViewClient client) WebViewClient 负责处理<br>WebView 各种通知，请求，比如页面开始加载及加载完成、资源加载中、url已打开等</li>
+<li>void setWebChromeClient(WebChromeClient client) WebChromeClient主要辅助WebView处理Javascript的对话框、网站图标、网站title、<strong>加载进度</strong>等</li>
+</ul>
+<h3 id="浏览器功能概述："><a href="#浏览器功能概述：" class="headerlink" title="浏览器功能概述："></a>浏览器功能概述：</h3><ol>
+<li>第一次打开应用时默认会把<code>百度</code>设置为首页，可通过底部<code>主页</code>按钮跳转到主页，或通过长按弹出对话框修改主页</li>
+<li><code>主页</code>的 URL 地址使用<code>SharedPreference</code>保存</li>
+<li>底部四个<code>ImageButton</code>从做往右依次为<code>主页</code> <code>刷新</code> <code>回退</code> <code>前进</code></li>
+<li>顶部的<code>ActionBar</code>用<code>void setCustomView(View)</code>添加了一个自定义的用于<code>输入网址</code>的输入框和一个<code>转到</code>按钮，<code>转到</code>按钮默认是不可见且不可用的，当点击了用于<code>输入网址</code>的<code>EditText</code>就会显示并可用。</li>
+<li>用于显示网页加载进度的<code>ProgressBar</code></li>
+</ol>
+<h3 id="截图"><a href="#截图" class="headerlink" title="截图"></a>截图</h3><p><img src="http://img.blog.csdn.net/20170326211407503?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h3 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h3><ul>
+<li>每次打开一个网页时会调用该方法，在这里控制<code>ActionBar</code>内的<code>Edittext</code>显示<code>加载中...</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> mWebView.setWebViewClient(<span class="keyword">new</span> WebViewClient() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageStarted</span><span class="params">(WebView view, String url, Bitmap favicon)</span> </span>&#123;</div><div class="line">                <span class="keyword">super</span>.onPageStarted(view, url, favicon);</div><div class="line">                mShowTitle.setText(<span class="string">"加载中..."</span>);</div><div class="line">            &#125;</div><div class="line">            ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>覆写<code>shouldOverrideUrlLoading</code>并返回<code>true</code>，否则 WebView 默认会调用系统的浏览器或第三方浏览器，而不使用当前activity中的<code>WebView</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mWebView.setWebViewClient(<span class="keyword">new</span> WebViewClient() &#123;</div><div class="line">			...</div><div class="line">			<span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">                view.loadUrl(url);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">		    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>当网页加载进度改变时会回调<code>onProgressChanged</code>方法，在这里更新用于显示进度的<code>ProgressBar</code>。注意<code>newProgress</code>值为 0 到 100 ，因而将<code>ProgressBar</code>最大值设为 100 。</li>
+<li><p><code>onReceivedTitle</code>返回当前加载网页的标题将标题显示在 actionBar 内的 EditText 上。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">mWebView.setWebChromeClient(<span class="keyword">new</span> WebChromeClient() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressChanged</span><span class="params">(WebView view, <span class="keyword">int</span> newProgress)</span> </span>&#123;</div><div class="line">                mProgressBar.setProgress(newProgress);</div><div class="line">                <span class="keyword">if</span> (newProgress == <span class="number">100</span>) &#123;</div><div class="line">                    mProgressBar.postDelayed(() -&gt; mProgressBar.setProgress(<span class="number">0</span>), <span class="number">2000</span>);</div><div class="line">                &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceivedTitle</span><span class="params">(WebView view, String title)</span> </span>&#123;</div><div class="line">                <span class="keyword">super</span>.onReceivedTitle(view, title);</div><div class="line">                currentUrlTitle = title;</div><div class="line">                mShowTitle.setText(currentUrlTitle);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>监听物理按键<code>返回</code>的点击事件，如果<code>WebView</code>的<code>历史记录</code>里有上一页相关记录就调用<code>void goBack()</code>方法</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBackPressed</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mWebView.canGoBack())</div><div class="line">            mWebView.goBack();</div><div class="line">        <span class="keyword">else</span> finish();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>判断当前是否处于正在输入网址（actionBar上的 EditText）的状态<br>1 是的话调用此方法表示输入结束从使<code>转到</code>按钮消失并不可用<br>2 使<code>EditText</code>控件失去焦点，不然会一直显示光标，效果不好</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">finishEdit</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (isEditFocus) &#123;</div><div class="line">            isEditFocus = <span class="keyword">false</span>;</div><div class="line">            mShowTitle.clearFocus();</div><div class="line"></div><div class="line">            Animation animation = AnimationUtils.loadAnimation(MainActivity.<span class="keyword">this</span>, android.R.anim.fade_out);</div><div class="line">            animation.setFillAfter(<span class="keyword">true</span>);</div><div class="line">            mLoadUrl.startAnimation(animation);</div><div class="line">            mLoadUrl.setEnabled(<span class="keyword">false</span>);</div><div class="line"></div><div class="line">            mShowTitle.setText(currentUrlTitle);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这个方法有三个地方调用到：<br>1 当正在输入网址时用户转移注意力到<code>WebView</code>上，并触摸到<code>WebView</code>，此时会先判断软键盘是否正在显示，正在显示就关闭软键盘然后使输入框失去焦点并隐藏<code>转到</code>按钮</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mWebView.setOnTouchListener((View view, MotionEvent event) -&gt; &#123;</div><div class="line">      <span class="keyword">if</span> (event.getAction() == MotionEvent.ACTION_DOWN) &#123;</div><div class="line">          finishEdit();</div><div class="line">          InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);</div><div class="line">          <span class="keyword">if</span> (imm.isActive())</div><div class="line">              imm.hideSoftInputFromWindow(mShowTitle.getWindowToken(),<span class="number">0</span>);</div><div class="line"></div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<p>2 当<strong>正在输入</strong>网址时点击了物理按键<code>返回</code>,此时<code>void onBackPressed()</code>方法是不会被调用的，因为此时软键盘正在显示，调用<code>boolean dispatchKeyEvent(KeyEvent event)</code>方法拦截<code>返回</code>按键的点击事件，关闭软键盘的同时使输入框失去焦点并隐藏<code>转到</code>按钮。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchKeyEvent</span><span class="params">(KeyEvent event)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (event.getKeyCode() == KeyEvent.KEYCODE_BACK)</div><div class="line">            finishEdit();</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.dispatchKeyEvent(event);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>3  点击了 actionBar 处的<code>转到</code>按钮<br>3.1 此时要先判断是否正确输入，然后判断输入网址是否是新的（和当前正在显示的网页的网址不同），满足就让<code>WebView</code>加载该网页<br>3.2 判断软键盘是否正在显示，正在显示就关闭软键盘然后使输入框失去焦点并隐藏<code>转到</code>按钮</p>
+<blockquote>
+<p>以下代码包含所有按钮的点击事件，每个按钮都在xml中添加了<br><code>android:onClick=&quot;onClick&quot;</code>属性</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">       <span class="keyword">switch</span> (view.getId()) &#123;</div><div class="line">           <span class="keyword">case</span> R.id.main_goBack:</div><div class="line">               <span class="keyword">if</span> (mWebView.canGoBack())</div><div class="line">                   mWebView.goBack();</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">           <span class="keyword">case</span> R.id.main_goForward:</div><div class="line">               <span class="keyword">if</span> (mWebView.canGoForward())</div><div class="line">                   mWebView.goForward();</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">           <span class="keyword">case</span> R.id.main_refresh:</div><div class="line">               mWebView.loadUrl(currentUrl);</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">           <span class="keyword">case</span> R.id.actionBar_goto:</div><div class="line">               String url = mShowTitle.getText().toString() == <span class="string">""</span> ? <span class="keyword">null</span> : mShowTitle.getText().toString().equals(currentUrl) ? <span class="keyword">null</span> : mShowTitle.getText().toString();</div><div class="line">               <span class="keyword">if</span> (url != <span class="keyword">null</span>)</div><div class="line">                   mWebView.loadUrl(url);</div><div class="line"></div><div class="line">               InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);</div><div class="line">               <span class="keyword">if</span> (imm.isActive())</div><div class="line">                   imm.hideSoftInputFromWindow(mShowTitle.getWindowToken(),<span class="number">0</span>);</div><div class="line"></div><div class="line">               finishEdit();</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">           <span class="keyword">case</span> R.id.main_home:</div><div class="line">               <span class="keyword">if</span> (!currentUrl.equals(homeUrl))</div><div class="line">                   mWebView.loadUrl(homeUrl);</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h3 id="值得注意的地方："><a href="#值得注意的地方：" class="headerlink" title="值得注意的地方："></a>值得注意的地方：</h3><ul>
+<li><p>在style中使用<code>colorControlHighlight</code>属性改变默认的按钮点击波纹效果的颜色<br>比如这样：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorControlHighlight"</span>&gt;</span>@color/colorPrimary<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>在按钮的xml属性中通过设置</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">style=`"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</div></pre></td></tr></table></figure>
+<p>使按钮的点击效果不受布局边界限制。其他默认不可点击的view（如EditText，TextView等）还要在添加一个：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">android:clickable="true"</div></pre></td></tr></table></figure>
+<ul>
+<li>使用到的图标在这里下载的：<a href="https://material.io/icons/" target="_blank" rel="external">Material icons - Material Design</a></li>
+<li>调用<code>ActionBar</code>的<code>setCustomView</code>方法前先要调用<code>setDisplayShowCustomEnabled</code>方法并置为true。</li>
+<li>修改主页用到了对话框：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">AlertDialog.Builder builder</div><div class="line"> .setTitle(<span class="string">"修改主页"</span>)</div><div class="line">    .setNegativeButton(<span class="string">"取消"</span>, (DialogInterface dialog, <span class="keyword">int</span> which) -&gt; dialog.dismiss())</div></pre></td></tr></table></figure>
+<p>这里本来是用<code>new DialogInterface.OnClickListener() {...}</code>的形式写的，后来改成使用<code>Lambda</code>的方式，这时要在app的<code>build.gradle</code>里加上：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">    ...</div><div class="line">        jackOptions &#123;</div><div class="line">            enabled true</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">    compileOptions &#123;</div><div class="line">        targetCompatibility 1.8</div><div class="line">        sourceCompatibility 1.8</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<center><u><b><em>END</em></b></u></center>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/WebView/" rel="tag"># WebView</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/22/Android-Activity-的生命周期常用方法概述/" rel="next" title="Android：Activity 的生命周期常用方法概述">
+                <i class="fa fa-chevron-left"></i> Android：Activity 的生命周期常用方法概述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/27/网易2017春招笔试真题编程题集合——9.涂棋盘/" rel="prev" title="网易2017春招笔试真题编程题集合 —— 9.涂棋盘">
+                网易2017春招笔试真题编程题集合 —— 9.涂棋盘 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="James Duan" />
+          <p class="site-author-name" itemprop="name">James Duan</p>
+           
+              <p class="site-description motion-element" itemprop="description">just do it.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DuanJiaNing" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/aimeimeits" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-csdn"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="aimeimeits@gmail.com" target="_blank" title="Gmail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Gmail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/CAFE_BABE_Duan" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="2217611834" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-用WebView开发简单的浏览器"><span class="nav-number">1.</span> <span class="nav-text">Android-用WebView开发简单的浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子中主要用到了-WebView-的以下方法："><span class="nav-number">2.</span> <span class="nav-text">例子中主要用到了 WebView 的以下方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器功能概述："><span class="nav-number">3.</span> <span class="nav-text">浏览器功能概述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#截图"><span class="nav-number">4.</span> <span class="nav-text">截图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码部分"><span class="nav-number">5.</span> <span class="nav-text">代码部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#值得注意的地方："><span class="nav-number">6.</span> <span class="nav-text">值得注意的地方：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  Thu May 18 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">James Duan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,布局管理器," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="为了更好的管理Android应用的用户界面里的各种组件，Android提供了布局管理器。 通过使用布局管理器，Android应用的图形用户界面具有良好的平台无关性。同时合理的选择布局管理器是解决Android设备屏幕分辨率、尺寸差异较大问题的首选方式。布局管理器分类： 线性布局线性布局由LinearLayout类表示，LinearLayout可以控制各组件横向或纵向排列，线性布局不会换行，当组件一">
+<meta name="keywords" content="Android,布局管理器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android：的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout">
+<meta property="og:url" content="http://yoursite.com/2017/03/01/Android-的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout/index.html">
+<meta property="og:site_name" content="Duan">
+<meta property="og:description" content="为了更好的管理Android应用的用户界面里的各种组件，Android提供了布局管理器。 通过使用布局管理器，Android应用的图形用户界面具有良好的平台无关性。同时合理的选择布局管理器是解决Android设备屏幕分辨率、尺寸差异较大问题的首选方式。布局管理器分类： 线性布局线性布局由LinearLayout类表示，LinearLayout可以控制各组件横向或纵向排列，线性布局不会换行，当组件一">
+<meta property="og:updated_time" content="2017-05-18T13:29:53.484Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android：的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout">
+<meta name="twitter:description" content="为了更好的管理Android应用的用户界面里的各种组件，Android提供了布局管理器。 通过使用布局管理器，Android应用的图形用户界面具有良好的平台无关性。同时合理的选择布局管理器是解决Android设备屏幕分辨率、尺寸差异较大问题的首选方式。布局管理器分类： 线性布局线性布局由LinearLayout类表示，LinearLayout可以控制各组件横向或纵向排列，线性布局不会换行，当组件一">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/01/Android-的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout/"/>
+
+
+
+
+
+  <title>Android：的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout | Duan</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Duan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">The more hard, the more fortunate.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/Android-的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James Duan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Duan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android：的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-01T22:30:11+08:00">
+                2017-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>为了更好的管理Android应用的用户界面里的各种组件，Android提供了布局管理器。 通过使用布局管理器，Android应用的图形用户界面具有良好的平台无关性。同时合理的选择布局管理器是解决Android设备屏幕分辨率、尺寸差异较大问题的首选方式。<br>布局管理器分类：</p>
+<h4 id="线性布局"><a href="#线性布局" class="headerlink" title="线性布局"></a>线性布局</h4><p>线性布局由LinearLayout类表示，LinearLayout可以控制各组件横向或纵向排列，线性布局不会换行，当组件一个挨着一个排到头之后，剩下的组件不会被显示出来。</p>
+<ol>
+<li>LinearLayout常用xml属性及说明：<br>Android:baselineAligned 该属性为false，将会阻止该布局管理器与它的子元素的基线对齐。<br>android:divider 设置垂直布局时两个子元素之间的分隔条，通常与android:showdivider配合使用<br>android:gravity 设置布局内组件的对齐方式，可以同时指定多种对齐方式（通过‘|’分隔），如center_vertical | bottom。<br>android:measureWithLargestChild 设置为true时，所有带权中的子元素都会具有最大子元素的最小尺寸。<br>android:orientation 设置布局管理器内子元素的排列方式。horizontal为水平排列，vertical为纵向。</li>
+<li><p>linearLayout包含的所有子元素都受LinearLayout.LayoutParams的控制，因此LinearLayout包含的子元素可以额外指定如下两个属性：<br>android:layout_gravity 指定该子元素在LinearLayout中的对齐方式。<br>android:layout_weight 指定该子元素在Linearlayout中所占的权重。</p>
+</li>
+<li><p>基本上很多布局管理器都提供了相应的LayoutParams内部类，该内部类用于控制他们的子元素相对于布局管理器的一些特性，如android:layout_gravity和android:layout_weight。而android:gravity属性（一般只有容器才支持指定该属性），该属性用于控制她所包含的子元素的对齐方式。<br>更多关于android:layout_weight的可以参看这篇文章：<a href="http://blog.csdn.net/chy800/article/details/46397927" target="_blank" rel="external">http://blog.csdn.net/chy800/article/details/46397927</a><br>示例xml<br>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;</p>
+<linearlayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:measurewithlargestchild="true" android:gravity="center"><br><br> <linearlayout android:background="#e4e4e4" android:layout_width="300dp" android:layout_height="300dp" android:orientation="vertical" android:divider="?android:dividerVertical" android:showdividers="beginning|end|middle"><br>     <button android:background="#f00" android:layout_gravity="end" android:layout_weight="0.5" android:text="Button" android:layout_width="wrap_content" android:layout_height="0dp"><br><br>     <textview android:gravity="center_vertical" android:layout_gravity="start" android:layout_weight="0.5" android:background="#0f0" android:text="this is aTextView" android:layout_width="wrap_content" android:layout_height="0dp"><br> </textview></button></linearlayout>
+
+
+</linearlayout></li>
+</ol>
+<p></p>
+<h4 id="表格布局"><a href="#表格布局" class="headerlink" title="表格布局"></a>表格布局</h4><ol>
+<li>表格布局由TableLayout类代表，TableLayout继承自LinearLayout。表格布局才用行，列的形式管理UI组件，TableLayout并不需要明确的声明有几行几列，而是通过添加TableRow来表示表格行，TableRow也是容器，因此可以不断向其添加其他组件，每添加一个组件代表增加一列。</li>
+<li>如果直接向TableLayout中添加组件，则这个组件直接占用一行。</li>
+<li>在表格布局中，列的宽度由该列中最宽的那个单元格决定。</li>
+<li>在表格布局中，可以为单元格（一个非TabRow的子元素）设置如下三种行为方式：<br>Shrinkable：若某列被设为Shrinkable，那么该列所有的单元格的宽度可以被收缩，以保证该表格能适应父容器的宽度<br>Stretchable：设为Stretchable表示该列的所有单元格的宽度可以被拉伸以保证组件能完全填满表格空余空间<br>Collapsed：设为Collapsed表示该列的所有单元格会被隐藏</li>
+<li>Tablayout继承自LinearLayout，所以可以使用LinearLayout的所有属性。</li>
+<li>TabLayout其他常用的xml属性<br>android:collapseColumns 设置需要被隐藏的列的列序号，多个列序号间用逗号隔开<br>android:shrinkColumns 设置允许被收缩的列的列序号，多个列序号间逗号隔开<br>android:stretchColumns 设置允许被拉伸的列的列序号，多个列序号间逗号隔开</li>
+</ol>
+<p>xml示例：<br>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;</p>
+<linearlayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"><br><br>    <tablelayout android:layout_width="match_parent" android:layout_height="wrap_content"><br><br>        <button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="独自一行的按钮"><br>    </button></tablelayout><br><br>    <tablelayout android:layout_width="match_parent" android:layout_height="wrap_content"><br><br>        <tablerow><br><br>            <button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="普通按钮"><br><br>            </button><button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="普通按钮"><br>        </button></tablerow><br>    </tablelayout><br><br>    <tablelayout android:layout_width="match_parent" android:layout_height="wrap_content" android:stretchcolumns="1"><br><br>        <tablerow><br><br>            <button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="普通按钮"><br><br>            </button><button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="拉伸按钮"><br>        </button></tablerow><br>    </tablelayout><br><br>    <tablelayout android:layout_width="match_parent" android:layout_height="wrap_content" android:collapsecolumns="1"><br><br>        <tablerow><br><br>            <button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="普通按钮"><br><br>            </button><button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="会被隐藏的按钮"><br><br>            </button><button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="拉伸按钮"><br>        </button></tablerow><br>    </tablelayout><br><br>    <tablelayout android:layout_width="match_parent" android:layout_height="wrap_content" android:shrinkcolumns="3"><br><br>        <tablerow><br><br>            <button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="普通按钮"><br><br>            </button><button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="普通按钮"><br><br>            </button><button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="普通按钮"><br><br>            </button><button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="压缩的按钮"><br><br>            </button><button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="普通按钮"><br>        </button></tablerow><br>    </tablelayout><br><br></linearlayout>
+
+
+
+<h4 id="帧布局"><a href="#帧布局" class="headerlink" title="帧布局"></a>帧布局</h4><p>帧布局由FrameLayout表示，FrameLayout直接继承自ViewGroup。</p>
+<ol>
+<li>帧布局为每一个加入其中的组件创建一个空白的区域（称为一帧），这些帧会根据gravity属性自动对齐。</li>
+<li>帧布局常用的xml属性：<br>android:foreground 设置该帧布局的前景图像<br>android:foregroundGravity 定义绘制前景图像的gravity属性</li>
+<li>FrameLayout包含的子元素也受FrameLayout.LayoutParames控制，因此它所包含的子元素也可以指定android:layout_gravity属性，该属性控制该子元素在FrameLayout中的对齐方式。</li>
+</ol>
+<p>xml示例：<br>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;</p>
+<linearlayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"><br><br>    <framelayout android:layout_width="match_parent" android:layout_height="match_parent" android:foreground="@android:drawable/ic_menu_slideshow" android:foregroundgravity="left|center_vertical"><br><br>        <textview android:paddingtop="20dp" android:gravity="center_horizontal" android:text="最底层" android:layout_margintop="100dp" android:id="@+id/one_tv_01" android:layout_width="match_parent" android:layout_height="250dp" android:background="#dccece"><br><br>        <textview android:id="@+id/one_tv_02" android:layout_width="300dp" android:layout_height="220dp" android:layout_gravity="center" android:background="#e864ff"><br><br>        <textview android:id="@+id/one_tv_03" android:layout_width="200dp" android:layout_height="160dp" android:layout_gravity="center" android:background="#f13c3c"><br><br>        <textview android:textcolor="#fff" android:gravity="center" android:textsize="20sp" android:text="最顶层" android:id="@+id/one_tv_04" android:layout_width="100dp" android:layout_height="100dp" android:layout_gravity="center" android:background="#115fbe"><br>    </textview></textview></textview></textview></framelayout><br></linearlayout>
+
+
+<p>更详细介绍可参照这篇文章，还提到了关于布局优化的一些方法：<a href="http://android.blog.51cto.com/268543/308090/" target="_blank" rel="external">http://android.blog.51cto.com/268543/308090/</a></p>
+<h4 id="相对布局"><a href="#相对布局" class="headerlink" title="相对布局"></a>相对布局</h4><p>相对布局由RelativeLayout代表，RelativeLayout继承自ViewGroup。相对布局管理器里的子组件的位置总是相对兄弟组件和容器来决定的。</p>
+<ol>
+<li>如果A组件的位置是由B组件的位置来决定的，Android要求先定义B组件，在定义A组件。</li>
+<li>RelativeLayout的xml属性：<br>android:gravity 设置该布局容器内子组件的对齐方式<br>android:igonreGravity 设置哪个组件不受gravity属性的影响</li>
+<li>RelativeLayout.LayoutParams提供的xml属性：<br>android:layout_centerHorizontal 控制该子组件是否位于布局容器的水平居中<br>android:layout_centerVertical 控制该子组件是否位于布局容器的垂直居中<br>android:layout_centerParent 控制该子组件是否位于布局容器的中央位置</li>
+</ol>
+<p>android:layout_alignParentBottom 控制该子组件是否与布局容器低端对齐<br>android:layout_alignParentLeft 控制该子组件是否与布局容器左边对齐<br>android:layout_alignParentRight 控制该子组件是否与布局容器右边对齐<br>android:layout_alignParentTop 控制该子组件是否与布局容器顶端对齐</p>
+<p>android:layout_toRightOf 控制该子组件位于给出ID组件的右端<br>android:layout_toLeftOf 控制该子组件位于给出ID组件的左端<br>android:layout_above 控制该子组件位于给出ID组件的上方<br>android:layout_below 控制该子组件位于给出ID组件的下方</p>
+<p>android:layout_alignTop 控制该子组件位于给出ID组件的上边界对齐<br>android:layout_alignBottom 控制该子组件位于给出ID组件的下边界对齐<br>android:layout_alignLeft 控制该子组件位于给出ID组件的左边界对齐<br>android:layout_alignRight 控制该子组件位于给出ID组件的右边界对齐</p>
+<p>除以上给出的以外，因为RelativeLayout.LayoutParames继承了android.view.ViewGroup.MarginLayoutParames,因此可以使用MarginLayoutParams提供的各属性。</p>
+<p>xml示例：<br>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;</p>
+<relativelayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent"><br><br>    <button android:layout_torightof="@id/bt_5" android:layout_centervertical="true" android:layout_alignbottom="@id/bt_5" android:text="bt_1_right" android:id="@+id/bt_1" android:layout_width="wrap_content" android:layout_height="wrap_content"><br>    </button><button android:layout_below="@id/bt_5" android:layout_alignright="@id/bt_5" android:text="bt_2_below" android:id="@+id/bt_2" android:layout_width="wrap_content" android:layout_height="wrap_content"><br>    </button><button android:layout_above="@id/bt_5" android:layout_alignleft="@id/bt_5" android:text="bt_3_above" android:id="@+id/bt_3" android:layout_width="wrap_content" android:layout_height="wrap_content"><br>    </button><button android:layout_toleftof="@id/bt_5" android:layout_centervertical="true" android:layout_aligntop="@id/bt_5" android:text="bt_4_left" android:id="@+id/bt_4" android:layout_width="wrap_content" android:layout_height="wrap_content"><br><br>    </button><button android:layout_centerinparent="true" android:text="bt_5_center________\n-----------------\n++++++++++\n00\n111" android:id="@+id/bt_5" android:layout_width="wrap_content" android:layout_height="wrap_content"><br><br></button></relativelayout>
+
+
+
+<p>网格布局和绝对布局在下篇介绍。</p>
+<center><u><b><em>END</em></b></u></center>
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/布局管理器/" rel="tag"># 布局管理器</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/01/其它文章/" rel="next" title="其它文章">
+                <i class="fa fa-chevron-left"></i> 其它文章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/09/Android-的布局管理器（下篇）-GridLayout、AbsoluteLayout、android单位转换/" rel="prev" title="Android：的布局管理器（下篇）-GridLayout、AbsoluteLayout、android单位转换">
+                Android：的布局管理器（下篇）-GridLayout、AbsoluteLayout、android单位转换 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="James Duan" />
+          <p class="site-author-name" itemprop="name">James Duan</p>
+           
+              <p class="site-description motion-element" itemprop="description">just do it.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DuanJiaNing" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/aimeimeits" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-csdn"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="aimeimeits@gmail.com" target="_blank" title="Gmail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Gmail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/CAFE_BABE_Duan" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="2217611834" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性布局"><span class="nav-number">1.</span> <span class="nav-text">线性布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表格布局"><span class="nav-number">2.</span> <span class="nav-text">表格布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#帧布局"><span class="nav-number">3.</span> <span class="nav-text">帧布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相对布局"><span class="nav-number">4.</span> <span class="nav-text">相对布局</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  Thu May 18 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">James Duan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

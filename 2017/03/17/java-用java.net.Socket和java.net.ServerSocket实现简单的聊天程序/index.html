@@ -1,0 +1,776 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,Socket,ServerSocket,聊天程序," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="用java.net.Socket和java.net.ServerSocket实现简单的聊天程序  思路是这样的：假设用户A与用户B进行聊天，用户B端使用ServerSocket作为服务端，而用户A使用Socket与用户B进行通信。   这两个小程序需要运行在同一台电脑上，才能正常通信。 运行时一定要先运行Server.class再运行Client.class。 通过异常来控制程序逻辑不是首选方式，">
+<meta name="keywords" content="java,Socket,ServerSocket,聊天程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Socket 和 ServerSocket 实现简单的聊天程序">
+<meta property="og:url" content="http://yoursite.com/2017/03/17/java-用java.net.Socket和java.net.ServerSocket实现简单的聊天程序/index.html">
+<meta property="og:site_name" content="Duan">
+<meta property="og:description" content="用java.net.Socket和java.net.ServerSocket实现简单的聊天程序  思路是这样的：假设用户A与用户B进行聊天，用户B端使用ServerSocket作为服务端，而用户A使用Socket与用户B进行通信。   这两个小程序需要运行在同一台电脑上，才能正常通信。 运行时一定要先运行Server.class再运行Client.class。 通过异常来控制程序逻辑不是首选方式，">
+<meta property="og:image" content="http://img.blog.csdn.net/20170317112320578?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170317112416550?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170317112435267?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-05-18T13:19:49.292Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 Socket 和 ServerSocket 实现简单的聊天程序">
+<meta name="twitter:description" content="用java.net.Socket和java.net.ServerSocket实现简单的聊天程序  思路是这样的：假设用户A与用户B进行聊天，用户B端使用ServerSocket作为服务端，而用户A使用Socket与用户B进行通信。   这两个小程序需要运行在同一台电脑上，才能正常通信。 运行时一定要先运行Server.class再运行Client.class。 通过异常来控制程序逻辑不是首选方式，">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170317112320578?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/17/java-用java.net.Socket和java.net.ServerSocket实现简单的聊天程序/"/>
+
+
+
+
+
+  <title>使用 Socket 和 ServerSocket 实现简单的聊天程序 | Duan</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Duan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">The more hard, the more fortunate.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/java-用java.net.Socket和java.net.ServerSocket实现简单的聊天程序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James Duan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Duan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用 Socket 和 ServerSocket 实现简单的聊天程序</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T11:25:11+08:00">
+                2017-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>用<code>java.net.Socket</code>和<code>java.net.ServerSocket</code>实现简单的聊天程序</p>
+<blockquote>
+<p>思路是这样的：<br>假设用户A与用户B进行聊天，用户B端使用ServerSocket作为服务端，而用户A使用Socket与用户B进行通信。</p>
+</blockquote>
+<ul>
+<li>这两个小程序需要运行在同一台电脑上，才能正常通信。</li>
+<li>运行时一定要先运行<code>Server.class</code>再运行<code>Client.class</code>。</li>
+<li>通过异常来控制程序逻辑不是首选方式，但想了很久也没想出其它方法 <strong><code>&gt;.&lt;</code></strong></li>
+</ul>
+<h5 id="用户A的代码如下（Client-java）"><a href="#用户A的代码如下（Client-java）" class="headerlink" title="用户A的代码如下（Client.java）"></a>用户A的代码如下（<code>Client.java</code>）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.io.OutputStream;</div><div class="line"><span class="keyword">import</span> java.net.InetAddress;</div><div class="line"><span class="keyword">import</span> java.net.Socket;</div><div class="line"><span class="keyword">import</span> java.net.SocketException;</div><div class="line"><span class="keyword">import</span> java.text.DateFormat;</div><div class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by DuanJiaNing on 2017/3/16.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//创建Socket连接到本机的2003端口</span></div><div class="line">            Socket socket = <span class="keyword">new</span> Socket(InetAddress.getLocalHost(), <span class="number">2003</span>);</div><div class="line">            println(<span class="string">"**********您正在和："</span> + InetAddress.getLocalHost().getHostAddress() + <span class="string">" 聊天***********\n"</span> + <span class="string">"输入信息，按回车即可发送!输入quit可结束会话并关闭程序。"</span>);</div><div class="line">            OutputStream out = socket.getOutputStream();</div><div class="line">            out.write(<span class="string">"Hello 在么？"</span>.getBytes());</div><div class="line"></div><div class="line">            <span class="comment">//创建新线程负责打印接收到的消息</span></div><div class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> ClientThread(socket.getInputStream())).start();</div><div class="line"></div><div class="line">            <span class="comment">//接收控制台输入</span></div><div class="line">            BufferedReader bufr = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</div><div class="line">            <span class="comment">//读取控制台输入，有输入且不为quit时进行发送</span></div><div class="line">            String line;</div><div class="line">            <span class="keyword">while</span> ((line = bufr.readLine()) != <span class="keyword">null</span> &amp;&amp; !line.equals(<span class="string">"quit"</span>)) &#123;</div><div class="line">                out.write(line.getBytes());</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//关闭套接字</span></div><div class="line">            <span class="comment">//程序结束 这将导致ClientThread抛java.net.SocketException: Socket closed异常而结束（暂且就这样关闭这个线程）</span></div><div class="line">            socket.close();</div><div class="line"></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        InputStream input;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ClientThread</span><span class="params">(InputStream in)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.input = in;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">            <span class="keyword">int</span> len;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="comment">//当收到消息时把消息打印到控制台</span></div><div class="line">                <span class="keyword">while</span> ((len = input.read(bytes)) != -<span class="number">1</span>) &#123;</div><div class="line">                    println(<span class="keyword">new</span> String(bytes, <span class="number">0</span>, len));</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                <span class="comment">//当服务端或客户端结束会话时（输入quit时）会关闭socket从而抛出java.net.SocketException: Socket closed异常</span></div><div class="line">                <span class="comment">//隐藏此异常不做处理让程序继续“正常”运行(正常结束)</span></div><div class="line">                <span class="keyword">if</span> (!(e <span class="keyword">instanceof</span> SocketException))</div><div class="line">                    e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">            println(<span class="string">"**********此次会话结束**********"</span>);</div><div class="line">            System.exit(<span class="number">0</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println</span><span class="params">(String msg)</span> </span>&#123;</div><div class="line">        Date date = <span class="keyword">new</span> Date();</div><div class="line">        DateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss "</span>);</div><div class="line">        System.out.println(format.format(date) + msg);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h5 id="用户B代码（服务端）（Server-java）"><a href="#用户B代码（服务端）（Server-java）" class="headerlink" title="用户B代码（服务端）（Server.java）"></a>用户B代码（服务端）（<code>Server.java</code>）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"><span class="keyword">import</span> java.net.ServerSocket;</div><div class="line"><span class="keyword">import</span> java.net.Socket;</div><div class="line"><span class="keyword">import</span> java.net.SocketException;</div><div class="line"><span class="keyword">import</span> java.text.DateFormat;</div><div class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by DuanJiaNing on 2017/3/16.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> BufferedReader reader;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">//监听本机（服务器）的2003端口</span></div><div class="line">        ServerSocket serverSocket = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">2003</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line"></div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    println(<span class="string">"************当前没有正在进行的会话***********"</span>);</div><div class="line"></div><div class="line">                    <span class="comment">//accept为阻塞时方法，当有连接时会返回连接着的socket对象</span></div><div class="line">                    Socket socket = serverSocket.accept();</div><div class="line">                    println(<span class="string">"当前聊天对象来自："</span> + socket.getLocalAddress().getHostAddress() + <span class="string">"\n"</span> + <span class="string">"输入信息，按回车即可发送!输入quit可结束此次会话。"</span>);</div><div class="line"></div><div class="line">                    <span class="comment">//创建新线程负责打印接收到的消息</span></div><div class="line">                    InputStream in = socket.getInputStream();</div><div class="line">                    <span class="keyword">new</span> Thread(<span class="keyword">new</span> ServerThread(in)).start();</div><div class="line"></div><div class="line">                    <span class="comment">//接收输入并发送给连接者</span></div><div class="line">                    reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</div><div class="line">                    String line;</div><div class="line">                    OutputStream out = socket.getOutputStream();</div><div class="line">                    <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span> &amp;&amp; !line.equals(<span class="string">"quit"</span>)) &#123;</div><div class="line">                        out.write(line.getBytes());</div><div class="line">                    &#125;</div><div class="line">                    <span class="comment">//服务端主动结束会话</span></div><div class="line">                    out.write(<span class="string">"先不聊了。bye~"</span>.getBytes());</div><div class="line"></div><div class="line">                    <span class="comment">//关闭套接字</span></div><div class="line">                    <span class="comment">//程序结束 这将导致ServerThread抛java.net.SocketException: Socket closed异常而结束（暂且就这样关闭此次会话对应的线程）</span></div><div class="line">                    socket.close();</div><div class="line"></div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    <span class="comment">//当客户端主动结束会话（输入quit时），而服务端试图发送信息时会抛出java.net.SocketException: Software caused connection abort: socket write error</span></div><div class="line">                    <span class="comment">//借这个异常让服务端回到等待客户端接入状态</span></div><div class="line">                    <span class="keyword">if</span> (e <span class="keyword">instanceof</span> SocketException) &#123;</div><div class="line">                        println(<span class="string">"您的聊天对象已离线\n"</span>);</div><div class="line">                        <span class="keyword">continue</span>;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">else</span></div><div class="line">                        e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ServerThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        InputStream input;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ServerThread</span><span class="params">(InputStream in)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.input = in;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">            <span class="keyword">int</span> len;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="comment">//当收到消息时把消息打印到控制台</span></div><div class="line">                <span class="keyword">while</span> ((len = input.read(bytes)) != -<span class="number">1</span>) &#123;</div><div class="line">                    println(<span class="keyword">new</span> String(bytes, <span class="number">0</span>, len));</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                <span class="comment">//当服务端或（输入quit时）会关闭socket从而抛出java.net.SocketException: Socket closed异常</span></div><div class="line">                <span class="comment">//当服务端输入quit时隐藏此异常不做处理让程序继续运行（回到等待客户端接入的状态）</span></div><div class="line">                <span class="keyword">if</span> (!(e <span class="keyword">instanceof</span> SocketException)) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println</span><span class="params">(String msg)</span> </span>&#123;</div><div class="line">        Date date = <span class="keyword">new</span> Date();</div><div class="line">        DateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss "</span>);</div><div class="line">        System.out.println(format.format(date) + msg);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h5 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h5><ul>
+<li><p>分别编译Server.java，Client.java文件</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">javac Server.java</div><div class="line">javac Client.java</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>先后</strong>运行Server.class和Client.class</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">java Server</div><div class="line">java Client</div></pre></td></tr></table></figure>
+</li>
+<li><p>此时可看到：<br><img src="http://img.blog.csdn.net/20170317112320578?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><br></p>
+</li>
+<li>接下来进行简单对话后<strong>在服务端输入<code>quit</code></strong>可看到：<br><img src="http://img.blog.csdn.net/20170317112416550?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><br></li>
+<li>此时客户端已经关闭，而服务端会循环阻塞在accept方法上。此时只需<strong>再次运行Client.class</strong>（在dos终端切换到Client.class文件所在路径后输入<code>java Client</code>）就能再次连接到服务端<br><br></li>
+<li>服务端主动结束会话，此时时这样的：<br><img src="http://img.blog.csdn.net/20170317112435267?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+</ul>
+<center><em>有哪里可以改进的可以留言告诉我哦</em></center><br><center><u><b><em>END</em></b></u></center>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/Socket/" rel="tag"># Socket</a>
+          
+            <a href="/tags/ServerSocket/" rel="tag"># ServerSocket</a>
+          
+            <a href="/tags/聊天程序/" rel="tag"># 聊天程序</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/14/Android-TextView及其子类（TextView、EditText、Button）/" rel="next" title="Android：TextView及其子类">
+                <i class="fa fa-chevron-left"></i> Android：TextView及其子类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/19/Android-使用HttpURLConnection实现多线程下载/" rel="prev" title="Android：使用 HttpURLConnection 实现多线程下载">
+                Android：使用 HttpURLConnection 实现多线程下载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="James Duan" />
+          <p class="site-author-name" itemprop="name">James Duan</p>
+           
+              <p class="site-description motion-element" itemprop="description">just do it.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DuanJiaNing" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/aimeimeits" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-csdn"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="aimeimeits@gmail.com" target="_blank" title="Gmail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Gmail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/CAFE_BABE_Duan" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="2217611834" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#用户A的代码如下（Client-java）"><span class="nav-number">1.</span> <span class="nav-text">用户A的代码如下（Client.java）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#用户B代码（服务端）（Server-java）"><span class="nav-number">2.</span> <span class="nav-text">用户B代码（服务端）（Server.java）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编译运行"><span class="nav-number">3.</span> <span class="nav-text">编译运行</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  Thu May 18 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">James Duan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
