@@ -264,7 +264,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/03/Android-Activity-的启动模式和标记位/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/04/Android-自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James Duan">
@@ -283,7 +283,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/05/03/Android-Activity-的启动模式和标记位/" itemprop="url">Activity 的启动模式和标记位</a></h1>
+                <a class="post-title-link" href="/2017/05/04/Android-自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”/" itemprop="url">Android：自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”</a></h1>
         
 
         <div class="post-meta">
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-03T13:59:11+08:00">
-                2017-05-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-04T10:08:11+08:00">
+                2017-05-04
               </time>
             
 
@@ -332,41 +332,46 @@
       
         
           
-            <h3 id="android-Activity-的启动模式和标记位"><a href="#android-Activity-的启动模式和标记位" class="headerlink" title="android-Activity 的启动模式和标记位"></a>android-Activity 的启动模式和标记位</h3><h5 id="Activity-启动过程涉及到的几个概念"><a href="#Activity-启动过程涉及到的几个概念" class="headerlink" title="Activity 启动过程涉及到的几个概念"></a>Activity 启动过程涉及到的几个概念</h5><blockquote>
-<p>任务栈：</p>
-</blockquote>
-<p>任务栈又称 Task，顾名思义使用的是 <strong>栈</strong> 结构，具有先进后出的特点，栈中存放的是 Activity 组件的实例，我们每次启动一个 Activity （该 Activity 的 onCreate 方法将首次被调用），该 Activity 将被压入启动它的 Activity 所在的任务栈，或通过 Intent 指定<code>addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)</code>在新的任务栈中创建该 Activity。任务栈有前台和后台之分，后台任务栈中的 Activity 处于暂停状态，用户可以通过切换应用（<em>Activity</em>）将后台任务栈调到前台。</p>
-<p>####Activity 的 LaunchMode</p>
-<ol>
-<li>standard 标准模式：<br>标准模式为系统默认启动模式。在该模式下每次启动 Activity 都会重新创建一个新的实例，不管这个实例是否已经存在。在这种模式下，谁启动了这个 Activity ，那么这个 Activity 就运行在启动它的那个 Activity 所在的任务栈中。</li>
-<li>singleTop 栈顶复用模式：</li>
-</ol>
-<ul>
-<li>在这种模式下，如果新 Activity 已经位于任务栈的栈顶，那么此 Activity 不会被重新创建    。</li>
-<li>如果新 Activity 的实例已存在但不位于栈顶，那么新的 Activity 任会重新。</li>
-<li>onNewIntent 方法会被回调。</li>
-</ul>
-<ol>
-<li><p>singleTask 栈内复用模式：<br>在这种模式下，只要 Activity 在一个栈中存在，那么多次启动该 Activity 都不会重新创建实例，同时系统会回调其 onNewIntent 方法。可以分为如下三种情况进行区分：</p>
-<ul>
-<li>要启动的 Activity A 所需的任务栈 S 不存在：<br>系统先创建任务栈 S ，然后创建 A 并入栈到 S。</li>
-<li>要启动的 Activity A 所需的任务栈 S 存在，且任务栈 S 中不存在 A 的实例：<br>系统将创建 A 的实例并入栈到 S。</li>
-<li>要启动的 Activity A 所需的任务栈 S 存在，且任务栈 S 中存在 A 的实例 ：<ol>
-<li>实例 A 位于栈顶：<br>直接复用（<em>栈顶复用</em>） </li>
-<li>实例 A 不位于栈顶：<br>此时 A 不会重新创建，同时将实例 A 切换到栈顶（<em>使实例 A 上面的所有 Activity 出栈</em>）     </li>
-</ol>
+            <h4 id="圆点指示器支持“纵向视图”啦"><a href="#圆点指示器支持“纵向视图”啦" class="headerlink" title="圆点指示器支持“纵向视图”啦"></a>圆点指示器支持“纵向视图”啦</h4><p>关于圆点指示器的实现请参看上一篇博文：<a href="http://blog.csdn.net/aimeimeits/article/details/69370853" target="_blank" rel="external">自定义View和属性动画ValueAnimator实现圆点指示器</a><br>该篇文章将对支持纵向视图过程的关键代码和使用方法进行介绍。</p>
+<p>控件元素的构成<br>| 小圆点 | 指示点 | 线段 |<br>| :—– | :— | :—- |<br>|圆|椭圆|矩形|</p>
+<h5 id="一-效果图"><a href="#一-效果图" class="headerlink" title="一 效果图"></a>一 效果图</h5><p><img src="http://img.blog.csdn.net/20170504085814432?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h5 id="二-如何使用"><a href="#二-如何使用" class="headerlink" title="二 如何使用"></a>二 如何使用</h5><p>使用时只需在你的<code>xml</code>布局文件中指定<code>indicatorOrientation</code>属性为<code>vertical</code>即可。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">com.duan.indicatorviewdemo.IndicatorView</span></span></div><div class="line"></div><div class="line">            <span class="attr">app:indicatorOrientation</span>=<span class="string">"vertical"</span></div><div class="line">            </div><div class="line">           <span class="attr">android:layout_marginLeft</span>=<span class="string">"30dp"</span></div><div class="line">           <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">           <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">           <span class="attr">app:dotNum</span>=<span class="string">"5"</span></div><div class="line">           <span class="attr">app:dotSize</span>=<span class="string">"20dp"</span></div><div class="line">           <span class="attr">app:indicatorSize</span>=<span class="string">"20dp"</span></div><div class="line">           <span class="attr">app:dotColor</span>=<span class="string">"#a5b7b3"</span></div><div class="line">           <span class="attr">app:indicatorColor</span>=<span class="string">"#52ffda"</span></div><div class="line">           <span class="attr">app:lineColor</span>=<span class="string">"#cacaca"</span></div><div class="line">           <span class="attr">app:lineLength</span>=<span class="string">"90dp"</span></div><div class="line">           <span class="attr">app:lineWidth</span>=<span class="string">"4dp"</span> /&gt;</div></pre></td></tr></table></figure></p>
+<h5 id="三-关键代码"><a href="#三-关键代码" class="headerlink" title="三 关键代码"></a>三 关键代码</h5><h6 id="3-1-attr-中添加方向属性定义"><a href="#3-1-attr-中添加方向属性定义" class="headerlink" title="3.1 attr 中添加方向属性定义"></a>3.1 attr 中添加方向属性定义</h6><p>本项目在attr.xml文件中添加如下属性定义，并将该属性添加到<code>declare-styleable</code>中：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"indicatorOrientation"</span> <span class="attr">format</span>=<span class="string">"integer"</span>&gt;</span> <span class="comment">&lt;!--控件方向--&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">enum</span> <span class="attr">name</span>=<span class="string">"vertical"</span> <span class="attr">value</span>=<span class="string">"0"</span>/&gt;</span> <span class="comment">&lt;!--纵向--&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">enum</span> <span class="attr">name</span>=<span class="string">"horizontal"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span> <span class="comment">&lt;!--水平--&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">attr</span>&gt;</span></div><div class="line"></div><div class="line"> <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">"IndicatorView"</span>&gt;</span>  </div><div class="line">...</div><div class="line">   <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"indicatorOrientation"</span>/&gt;</span></div><div class="line">...</div><div class="line"> <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h6 id="3-2-修改-IndicatorView-java"><a href="#3-2-修改-IndicatorView-java" class="headerlink" title="3.2 修改 IndicatorView.java"></a>3.2 修改 IndicatorView.java</h6><ul>
+<li><p>添加<code>mIndicatorOrientation</code>变量，并在构造函数中获得<code>xml</code>布局文件中指定的值，默认为水平方向。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//默认为 水平</span></div><div class="line">        mIndicatorOrientation = array.getInteger(R.styleable.IndicatorView_indicatorOrientation, INDICATOR_ORIENTATION_HORIZONTAL);</div></pre></td></tr></table></figure>
+</li>
+<li><p>onMeasure 方法<br>onMeasure 方法需要处理 xml 布局文件设置宽高为<code>warp_content</code>的情况，此时需要计算出控件的实际宽和高。<br>在该方法中判断当设置为“纵向视图”时，宽和高的计算方法为：<br>宽 = 左内边距 + 右内边距 + 指示点大小<br>高 = 上内边距 + 下内边距 + 线段总长 + 指示点大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">if (widthMode == MeasureSpec.EXACTLY) &#123;</div><div class="line">            width = widthSize;</div><div class="line">        &#125; else &#123;//xml中宽度设为warp_content</div><div class="line">            if (mIndicatorOrientation == INDICATOR_ORIENTATION_VERTICAL) //纵向</div><div class="line">                width = getPaddingLeft() + getPaddingRight() + mIndicatorSize;</div><div class="line">            else</div><div class="line">                width = getPaddingLeft() + ((mDotCount - 1) * mLineLength + mIndicatorSize) + getPaddingRight();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (heightMode == MeasureSpec.EXACTLY) &#123;</div><div class="line">            height = heightSize;</div><div class="line">        &#125; else &#123;</div><div class="line">            if (mIndicatorOrientation == INDICATOR_ORIENTATION_VERTICAL) //纵向</div><div class="line">                height = ((mDotCount - 1) * mLineLength + mIndicatorSize) + getPaddingBottom() + getPaddingTop();</div><div class="line">            else</div><div class="line">                height = getPaddingTop() + mIndicatorSize + getPaddingBottom();</div><div class="line">        &#125;</div><div class="line">        ...</div></pre></td></tr></table></figure>
+</li>
+<li><p>onLayout 方法<br>在 onLayout 方法中会初始化存储指示点属性值的类，在这里需要对不同的控件方向做不同的处理。<br>控件为“纵向视图”时，指示点（椭圆）的中心的横坐标是固定的，中心的纵坐标与当前指示点所在的位置有关。而控件为“水平视图”时纵坐标固定，横坐标与所在位置有关</p>
 </li>
 </ul>
-</li>
-<li>singleInstance 单实例模式：<br>这是一种加强的 singleTask 模式，它具有 singleTask 的所有特性之外还有一个特性，那就是具有此种启动模式的 Activity 只能单独位于一个任务栈中。 </li>
-</ol>
-<h4 id="Activity-的-Flags"><a href="#Activity-的-Flags" class="headerlink" title="Activity 的 Flags"></a>Activity 的 Flags</h4><p>Activity 的 Flags 有很多，标记位的作用有很多，有的标记位可以设定 Activity 的启动模式，有的可以影响 Activity 的运行状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (mIndicatorOrientation == INDICATOR_ORIENTATION_VERTICAL) &#123; //纵向</div><div class="line">               indicatorHolder.setCenterX(getWidth() / 2);</div><div class="line">               indicatorHolder.setCenterY(mIndicatorPos * mLineLength + getPaddingBottom() + mIndicatorSize / 2);</div><div class="line">           &#125; else &#123;</div><div class="line">               indicatorHolder.setCenterX(mIndicatorPos * mLineLength + getPaddingLeft() + mIndicatorSize / 2);</div><div class="line">               indicatorHolder.setCenterY(getHeight() / 2);</div><div class="line">           &#125;</div></pre></td></tr></table></figure>
 <ul>
-<li>FLAG_ACTIVITY_NEW_TASK<br>指定 Activity 以 singleTask 模式启动</li>
-<li>FLAG_ACTIVITY_SINGLE_TOP<br>指定 Activity 以 singleTop 模式启动</li>
-<li>FLAG_ACTIVITY_CLEAR_TOP<br>具备此标记为的 Activity 在启动时会将位于同一任务栈的所有位于它上面的 Activity 出栈，这个标记位一般会和 singleTask一起出现，singleTask 启动模式默认就具有此标记位的效果</li>
-<li>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS<br>具有这个标记的 Activity 不会出现在历史 Activity 列表中。</li>
+<li>onDraw 方法绘制线段<br>线段使用的是<code>Canvas</code>的<code>drawRect(float left, float top, float right, float bottom, @NonNull Paint paint)</code>方法绘制的。<br>画线段时需要对控件方向做出判断，控件为“纵向视图”时，线段（矩形）的 left 和 right 是固定的，而 top 和 bottom 与当前正在绘制的线段有关。“水平视图”时 top 和 bottom 固定，right 和 left 与当前正在绘制的线段有关。</li>
 </ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> ...</div><div class="line">    <span class="keyword">if</span> (mIndicatorOrientation == INDICATOR_ORIENTATION_VERTICAL) &#123; <span class="comment">//纵向</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mDotCount - <span class="number">1</span>; i++) &#123;</div><div class="line">            <span class="keyword">int</span> top = getHeight() - (getPaddingBottom() + mIndicatorSize / <span class="number">2</span> + mLineLength * (i + <span class="number">1</span>));</div><div class="line">            <span class="keyword">int</span> bottom = getHeight() - (getPaddingBottom() + mIndicatorSize / <span class="number">2</span> + mLineLength * i);</div><div class="line">            <span class="keyword">int</span> left = (getWidth() - mLineWidth) / <span class="number">2</span>;</div><div class="line">            <span class="keyword">int</span> right = (getWidth() + mLineWidth) / <span class="number">2</span>;</div><div class="line"></div><div class="line">            canvas.drawRect(left, top, right, bottom, mPaint);</div><div class="line">            &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<ul>
+<li>onDraw 方法绘制小圆点<br>小圆点使用的是<code>Canvas</code>的<code>drawCircle(float cx, float cy, float radius, @NonNull Paint paint)</code>方法，当控件为“纵向视图”时，cx 值是固定的，cy 需要计算。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="keyword">if</span> (mIndicatorOrientation == INDICATOR_ORIENTATION_VERTICAL) &#123; <span class="comment">//纵向</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; clickableAreas.length; i++) &#123;</div><div class="line">                <span class="keyword">int</span> cx = getWidth() / <span class="number">2</span>;</div><div class="line">                <span class="keyword">int</span> cy = i * mLineLength + getPaddingBottom() + mIndicatorSize / <span class="number">2</span>;</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (switchTo != -<span class="number">1</span> &amp;&amp; i == switchTo)</div><div class="line">                    mPaint.setColor(mIndicatorColor);</div><div class="line">                <span class="keyword">else</span></div><div class="line">                    mPaint.setColor(mDotColor);</div><div class="line"></div><div class="line">                canvas.drawCircle(cx, cy, mDotSize, mPaint);</div><div class="line">                clickableAreas[i][<span class="number">0</span>] = cx;</div><div class="line">                clickableAreas[i][<span class="number">1</span>] = cy;</div><div class="line">            &#125;</div><div class="line">            ...</div></pre></td></tr></table></figure>
+<ul>
+<li><p>onDraw 方法绘制指示点<br>指示点的绘制时根据<code>indicatorHolder</code>对象中存的属性值进行绘制的(getter方法)，所有无需修改，需要修改的是对<code>indicatorHolder</code>对象值的控制(setter操作)，即平移动画的定义和“挤压”动画的定义。</p>
+</li>
+<li><p>onTouchEvent 方法<br>onTouchEvent 监听对控件的触摸事件，这个方法里需要修改连个地方<br>1 判断当前手指所在的小圆点：为“水平视图”时是根据<code>event.getX()</code>的值判断所在小圆点的位置，为“纵向视图”时应该根据<code>event.getY()</code>来判断。<br>2 当用户“拖拽”指示点时：为“水平视图”时这里要修改<code>indicatorHolder</code>的中心的横坐标，为“纵向视图”则应该修改其中心的纵坐标。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"> <span class="keyword">int</span> ey = (<span class="keyword">int</span>) event.getY();</div><div class="line"> ...</div><div class="line"> <span class="comment">//纵向</span></div><div class="line">   <span class="keyword">for</span> (; switchTo &lt; mDotCount; switchTo++) &#123;</div><div class="line">                <span class="keyword">int</span>[] xy = clickableAreas[switchTo];</div><div class="line">                <span class="comment">//只对y坐标位置进行判断，这样即使用户手指在控件外面（先在控件内触摸后不抬起而是滑到控件外面）滑动也能判断</span></div><div class="line">                <span class="keyword">if</span> (ey &lt;= xy[<span class="number">1</span>] + temp &amp;&amp; ey &gt;= xy[<span class="number">1</span>] - temp) &#123;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">...</div><div class="line"><span class="keyword">if</span> (mIndicatorOrientation == INDICATOR_ORIENTATION_VERTICAL) &#123; <span class="comment">//纵向</span></div><div class="line">                    indicatorHolder.setCenterY(ey);</div><div class="line">                &#125; </div><div class="line">                ...</div></pre></td></tr></table></figure>
+</li>
+<li><p>指示点切换动画<br>平移动画：为“纵向视图”时平移动画应在<code>indicatorHolder</code>中心的纵坐标上做变化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"> <span class="keyword">if</span> (mIndicatorOrientation == INDICATOR_ORIENTATION_VERTICAL) &#123; <span class="comment">//纵向</span></div><div class="line">            <span class="keyword">int</span> start = indicatorHolder.getCenterY();</div><div class="line">            end = switchTo * mLineLength + getPaddingBottom() + mIndicatorSize / <span class="number">2</span>;</div><div class="line">            trainsAnim = ObjectAnimator.ofInt(indicatorHolder, <span class="string">"centerY"</span>, start, end);</div><div class="line">        &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>挤压动画：为“纵向视图”时挤压动画改变<code>indicatorHolder</code>的宽度（centerW）因为线段的宽度，高度（centerH）为指示点当前所在位置和目标点间的距离。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="keyword">if</span> (mIndicatorOrientation == INDICATOR_ORIENTATION_VERTICAL) &#123; <span class="comment">//纵向</span></div><div class="line">                        centerH = Math.abs(indicatorHolder.getCenterY() - clickableAreas[switchTo][<span class="number">1</span>]);</div><div class="line">                        centerW = mLineWidth;</div><div class="line">                    &#125; </div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>不使用动画：此时判断为“纵向视图”时应修改<code>indicatorHolder</code>的中心的纵坐标。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="keyword">if</span> (mIndicatorOrientation == INDICATOR_ORIENTATION_VERTICAL) <span class="comment">//纵向</span></div><div class="line">                        indicatorHolder.setCenterY(end);</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<center>代码修改已同步到Github，你可以在这里下载到源代码：</center><br><center><a href="https://github.com/DuanJiaNing/IndicatorView" target="_blank" rel="external">DuanJiaNing/IndicatorView</a></center>
+
+<hr>
+<p><font color="#afafaf" size="-1">觉得不错的话就给颗星吧&gt;.&lt;</font></p>
 <center><u><b><em>END</em></b></u></center>
 
           
@@ -406,7 +411,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -451,7 +456,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -464,7 +469,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>

@@ -3,6 +3,52 @@
   
     
     <entry>
+      <title><![CDATA[Hexo + GitHub Page 搭建属于自己的博客]]></title>
+      <url>/2017/05/20/Hexo-+-GitHub-Page-%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
+      <content type="html"><![CDATA[<h3 id="Hexo-GitHub-Page-搭建属于自己的博客"><a href="#Hexo-GitHub-Page-搭建属于自己的博客" class="headerlink" title="Hexo + GitHub Page 搭建属于自己的博客"></a>Hexo + GitHub Page 搭建属于自己的博客</h3><p>搭建一个个人博客的想法萌生很久了，但一直被搁置，今天终于把个人博客搭好了：<br>地址：<a href="https://duanjianing.github.io/" target="_blank" rel="external">Duan</a></p>
+<p>在此记录一下搭建的过程：</p>
+<p>先要安装 Git，安装 Git 的方法就省略了，Git 的安装和使用教程资源推荐：<br><a href="http://mp.weixin.qq.com/s?__biz=MzA4NTQwNDcyMA==&amp;mid=503177922&amp;idx=1&amp;sn=6ef35c039a6564b1cec6343754a6c004&amp;mpshare=1&amp;scene=23&amp;srcid=0520cudKAjtYzw6s9Pj7EQJd#rd" target="_blank" rel="external">stormzhang GitHub教程</a><br><a href="http://mp.weixin.qq.com/s?__biz=MzA4NTQwNDcyMA==&amp;mid=2650661788&amp;idx=1&amp;sn=b7c54f9b13f4e30fe151905f11c02800&amp;scene=21#wechat_redirect" target="_blank" rel="external">从0开始学习 GitHub 系列之「Git速成」</a></p>
+<p>博客使用的是 Hexo + GitHub Page 的方式，Hexo 使用的主题是 Next，Hexo next 主题的细节配置可以在这里找到，有中文版的：<a href="http://theme-next.iissnan.com/" target="_blank" rel="external">NexT 使用文档</a></p>
+<h4 id="1-下载安装-Hexo"><a href="#1-下载安装-Hexo" class="headerlink" title="1 下载安装 Hexo"></a>1 下载安装 Hexo</h4><p>Hexo 安装和搭建依赖 Nodejs，所有在此之前需要先安装 Nodejs<br><a href="https://nodejs.org/en/" target="_blank" rel="external">下载Node.js</a><br>参考地址：<a href="http://www.runoob.com/nodejs/nodejs-install-setup.html" target="_blank" rel="external">安装Node.js</a></p>
+<p>在准备好之后，使用 Git Bash 输入如下命令安装 Hexo：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo</div></pre></td></tr></table></figure>
+<h4 id="2-部署博客到-GitHub"><a href="#2-部署博客到-GitHub" class="headerlink" title="2 部署博客到 GitHub"></a>2 部署博客到 GitHub</h4><h6 id="2-1-在电脑中创建项目"><a href="#2-1-在电脑中创建项目" class="headerlink" title="2.1 在电脑中创建项目"></a>2.1 在电脑中创建项目</h6><p>在你的电脑上，建立一个目录，作为项目的主目录，就以我自己的为例：<br>我创建的目录：<code>E:\Blog\Hexo</code></p>
+<p>Windows 进到该目录下然后鼠标右键 <code>Git Bash Here</code>（成功安装 Git 就会有这个），或者在任意位置<code>Git Bash Here</code>，然后依次输入如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /e/B<span class="built_in">log</span>/Hexo/</div><div class="line">$ git init</div></pre></td></tr></table></figure>
+<p>Hexo 随后会在该目录下建立网站所需的文件</p>
+<h6 id="2-2-启动-hexo-自带服务器，实时查看修改效果"><a href="#2-2-启动-hexo-自带服务器，实时查看修改效果" class="headerlink" title="2.2 启动 hexo 自带服务器，实时查看修改效果"></a>2.2 启动 hexo 自带服务器，实时查看修改效果</h6><p>输入如下命令，启动 Hexo 自带服务器，这时打开浏览器输入 <code>http://localhost:4000/</code>就能看到默认的博客界面了</p>
+<p>注意这里如果你想直接在 bash 里复制网址，不用用 Ctrl + C，用右键菜单复制，不然服务器就会停掉。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ai@Duan MINGW64 /e/B<span class="built_in">log</span>/Hexo</div><div class="line">$ hexo server</div><div class="line">INFO  Start processing</div><div class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</div></pre></td></tr></table></figure></p>
+<h6 id="2-3-创建一篇新博客"><a href="#2-3-创建一篇新博客" class="headerlink" title="2.3 创建一篇新博客"></a>2.3 创建一篇新博客</h6><p>bash 中执行如下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure></p>
+<p>这时在 <code>E:\Blog\Hexo\source\_posts</code>下面应该就自动生成了一个名叫 <code>My-New-Post.md</code>（空格自动被 ‘-‘ 替换）的 markDown 文件，这时去浏览器里刷新一下，一篇叫 <code>My New Post</code>的博客就生成了。</p>
+<p>打开<code>My-New-Post.md</code>看一下，发现里面已经有如下的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: My New Post</div><div class="line">date: 2017-05-20 12:54:56</div><div class="line">tags: </div><div class="line">---</div></pre></td></tr></table></figure>
+<p>这里 <code>title</code>是文章的标题，网站上解析文章标题时就是读取的这个，<code>date</code>时时间，如果你是在 bash 用 <code>hexo new</code>命令生成，那么会自动取当前时间，<code>tags</code>是标签，只有一个标签时直接写在后面即可，有多个标签时要按如下的格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tags: </div><div class="line">- Android</div><div class="line">- java</div></pre></td></tr></table></figure></p>
+<p>这里要特别注意<code>title:</code>，<code>date:</code>，<code>tags:</code>在<code>:</code>后面都有一个空格，这个空格千万不能省，不然就解析不了，下面将要说到的 <code>_config.yml</code>文件也是一样的。</p>
+<p>接下来执行如下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure></p>
+<p>该命令执行完后，会在 E:\Blog\Hexo\public 目录下生成一系列html，css等文件。</p>
+<h6 id="2-4-部署到-Github"><a href="#2-4-部署到-Github" class="headerlink" title="2.4 部署到 Github"></a>2.4 部署到 Github</h6><p>正式部署(deploy)之前，需要在 GitHub 上创建一个仓库名为 <code>DuanJiaNing.github.io</code>的仓库，把<code>DuanJiaNing</code>替换为你自己的用户名。然后复制 SSH 地址，我的是：<code>git@github.com:DuanJiaNing/DuanJiaNing.github.io.git</code></p>
+<p>打开<code>_config.yml</code>(E:\Blog\Hexo_config.yml)文件，定位到如下位置，并修改（注意<code>:</code>后的空格不能省）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: git@github.com:DuanJiaNing/DuanJiaNing.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
+<p>保存一下，接下来在 bash 中输入如下命令部署到 GitHub 仓库：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure></p>
+<p>浏览器中打开<code>https://duanjianing.github.io/</code>，这时应该能看到你自己的博客界面了。</p>
+<p>可以选择 <code>hexo new</code>命令新建一篇博客，或是直接复制其他的 md 文件到 E:\Blog\Hexo\source_posts 文件夹中，复制的话记得要在复制的 md 文件开头加上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: ****</div><div class="line">date: ***</div><div class="line">tags: **</div><div class="line">---</div></pre></td></tr></table></figure></p>
+<p>每次部署新文章到 GitHub 可以依次执行如下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo clean</div><div class="line">$ hexo generate</div><div class="line">$ hexo deploy</div></pre></td></tr></table></figure></p>
+<h4 id="3-使用-next-主题"><a href="#3-使用-next-主题" class="headerlink" title="3 使用 next 主题"></a>3 使用 next 主题</h4><p>next 主题的下载和使用在 <a href="http://theme-next.iissnan.com/" target="_blank" rel="external">NexT 使用文档</a> 中说得很清楚，大多数问题都能在那得到解决。</p>
+<center><u><b><em>END</em></b></u></center>]]></content>
+      
+        
+        <tags>
+            
+            <tag> GitHub </tag>
+            
+            <tag> Hexo </tag>
+            
+            <tag> 个人博客 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Kotlin 学习笔记 - 01]]></title>
       <url>/2017/05/19/Kotlin-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-01/</url>
       <content type="html"><![CDATA[<p>原文地址：<a href="http://www.cnblogs.com/figozhg/p/4983919.html" target="_blank" rel="external">用Kotlin开发Android应用</a></p>

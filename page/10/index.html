@@ -264,7 +264,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/27/网易2017春招笔试真题编程题集合——9.涂棋盘/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/29/网易2017春招笔试真题编程题集合——4.消除重复元素/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James Duan">
@@ -283,7 +283,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/03/27/网易2017春招笔试真题编程题集合——9.涂棋盘/" itemprop="url">网易2017春招笔试真题编程题集合 —— 9.涂棋盘</a></h1>
+                <a class="post-title-link" href="/2017/03/29/网易2017春招笔试真题编程题集合——4.消除重复元素/" itemprop="url">网易2017春招笔试真题编程题集合 —— 4.消除重复元素</a></h1>
         
 
         <div class="post-meta">
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-27T22:11:11+08:00">
-                2017-03-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-29T13:41:11+08:00">
+                2017-03-29
               </time>
             
 
@@ -332,49 +332,37 @@
       
         
           
-            <h3 id="网易2017春招笔试真题编程题集合——9-涂棋盘"><a href="#网易2017春招笔试真题编程题集合——9-涂棋盘" class="headerlink" title="网易2017春招笔试真题编程题集合——9.涂棋盘"></a>网易2017春招笔试真题编程题集合——<strong>9.涂棋盘</strong></h3><h4 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h4><blockquote>
-<p>小易有一块n*n的棋盘，棋盘的每一个格子都为黑色或者白色，小易现在要用他喜欢的红色去涂画棋盘。小易会找出棋盘中某一列中拥有相同颜色的最大的区域去涂画，帮助小易算算他会涂画多少个棋格。 </p>
+            <p>###网易2017春招笔试真题编程题集合——4.消除重复元素</p>
+<h4 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h4><blockquote>
+<p>小易有一个长度为n序列，小易想移除掉里面的重复元素，但是小易想是对于每种元素保留最后出现的那个。小易遇到了困难,希望你来帮助他。 </p>
 </blockquote>
-<p>原题地址在这里：<a href="https://www.nowcoder.com/question/next?pid=4575457&amp;qid=83061&amp;tid=7519540" target="_blank" rel="external">牛客网</a></p>
-<p>输入描述：</p>
-<blockquote>
-<ul>
-<li>输入数据包括n+1行：</li>
-<li>第一行为一个整数n(1 ≤ n ≤ 50),即棋盘的大小</li>
-<li>接下来的n行每行一个字符串表示第i行棋盘的颜色，’W’表示白色，’B’表示黑色</li>
-</ul>
+<p>原题地址 <a href="https://www.nowcoder.com/question/next?pid=4575457&amp;qid=83061&amp;tid=7519540" target="_blank" rel="external">在这</a></p>
+<h4 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述:"></a>输入描述:</h4><blockquote>
+<p>输入包括两行：<br>第一行为序列长度n(1 ≤ n ≤ 50)<br>第二行为n个数sequence<a href="1 ≤ sequence[i] ≤ 1000">i</a>，以空格分隔</p>
 </blockquote>
-<p>输出描述：</p>
-<blockquote>
-<p>输出小易会涂画的区域大小</p>
+<h4 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述:"></a>输出描述:</h4><blockquote>
+<p>输出消除重复元素之后的序列，以空格分隔，行末无空格</p>
 </blockquote>
-<p>输入例子：</p>
-<blockquote>
-<p>3<br>BWW<br>BBB<br>BWB</p>
+<h4 id="输入例子"><a href="#输入例子" class="headerlink" title="输入例子:"></a>输入例子:</h4><blockquote>
+<p>9<br>100 100 100 99 99 99 100 100 100</p>
 </blockquote>
-<p>输出例子</p>
-<blockquote>
-<p>3</p>
+<h4 id="输出例子"><a href="#输出例子" class="headerlink" title="输出例子:"></a>输出例子:</h4><blockquote>
+<p>99 100</p>
 </blockquote>
-<h4 id="用java编写，思路是这样的："><a href="#用java编写，思路是这样的：" class="headerlink" title="用java编写，思路是这样的："></a>用java编写，思路是这样的：</h4><p>1 使用<code>java.util.Scanner</code>接收控制台输入<br>2 定义两个变量<code>int iw,ib</code>和一个数组<code>int[] maxs</code>: </p>
-<ul>
-<li><code>iw</code>用于累加当前列 <strong>W</strong> 连续出现的次数</li>
-<li><code>ib</code>用于累加当前列 <strong>B</strong> 连续出现的次数</li>
-<li><code>maxs</code> 数组用于记录每一列出现的<em>拥有相同颜色的最大的区域</em>（即在一列中出现 连续的相同颜色的<em>单元格</em> 的最大个数）</li>
-<li><strong>遍历（双层循环）保存了W/B的二维数组，在内层循环里判断当前 <em>单元格</em> 的值是 W 还是 B ，是 W 的话：</strong><ul>
-<li><strong>先 让负责记录当前列中 W 连续出现次数的 iw 自增1</strong></li>
-<li><strong>后 判断用于记录当前列出现 <em>“拥有相同颜色的最大的区域”</em> 的 maxs[i]的值是否小于此时的 iw ，是则把 iw 的值赋给他，否则不改变他的值 </strong></li>
-<li><strong>最后 让负责记录当前列中 B 连续出现次数的 ib 置为0，因为此时遇到了 W ，即 B 不连续了，被 W 打断了</strong></li>
+<h4 id="用java编写，思路是这样的："><a href="#用java编写，思路是这样的：" class="headerlink" title="用java编写，思路是这样的："></a>用java编写，思路是这样的：</h4><ul>
+<li>使用Scanner接收控制台输入</li>
+<li>难点应该是要求中的<code>对于每种元素保留最后出现的那个</code>这一句：<ul>
+<li>像出现如下情况时：100 100 99 11 11 11，移除重复元素必然是：100 99 11</li>
+<li>而若出现这种情况：100 100 100 99 99 99 100 100 100，为满足 <code>对于每种元素保留最后出现的那个</code> 这一要求，三个99前后都出现了100，这时只能保留99后面的100，即 <code>99 100</code>；</li>
 </ul>
 </li>
-<li><strong>遇到 B 也是同样的操作：ib 自增1，判断当前的 maxs[i] ，把 iw 置为0；</strong>    </li>
-<li>注意在开始遍历每一列前（外层循环内）要把 iw , ib ,maxs[i]置为0；</li>
+<li>只需<strong>从后往前</strong>遍历给定的数组即可满足<code>对于每种元素保留最后出现的那个</code>这一要求，用一个<code>ArrayList</code>保存合并重复元素后的集合，每往前遍历一个元素先判断该元素是否已经存在集合中，不存在就添加到集合中。</li>
+<li>遍历结束要将集合<strong>倒序</strong>输出，因为遍历的时候对目标数组的遍历是从后往前的，加入到集合的顺序也是从后往前的，而输出时应该<strong>从前往后</strong>输出。</li>
 </ul>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.Arrays;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Scanner in = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        <span class="keyword">int</span> n = in.nextInt();</div><div class="line">        <span class="keyword">if</span> (!(n &gt;= <span class="number">1</span> &amp;&amp; n &lt;= <span class="number">50</span>))</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        in.nextLine();</div><div class="line">        <span class="keyword">char</span>[][] res = <span class="keyword">new</span> <span class="keyword">char</span>[n][n];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">            String str = in.nextLine();</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</div><div class="line">                res[i][j] = str.charAt(j);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> iw = <span class="number">0</span>, ib = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span>[] maxs= <span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">            maxs[i] = <span class="number">0</span>;</div><div class="line">            iw = ib = <span class="number">0</span>;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</div><div class="line">                <span class="keyword">if</span> (res[j][i] == <span class="string">'W'</span>) &#123;</div><div class="line">                    iw++;</div><div class="line">                    maxs[i] = iw &gt; maxs[i] ? iw : maxs[i];</div><div class="line">                    ib = <span class="number">0</span>;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    ib++;</div><div class="line">                    maxs[i] = ib &gt; maxs[i] ? ib : maxs[i];</div><div class="line">                    iw = <span class="number">0</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        Arrays.sort(maxs);</div><div class="line">        System.out.println(<span class="string">""</span>+maxs[maxs.length - <span class="number">1</span>]);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><em>提交运行</em> 之后就会提示通过所有测试用例：<br><img src="http://img.blog.csdn.net/20170327220859483?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<h4 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h4><ul>
-<li>在使用 Scanner 接收控制台输入时先调用了 <code>int nextInt()</code> 方法，程序运行到该句时会阻塞，等待控制台输入并按回车，之后该方法就会返回输入的 int 值，别忘了此时还有一个  <em>回车符</em>  没有被解析，先要调用 <code>String nextLine()</code>把 <em>回车符</em>  消耗掉，否则在之后调用 <code>String nextLine()</code>获取输入的 W/B 时会出错。</li>
-<li>调用<code>Arrays</code>类的<code>void sort(int[] a)</code>方法对 <code>maxs</code>数组进行排序（升序），输出<br><code>maxs[maxs.length - 1]</code>即为所求。</li>
+<h4 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        <span class="keyword">int</span> count = scanner.nextInt();</div><div class="line">        scanner.nextLine();</div><div class="line">        String sou = scanner.nextLine();</div><div class="line">        String[] strs = sou.split(<span class="string">" "</span>);</div><div class="line">        <span class="keyword">int</span>[] nums = <span class="keyword">new</span> <span class="keyword">int</span>[count];</div><div class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (String s : strs) &#123;</div><div class="line">            nums[i++] = Integer.parseInt(s);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        i = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = nums.length - <span class="number">1</span>; j &gt;= <span class="number">0</span>; j--) &#123;</div><div class="line">            <span class="keyword">if</span> (!list.contains(nums[j]))</div><div class="line">                list.add(i++, nums[j]);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = list.size() - <span class="number">1</span>; j &gt;= <span class="number">0</span>; j--) &#123;</div><div class="line">            String out = j == <span class="number">0</span> ? list.get(j) + <span class="string">""</span> : list.get(j) + <span class="string">" "</span>;</div><div class="line">            System.out.print(out);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="提交运行提示通过所有测试用例："><a href="#提交运行提示通过所有测试用例：" class="headerlink" title="提交运行提示通过所有测试用例："></a>提交运行提示通过所有测试用例：</h4><p><img src="http://img.blog.csdn.net/20170329133939169?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><ul>
+<li>调用<code>Arraylist</code>的<code>boolean contains(Object o)</code>方法判断集合中是否已经包含某一元素一简化代码</li>
 </ul>
 <center><u><b><em>END</em></b></u></center>
           
@@ -414,7 +402,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -459,7 +447,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -472,7 +460,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
