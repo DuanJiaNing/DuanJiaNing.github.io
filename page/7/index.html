@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -93,7 +93,7 @@
 <meta name="description" content="￥.￥">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Duan">
-<meta property="og:url" content="http://yoursite.com/tags/Android/page/2/index.html">
+<meta property="og:url" content="http://yoursite.com/page/7/index.html">
 <meta property="og:site_name" content="Duan">
 <meta property="og:description" content="￥.￥">
 <meta name="twitter:card" content="summary">
@@ -106,7 +106,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
@@ -126,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/Android/page/2/"/>
+  <link rel="canonical" href="http://yoursite.com/page/7/"/>
 
 
 
 
 
-  <title>标签: Android | Duan</title>
+  <title>Duan</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -158,7 +158,9 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -251,131 +253,151 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
+  <section id="posts" class="posts-expand">
+    
+      
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h1>Android<small>标签</small>
-      </h1>
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/网易2017春招笔试真题编程题集合——2.优雅的点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James Duan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Duan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/10/网易2017春招笔试真题编程题集合——2.优雅的点/" itemprop="url">网易2017春招笔试真题编程题集合 —— 2.优雅的点</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T16:44:11+08:00">
+                2017-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="网易2017春招笔试真题编程题集合——2-优雅的点"><a href="#网易2017春招笔试真题编程题集合——2-优雅的点" class="headerlink" title="网易2017春招笔试真题编程题集合——2.优雅的点"></a>网易2017春招笔试真题编程题集合——<strong>2.优雅的点</strong></h3><p>原题地址在这里：<a href="https://www.nowcoder.com/question/next?pid=4575457&amp;qid=83061&amp;tid=7519540" target="_blank" rel="external">牛客网</a></p>
+<h4 id="题目是这样的："><a href="#题目是这样的：" class="headerlink" title="题目是这样的："></a>题目是这样的：</h4><blockquote>
+<p>小易有一个圆心在坐标原点的圆，小易知道圆的半径的平方。小易认为在圆上的点而且横纵坐标都是整数的点是优雅的，小易现在想寻找一个算法计算出优雅的点的个数，请你来帮帮他。<br>例如：半径的平方如果为25<br>优雅的点就有：(+/-3, +/-4), (+/-4, +/-3), (0, +/-5) (+/-5, 0)，一共12个点。 </p>
+</blockquote>
+<p>输入描述：</p>
+<blockquote>
+<p>输入为一个整数，即为圆半径的平方,范围在32位int范围内。</p>
+</blockquote>
+<p>输出描述：</p>
+<blockquote>
+<p>输出为一个整数，即为优雅的点的个数</p>
+</blockquote>
+<p>输入例子：</p>
+<blockquote>
+<p>25</p>
+</blockquote>
+<p>输出例子</p>
+<blockquote>
+<p>12</p>
+</blockquote>
+<h4 id="用java编写，思路是这样的："><a href="#用java编写，思路是这样的：" class="headerlink" title="用java编写，思路是这样的："></a>用java编写，思路是这样的：</h4><p>1 使用<code>java.util.Scanner</code>接收控制台输入<br>2 定义三个变量<code>int in,count = 0;double radius</code>；in 用于接收输入的圆的半径的平方，count 计录优雅点的个数，radius 为开平方后得到的半径<br>3 用变量 <code>int x</code> 遍历 0 到 radius 间的整数，x 作为横坐标求出对应的纵坐标 y，判断纵坐标是否为整数（小数位全为0）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        <span class="keyword">int</span> in = scanner.nextInt();</div><div class="line">        <span class="keyword">double</span> radius = Math.sqrt(in);</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt;= radius; x++) &#123;</div><div class="line">            <span class="keyword">double</span> y = Math.sqrt(in - x * x);</div><div class="line"><span class="comment">//            System.out.println("(" + x + "," + y + ")");</span></div><div class="line">            <span class="keyword">if</span> (y % <span class="number">1.0</span> == <span class="number">0</span>) &#123;</div><div class="line">                count++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        System.out.println(radius % <span class="number">1.0</span> == <span class="number">0</span> ? count * <span class="number">4</span> - <span class="number">4</span> : count * <span class="number">4</span> + <span class="string">""</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><em>提交运行</em> 之后就会提示通过所有测试用例：<br><img src="http://img.blog.csdn.net/20170410164323047?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h4 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h4><ul>
+<li>使用 Math.sqrt(double d) 求平方根</li>
+<li>半径 radius 要用 double 型保存，因为 最后通过判断半径是否为整数决定要不要保留圆上与横纵坐标的四个交点</li>
+<li>判断一个 double 型变量是否为整数 <code>number % 1.0 == 0</code></li>
+</ul>
+<center><u><b><em>END</em></b></u></center>
+          
+        
+      
     </div>
 
-    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/05/03/Android-Activity-的启动模式和标记位/" itemprop="url">
-              
-                <span itemprop="name">Activity 的启动模式和标记位</span>
-              
-            </a>
-        
-      </h2>
+      
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-05-03T13:59:11+08:00"
-              content="2017-05-03" >
-          05-03
-        </time>
-      </div>
-
-    </header>
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </article>
 
 
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/06/Android-自定义View和属性动画ValueAnimator实现圆点指示器/" itemprop="url">
-              
-                <span itemprop="name">Android：自定义View和属性动画ValueAnimator实现圆点指示器</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-06T01:04:11+08:00"
-              content="2017-04-06" >
-          04-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/03/26/Android-用WebView开发简单的浏览器/" itemprop="url">
-              
-                <span itemprop="name">Android：用WebView开发简单的浏览器</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-26T21:22:11+08:00"
-              content="2017-03-26" >
-          03-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/03/22/Android-Activity-的生命周期常用方法概述/" itemprop="url">
-              
-                <span itemprop="name">Android：Activity 的生命周期常用方法概述</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-22T21:14:11+08:00"
-              content="2017-03-22" >
-          03-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </div>
+  </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/tags/Android/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/tags/Android/">1</a><span class="page-number current">2</span><a class="page-number" href="/tags/Android/page/3/">3</a><a class="page-number" href="/tags/Android/page/4/">4</a><a class="extend next" rel="next" href="/tags/Android/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -537,7 +559,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
+    NexT.Mist
   </a>
 </div>
 
@@ -616,13 +638,6 @@
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
-
-
 
   
 

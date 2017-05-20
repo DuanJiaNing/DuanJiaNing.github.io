@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -106,7 +106,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
@@ -264,7 +264,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/Android-使用HttpURLConnection实现多线程下载/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/09/Android-View-的事件分发机制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James Duan">
@@ -283,7 +283,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/03/19/Android-使用HttpURLConnection实现多线程下载/" itemprop="url">Android：使用 HttpURLConnection 实现多线程下载</a></h1>
+                <a class="post-title-link" href="/2017/05/09/Android-View-的事件分发机制/" itemprop="url">Android：View 的事件分发机制</a></h1>
         
 
         <div class="post-meta">
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T15:26:11+08:00">
-                2017-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-09T22:33:29+08:00">
+                2017-05-09
               </time>
             
 
@@ -332,708 +332,50 @@
       
         
           
-            <h4 id="使用HttpURLConnection实现多线程下载"><a href="#使用HttpURLConnection实现多线程下载" class="headerlink" title="使用HttpURLConnection实现多线程下载"></a>使用<code>HttpURLConnection</code>实现<strong>多线程下载</strong></h4><p>这个小程序是根据《疯狂Android讲义》<em>（第三版）</em>第13章 <em>Android网络应用</em>，13.3节 <em>使用HTTP访问网络</em>  扩展而来。<br><br></p>
+            <h4 id="Android-View的事件分发机制"><a href="#Android-View的事件分发机制" class="headerlink" title="Android-View的事件分发机制"></a>Android-View的事件分发机制</h4><ul>
+<li>View 的事件由 MotionEvent 类表示，MotionEvent 定义了大量的常量来表示用户的手指（鼠标、手写笔、轨迹球）在屏幕上的各种状态。View 的事件分发机制指的就是 View （ViewGroup、Button等）在复杂的层级关系里对 MotionEvent 事件的分配和处理规则。</li>
+<li>事件序列：当一次手指触摸屏幕行为开始，往往后续会连续触发一连串的事件，如：DOWN -&gt; ..MOVE.. -&gt; UP。也可以说从 <em>ACTION_DOWN</em> 开始到  <em>ACTION_UP</em> 事件到达的过程为一次事件序列。</li>
+</ul>
+<h5 id="一-MotionEvent"><a href="#一-MotionEvent" class="headerlink" title="一. MotionEvent"></a>一. MotionEvent</h5><p>MotionEvent 类的定义如下：<br><code>public final class MotionEvent extends InputEvent implements Parcelable</code><br>该类继承了 InputEvent （抽象类，输入事件的表示类），同时该类是可序列化的。</p>
+<h6 id="1-1-常见的事件状态："><a href="#1-1-常见的事件状态：" class="headerlink" title="1.1 常见的事件状态："></a>1.1 常见的事件状态：</h6><ul>
+<li><code>ACTION_DOWN</code><br>手指刚接触屏幕，按下的手势已经开始，此次事件序列的起始位置（坐标）被赋值。<br>-<code>ACTION_UP</code><br>手指从屏幕松开的一瞬间，按下的手势结束，此次事件序列结束，最终的结束位置（坐标）决定。</li>
+<li><code>ACTION_MOVE</code><br>在接收到 ACTION_DOWN 之后，接收到 ACTION_UP 之前，在手指和屏幕保持接触的前提下手指的位置（坐标）发生了改变。</li>
+</ul>
+<h5 id="1-2-默认的规则"><a href="#1-2-默认的规则" class="headerlink" title="1.2 默认的规则"></a>1.2 默认的规则</h5><p><a id="rule"></a></p>
 <blockquote>
-<p>使用多线程下载文件可以更快地完成下载任务，因为客户端启动多条线程进行下载就意味着服务器也需要为该客户端提供相应的服务。假设服务器同时最多服务100个用户，在服务器中一个线程对应一个用户，100条线程在计算机内并发执行，也就是由CPU划分时间轮片流执行，如果A应用使用了99条线程下载文件，那么相当于占用了99个用户的资源，自然就拥有了较快的下载速度。<font size="-1"><em>不考虑网络因素</em></font></p>
-</blockquote>
-<p><em>实际上并不是客户端并发的下载线程越多下载速度就越快，因为当开启太多并发线程后，应用程序需要维护每条线程的开销，线程同步的开销，这些开销可能反而使下载速度减慢</em></p>
-<h4 id="先看看最终效果"><a href="#先看看最终效果" class="headerlink" title="先看看最终效果"></a>先看看最终效果</h4><p><img src="http://img.blog.csdn.net/20170319152750479?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20170319152905169?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20170319153003310?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20170319153045342?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<h5 id="1-这个小程序中负责开启多线程下载的核心类是：DownloadUtil-java"><a href="#1-这个小程序中负责开启多线程下载的核心类是：DownloadUtil-java" class="headerlink" title="1.这个小程序中负责开启多线程下载的核心类是：DownloadUtil.java"></a>1.这个小程序中负责开启多线程下载的核心类是：<code>DownloadUtil.java</code></h5><h6 id="这个类主要做了如下的事情："><a href="#这个类主要做了如下的事情：" class="headerlink" title="这个类主要做了如下的事情："></a>这个类主要做了如下的事情：</h6><ul>
-<li>创建URL对象（本程序使用的是<code>HttpURLConnection</code>）</li>
-<li>获取URL指向资源的大小（由<code>HttpURLConnection.getContentLength()</code>方法完成）</li>
-<li>在本地磁盘上创建一个与网络资源相同大小的空文件<br>（<code>RandomAccessFile.setLength()</code>）</li>
-<li>计算每条线程应该下载网络资源的哪一部分<br>（<em>从哪个字节开始，到哪个字节结束</em>）</li>
-<li>依次创建，启动多条线程来下载网络资源的指定部分</li>
-</ul>
-<p>######下面来看具体代码：</p>
-<ol>
-<li>先来看构造函数</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">DownloadUtil</span><span class="params">(OnDownloadFinish complete)</span> </span>&#123;</div><div class="line">       <span class="keyword">this</span>.downloadFinish = complete;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p><code>OnDownloadFinish</code>是下载完成后的回调</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnDownloadFinish</span> </span>&#123;</div><div class="line">      <span class="comment">/**</span></div><div class="line">       * 所有线程都结束后调用</div><div class="line">       * <span class="doctag">@param</span> file 下载好的文件</div><div class="line">       */</div><div class="line">      <span class="function"><span class="keyword">void</span> <span class="title">onComplete</span><span class="params">(File file)</span></span>;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>开启下载任务的入口方法<br>下载前的计算和开启线程下载都在这个方法中完成</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * 开始一次下载</div><div class="line">    * <span class="doctag">@param</span> sourcePath 目标URL</div><div class="line">    * <span class="doctag">@param</span> targetFilePath 目标保存路径</div><div class="line">    * <span class="doctag">@param</span> threadNumber 开启的线程数</div><div class="line">    * <span class="doctag">@param</span> fileName 保存的文件名</div><div class="line">    * <span class="doctag">@throws</span> IOException</div><div class="line">    */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(@NonNull String sourcePath, @Nullable String targetFilePath, <span class="keyword">int</span> threadNumber, @Nullable String fileName)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line"> ....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
-<li><strong>创建HttpURLConnection对象：</strong><br>对于一次下载该对象指向的URL资源地址应是同一个，封装成一个方法：<br>该方法在两个地方被调用到</li>
-</ol>
-<ul>
-<li>获得URL指向资源大小时。<em>获得大小后关闭该网络连接</em></li>
-<li>启动线程下载该线程对应的那部分资源时</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> HttpURLConnection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">       URL url = <span class="keyword">new</span> URL(sourcePath);</div><div class="line">       HttpURLConnection conn = (HttpURLConnection) url.openConnection();</div><div class="line">       conn.setConnectTimeout(<span class="number">1000</span> * <span class="number">5</span>);</div><div class="line">       conn.setRequestMethod(<span class="string">"GET"</span>);</div><div class="line">       conn.setRequestProperty(<span class="string">"Accept"</span>, accept);</div><div class="line">       conn.setRequestProperty(<span class="string">"Accept-Language"</span>, <span class="string">"zh-CN"</span>);</div><div class="line">       conn.setRequestProperty(<span class="string">"Charset"</span>, <span class="string">"UTF-8"</span>);</div><div class="line">       <span class="keyword">return</span> conn;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>下载前的计算和开启多个线程进行下载：<br>获得大小-&gt;本地磁盘创建同大小的空文件-&gt;求得每一个线程应下载多少字节-&gt;开启线程进行下载</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">HttpURLConnection conn = getConnection();</div><div class="line">      fileSize = conn.getContentLength();</div><div class="line">      conn.disconnect();</div><div class="line"></div><div class="line">      RandomAccessFile file = <span class="keyword">new</span> RandomAccessFile(targetFilePathAndName, <span class="string">"rw"</span>);</div><div class="line">      file.setLength(fileSize);</div><div class="line">      file.close();</div><div class="line"></div><div class="line">      partSize = fileSize / threadNumber + <span class="number">1</span>;</div><div class="line"></div><div class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadNumber; i++) &#123;</div><div class="line">          <span class="keyword">int</span> startPos = i * partSize;</div><div class="line">          threads[i] = <span class="keyword">new</span> DownLoadThread(startPos);</div><div class="line">          threads[i].start();</div><div class="line">      &#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>负责下载的线程类<code>private class</code> <strong><code>DownLoadThread</code></strong> <code>extends Thread</code><br>来看run方法<br>在构造函数中写了该句<code>currentPart = new RandomAccessFile(targetFilePathAndName, &quot;rw&quot;);</code></li>
-</ol>
+<p>规则 1</p>
 <blockquote>
-<p> <code>RandomAccessFile</code>: RandomAccessFile是用来访问那些保存数据记录的文件的，你可以用seek( )方法来访问记录，并进行读写了。这些记录的大小不必相同；但是其大小和位置必须是可知的。但是该类仅限于操作文件。——<a href="http://blog.csdn.net/akon_vm/article/details/7429245" target="_blank" rel="external">Java RandomAccessFile用法 </a><br><br>RandomAccessFile的对象包含一个记录指针，用于标识当前流的读写位置，这个位置可以向前移动，也可以向后移动。RandomAccessFile包含两个方法来操作文件记录指针。</p>
-<ul>
-<li>long getFilePoint():记录文件指针的当前位置。</li>
-<li>void seek(long pos):将文件记录指针定位到pos位置</li>
-</ul>
+<p>ViewGroup 默认不拦截任何事件。Android 源码中 ViewGroup 的 onInterceptTouchEvent 方法默认返回 false</p>
 </blockquote>
-<hr>
-<p>在<code>finally</code>里判断当前还有几个线程还在下载，当没有线程在下载了（下载结束了），就回调<code>onComplete</code>方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">              HttpURLConnection connection = getConnection();</div><div class="line">              InputStream in = connection.getInputStream();</div><div class="line">              skipFully(in, startPos);</div><div class="line">              <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">              <span class="keyword">int</span> hasRead;</div><div class="line">              <span class="keyword">while</span> ((currentDownLoaded &lt; partSize) &amp;&amp; (hasRead = in.read(bytes)) &gt; <span class="number">0</span>) &#123;</div><div class="line">                  currentPart.write(bytes, <span class="number">0</span>, hasRead);</div><div class="line">                  currentDownLoaded += hasRead;</div><div class="line">              &#125;</div><div class="line">              currentPart.close();</div><div class="line">              in.close();</div><div class="line">              connection.disconnect();</div><div class="line"></div><div class="line">          &#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</div><div class="line">              e.printStackTrace();</div><div class="line">          &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">              e.printStackTrace();</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">              restTask--;</div><div class="line">              <span class="keyword">if</span> (restTask == <span class="number">0</span>)</div><div class="line">                  downloadFinish.onComplete(<span class="keyword">new</span> File(targetFilePathAndName));</div><div class="line"></div><div class="line">          &#125;</div><div class="line"></div><div class="line">      &#125;</div></pre></td></tr></table></figure>
-<p>其中用到一个跳过指定字节数的方法</p>
+<p>规则 2</p>
 <blockquote>
-<p>由于最新的Android平台上调用InputStream的skip方法时，并不能总是准确地跳过指定的字节数，因此程序实现了一个skipFully方法。</p>
+<p>View 的 onTouchEvent 默认都会消耗事件（返回 true） ，除非他是不可点击的（clickable 、 longClickable 和 contextClickable 都为 false）。</p>
 </blockquote>
-<p>参考此处：<br><a href="http://www.ablanxue.com/prone_7005_1.html" target="_blank" rel="external">Java.IO.InputStream.skip() 错误（跳过字节数和预想的不等）</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * 从输入流中从起点开始跳过指定长度</div><div class="line">     * <span class="doctag">@param</span> in    输入流</div><div class="line">     * <span class="doctag">@param</span> bytes 要跳过的字节数</div><div class="line">     * <span class="doctag">@throws</span> IOException</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">skipFully</span><span class="params">(InputStream in, <span class="keyword">long</span> bytes)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">long</span> len;</div><div class="line">        <span class="keyword">while</span> (bytes &gt; <span class="number">0</span>) &#123;</div><div class="line">            len = in.skip(bytes);</div><div class="line">            bytes -= len;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>好了，以上就时进行多线程下载的核心类，源码已上传到GitHub，你可以在这里找到：</p>
-<center><a href="https://github.com/DuanJiaNing/MultithreadDownload" target="_blank" rel="external">DuanJiaNing/MultithreadDownload</a></center>
-
-<h5 id="2-Activity部分"><a href="#2-Activity部分" class="headerlink" title="2. Activity部分"></a>2. Activity部分</h5><p>布局部分用到的控件主要有：<br><code>TextView</code>,<code>EditText</code>,<code>ProgressBar</code>,<code>CardView</code>,<code>FloatingActionButton</code>和<code>ListView</code>.</p>
-<h6 id="看起来是这样子的："><a href="#看起来是这样子的：" class="headerlink" title="看起来是这样子的："></a>看起来是这样子的：</h6><p><img src="http://img.blog.csdn.net/20170319152128133?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>解释一下：</p>
-<ul>
-<li>最上面的<code>任务详情</code>:<br>1.当点击了<code>下载</code>之后当前正在下载任务的信息会显示在这里。<br>2.当已完成多个下载任务后，已下载的文件名会显示在<code>ListView</code>处，<code>ListView</code>的<code>onItemClick</code>时间会获得已下载文件对应的下载信息显示在这里。</li>
-<li><code>进度</code>下面有个<code>ProgressBar</code>用于实时显示当前的下载进度</li>
-<li><code>下载速度</code>处显示实时的下载速度（两行<code>byte/s kb/s</code>）</li>
-<li><code>下载速度</code><strong>右边</strong>也会显示实时的下载进度，对应<code>ProgressBar</code>的 <code>Max</code>和<code>当前进度</code>.</li>
-<li><code>已下载</code><strong>上边</strong>有个<code>TextView</code>显示文件保存的路径</li>
-<li><code>FloatingActionButton</code>控制输入URL输入框，线程数输入框，下载按钮所在的<code>CardView</code>的显示和隐藏。<br><img src="./Image_001.png" alt="Alt text"></li>
-</ul>
-<h6 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h6><ol>
-<li>进入onCreate关联布局后其他几乎都在<code>init</code>方法里搞定了<strong><code>&gt;.&lt;</code></strong></li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">      <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">      setContentView(R.layout.main_activity);</div><div class="line"></div><div class="line">      init();</div><div class="line"></div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<ol>
-<li><code>init()</code>方法里做了这么些事情：</li>
-</ol>
-<ul>
-<li>初始化控件</li>
-<li>初始化用于保存已下载文件名和对应任务信息的<code>ArrayList</code></li>
-<li><code>ListView</code>绑定<code>adapter</code>，item点击事件</li>
-<li>从<code>anim</code>和<code>animator</code>中加载动画资源并绑定给<code>FloatingActionButton</code>和<code>CardView</code>,<code>FloatingActionButton</code>的点击事件（控制动画播放）</li>
-<li><code>new</code>一个<code>DownloadUtil</code>实例并定义回调方法<code>onComplete</code>,在这里遇到了不少问题[^1] [^2]（亦可在源码注释中查看）</li>
-<li><code>下载</code>按钮的点击事件，在点击事件里调用<code>DownloadUtil.start</code>方法，因为<code>start</code>方法里调用了<code>URLConnection.openConnection</code>方法，所以不能在<strong>UI线程</strong>里调用此方法。同时在这里开<br>启<code>Timer</code>实时更新UI。注意<a href="只有在调用了`DownloadUtil.start`方法后，DownloadUtil的`getFileSize(),getThreadNumber(),getPartSize()`等`Getter`方法才会正确的取到值。">^3</a></li>
-</ul>
-<ol>
-<li>控制<code>CardView</code>动画的代码</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> AnimatorSet cvShow = (AnimatorSet) AnimatorInflater.loadAnimator(<span class="keyword">this</span>, R.animator.input_show);</div><div class="line">       <span class="keyword">final</span> AnimatorSet cvHide = (AnimatorSet) AnimatorInflater.loadAnimator(<span class="keyword">this</span>, R.animator.input_hide);</div><div class="line">       cvShow.setTarget(cardView);</div><div class="line">       cvHide.setTarget(cardView);</div><div class="line"></div><div class="line">       input.setPivotX(<span class="number">100</span>);<span class="comment">//用ObjectAnimator实现旋转动画时用此方法指定旋转的原点</span></div><div class="line">       <span class="keyword">final</span> ObjectAnimator btShow = ObjectAnimator.ofFloat(input, <span class="string">"rotation"</span>, <span class="number">0</span>, <span class="number">180</span>).setDuration(<span class="number">1000</span>);</div><div class="line">       <span class="keyword">final</span> ObjectAnimator btHide = ObjectAnimator.ofFloat(input, <span class="string">"rotation"</span>, <span class="number">180</span>, <span class="number">0</span>).setDuration(<span class="number">1000</span>);</div><div class="line">       btShow.setInterpolator(<span class="keyword">new</span> OvershootInterpolator());</div><div class="line">       btHide.setInterpolator(<span class="keyword">new</span> DecelerateInterpolator());</div><div class="line"></div><div class="line">       btShow.start();</div><div class="line">       cvShow.start();</div><div class="line"></div><div class="line">       input.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">           <span class="keyword">boolean</span> hasCardViewShow = <span class="keyword">true</span>;</div><div class="line"></div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">               <span class="keyword">if</span> (hasCardViewShow) &#123;</div><div class="line">                   btHide.start();</div><div class="line">                   cvHide.start();</div><div class="line">                   hasCardViewShow = <span class="keyword">false</span>;</div><div class="line">               &#125; <span class="keyword">else</span> &#123;</div><div class="line">                   btShow.start();</div><div class="line">                   cvShow.start();</div><div class="line">                   hasCardViewShow = <span class="keyword">true</span>;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;);</div></pre></td></tr></table></figure>
-<ol>
-<li>下载完成后的回调和下载按钮的点击事件<br>代码有点多就直接上张图吧！<br><img src="http://img.blog.csdn.net/20170319152255946?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
-<li>还有动画部分的代码</li>
-</ol>
-<p>控制cardView隐藏<br><code>/res/animator/input_hide.xml</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">set</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:ordering</span>=<span class="string">"together"</span></div><div class="line">    &gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">objectAnimator</span></span></div><div class="line">        <span class="attr">android:duration</span>=<span class="string">"800"</span></div><div class="line">        <span class="attr">android:propertyName</span>=<span class="string">"translationY"</span></div><div class="line">        <span class="attr">android:interpolator</span>=<span class="string">"@android:anim/linear_interpolator"</span></div><div class="line">        <span class="attr">android:valueFrom</span>=<span class="string">"0.0f"</span></div><div class="line">        <span class="attr">android:valueTo</span>=<span class="string">"400.0f"</span></div><div class="line">        <span class="attr">android:valueType</span>=<span class="string">"floatType"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">objectAnimator</span></span></div><div class="line">        <span class="attr">android:duration</span>=<span class="string">"1000"</span></div><div class="line">        <span class="attr">android:propertyName</span>=<span class="string">"alpha"</span></div><div class="line">        <span class="attr">android:valueFrom</span>=<span class="string">"1.0f"</span></div><div class="line">        <span class="attr">android:valueTo</span>=<span class="string">"0.0f"</span></div><div class="line">        <span class="attr">android:valueType</span>=<span class="string">"floatType"</span></div><div class="line">        /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">set</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>控制cardView显示<br><code>/res/animator/input_show.xml</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">set</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:ordering</span>=<span class="string">"together"</span></div><div class="line">    &gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">objectAnimator</span></span></div><div class="line">        <span class="attr">android:duration</span>=<span class="string">"800"</span></div><div class="line">        <span class="attr">android:propertyName</span>=<span class="string">"translationY"</span></div><div class="line">        <span class="attr">android:interpolator</span>=<span class="string">"@android:anim/overshoot_interpolator"</span></div><div class="line">        <span class="attr">android:valueFrom</span>=<span class="string">"400f"</span></div><div class="line">        <span class="attr">android:valueTo</span>=<span class="string">"0.0f"</span></div><div class="line">        <span class="attr">android:valueType</span>=<span class="string">"floatType"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">objectAnimator</span></span></div><div class="line">        <span class="attr">android:duration</span>=<span class="string">"1000"</span></div><div class="line">        <span class="attr">android:propertyName</span>=<span class="string">"alpha"</span></div><div class="line">        <span class="attr">android:valueFrom</span>=<span class="string">"0.0f"</span></div><div class="line">        <span class="attr">android:valueTo</span>=<span class="string">"1.0f"</span></div><div class="line">        <span class="attr">android:valueType</span>=<span class="string">"floatType"</span></div><div class="line">        /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">set</span>&gt;</span></div></pre></td></tr></table></figure>
-<ol>
-<li><code>FloatingActionButton</code>的动画直接定义在java代码中了</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">input.setPivotX(<span class="number">100</span>);<span class="comment">//用ObjectAnimator实现旋转动画时用此方法指定旋转的原点</span></div><div class="line"><span class="keyword">final</span> ObjectAnimator btShow = ObjectAnimator.ofFloat(input, <span class="string">"rotation"</span>, <span class="number">0</span>, <span class="number">180</span>).setDuration(<span class="number">1000</span>);</div><div class="line"><span class="keyword">final</span> ObjectAnimator btHide = ObjectAnimator.ofFloat(input, <span class="string">"rotation"</span>, <span class="number">180</span>, <span class="number">0</span>).setDuration(<span class="number">1000</span>);</div><div class="line">btShow.setInterpolator(<span class="keyword">new</span> OvershootInterpolator());</div><div class="line">btHide.setInterpolator(<span class="keyword">new</span> DecelerateInterpolator());</div></pre></td></tr></table></figure>
-<ol>
-<li>界面上有<code>EditText</code>所以一打开程序就会把软键盘调出来效果不好，所以在<code>style</code>里加了下面两句：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:configChanges"</span>&gt;</span>keyboardHidden|orientation<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowSoftInputMode"</span>&gt;</span>stateHidden<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div></pre></td></tr></table></figure>
-<ol>
-<li>要访问网络和读写磁盘，所以加入如下三条权限：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.INTERNET"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.READ_EXTERNAL_STORAGE"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span></div></pre></td></tr></table></figure>
-<hr>
-<center><font size="+2" color="#bbb">源码已上传到GitHub，你可以在这里找到</font></center><br><center><font size="+3"><a href="https://github.com/DuanJiaNing/MultithreadDownload" target="_blank" rel="external">DuanJiaNing/MultithreadDownload</a></font></center>
-
-<p>[^1]: 定义全局的<code>MainActivity.this.file</code>来获得<code>onComplete</code>返回的<code>File</code>引用 或 在此处（<code>onComplete</code>内）定义一个final的File来获得file的引用。<strong>不能使用第二种方法</strong> ——假设使用第二种方法：当第一次下载（<em>打开程序进行的第一次下载任务</em>）成功回调该方法时file被赋值，赋值后dialog初始化，此时dialog持有file的引用，onComplete方法执结束时file被GC回收，但dialog初始时在onclick方法里使用了他的值，使每次调用dialog里onclick方法时使用的file都是第一次调用onComplete时的值，从而使File.reNameTo方法在调用两次之后就出错无法正常重命名。而每次调用editText.setText();时用的却是该次新的final File对象使对话框能正确显示文件名。因此应使用全局的file对象。</p>
-<p>[^2]: <code>onComplete</code>方法在<code>DownloadUtil$DownLoadThread</code>中调用（<font size="+2">非<code>UI</code>线程</font>），因此在<code>onComplete</code>中更新UI要使用<code>Handler</code>,<code>Activity.runOnUiThread</code>或<code>View.post</code>。</p>
-<center><u><b><em>END</em></b></u></center>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/17/java-用java.net.Socket和java.net.ServerSocket实现简单的聊天程序/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/17/java-用java.net.Socket和java.net.ServerSocket实现简单的聊天程序/" itemprop="url">使用 Socket 和 ServerSocket 实现简单的聊天程序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-17T11:25:11+08:00">
-                2017-03-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>用<code>java.net.Socket</code>和<code>java.net.ServerSocket</code>实现简单的聊天程序</p>
+<p>规则 3</p>
 <blockquote>
-<p>思路是这样的：<br>假设用户A与用户B进行聊天，用户B端使用ServerSocket作为服务端，而用户A使用Socket与用户B进行通信。</p>
+<p>onCLick 会发生的前提是当前 View 是可点击的，并且它收到了 DOWN 和 UP 事件。</p>
 </blockquote>
-<ul>
-<li>这两个小程序需要运行在同一台电脑上，才能正常通信。</li>
-<li>运行时一定要先运行<code>Server.class</code>再运行<code>Client.class</code>。</li>
-<li>通过异常来控制程序逻辑不是首选方式，但想了很久也没想出其它方法 <strong><code>&gt;.&lt;</code></strong></li>
+</blockquote>
+<h5 id="二-触摸事件涉及到的主要方法"><a href="#二-触摸事件涉及到的主要方法" class="headerlink" title="二.  触摸事件涉及到的主要方法"></a>二.  触摸事件涉及到的主要方法</h5><ul>
+<li><code>public boolean dispatchTouchEvent(MotionEvent event)</code><br>事件分发逻辑处理的主要方法，如果触摸事件传递到当前 View 那么该方法一定会被调用，返回结果受当前 View 的 onTouchEvent 和下级 View 的 dispatchTouchEvent 方法的影响，表示是否消耗掉当前事件。</li>
+<li><code>public boolean onInterceptTouchEvent(MotionEvent event)</code><br>在 dispatchTouchEvent 方法中调用，用来判断是否拦截某个事件，如果当前 View 拦截了某个事件，那么在同一个事件序列中该方法不会再调用，返回结果表示是否拦截当前事件。 </li>
+<li><code>public boolean onTouchEvent(MotionEvent event)</code><br>在 dispatchTouchEvent 方法中调用，用来处理触摸事件，返回结果表示是否消耗当前事件，如果不消耗，则在同一事件序列中，当前 View 无法再次接收到事件。</li>
 </ul>
-<h5 id="用户A的代码如下（Client-java）"><a href="#用户A的代码如下（Client-java）" class="headerlink" title="用户A的代码如下（Client.java）"></a>用户A的代码如下（<code>Client.java</code>）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.io.OutputStream;</div><div class="line"><span class="keyword">import</span> java.net.InetAddress;</div><div class="line"><span class="keyword">import</span> java.net.Socket;</div><div class="line"><span class="keyword">import</span> java.net.SocketException;</div><div class="line"><span class="keyword">import</span> java.text.DateFormat;</div><div class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by DuanJiaNing on 2017/3/16.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//创建Socket连接到本机的2003端口</span></div><div class="line">            Socket socket = <span class="keyword">new</span> Socket(InetAddress.getLocalHost(), <span class="number">2003</span>);</div><div class="line">            println(<span class="string">"**********您正在和："</span> + InetAddress.getLocalHost().getHostAddress() + <span class="string">" 聊天***********\n"</span> + <span class="string">"输入信息，按回车即可发送!输入quit可结束会话并关闭程序。"</span>);</div><div class="line">            OutputStream out = socket.getOutputStream();</div><div class="line">            out.write(<span class="string">"Hello 在么？"</span>.getBytes());</div><div class="line"></div><div class="line">            <span class="comment">//创建新线程负责打印接收到的消息</span></div><div class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> ClientThread(socket.getInputStream())).start();</div><div class="line"></div><div class="line">            <span class="comment">//接收控制台输入</span></div><div class="line">            BufferedReader bufr = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</div><div class="line">            <span class="comment">//读取控制台输入，有输入且不为quit时进行发送</span></div><div class="line">            String line;</div><div class="line">            <span class="keyword">while</span> ((line = bufr.readLine()) != <span class="keyword">null</span> &amp;&amp; !line.equals(<span class="string">"quit"</span>)) &#123;</div><div class="line">                out.write(line.getBytes());</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//关闭套接字</span></div><div class="line">            <span class="comment">//程序结束 这将导致ClientThread抛java.net.SocketException: Socket closed异常而结束（暂且就这样关闭这个线程）</span></div><div class="line">            socket.close();</div><div class="line"></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        InputStream input;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ClientThread</span><span class="params">(InputStream in)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.input = in;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">            <span class="keyword">int</span> len;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="comment">//当收到消息时把消息打印到控制台</span></div><div class="line">                <span class="keyword">while</span> ((len = input.read(bytes)) != -<span class="number">1</span>) &#123;</div><div class="line">                    println(<span class="keyword">new</span> String(bytes, <span class="number">0</span>, len));</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                <span class="comment">//当服务端或客户端结束会话时（输入quit时）会关闭socket从而抛出java.net.SocketException: Socket closed异常</span></div><div class="line">                <span class="comment">//隐藏此异常不做处理让程序继续“正常”运行(正常结束)</span></div><div class="line">                <span class="keyword">if</span> (!(e <span class="keyword">instanceof</span> SocketException))</div><div class="line">                    e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">            println(<span class="string">"**********此次会话结束**********"</span>);</div><div class="line">            System.exit(<span class="number">0</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println</span><span class="params">(String msg)</span> </span>&#123;</div><div class="line">        Date date = <span class="keyword">new</span> Date();</div><div class="line">        DateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss "</span>);</div><div class="line">        System.out.println(format.format(date) + msg);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<h5 id="用户B代码（服务端）（Server-java）"><a href="#用户B代码（服务端）（Server-java）" class="headerlink" title="用户B代码（服务端）（Server.java）"></a>用户B代码（服务端）（<code>Server.java</code>）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"><span class="keyword">import</span> java.net.ServerSocket;</div><div class="line"><span class="keyword">import</span> java.net.Socket;</div><div class="line"><span class="keyword">import</span> java.net.SocketException;</div><div class="line"><span class="keyword">import</span> java.text.DateFormat;</div><div class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by DuanJiaNing on 2017/3/16.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> BufferedReader reader;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">//监听本机（服务器）的2003端口</span></div><div class="line">        ServerSocket serverSocket = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">2003</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line"></div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    println(<span class="string">"************当前没有正在进行的会话***********"</span>);</div><div class="line"></div><div class="line">                    <span class="comment">//accept为阻塞时方法，当有连接时会返回连接着的socket对象</span></div><div class="line">                    Socket socket = serverSocket.accept();</div><div class="line">                    println(<span class="string">"当前聊天对象来自："</span> + socket.getLocalAddress().getHostAddress() + <span class="string">"\n"</span> + <span class="string">"输入信息，按回车即可发送!输入quit可结束此次会话。"</span>);</div><div class="line"></div><div class="line">                    <span class="comment">//创建新线程负责打印接收到的消息</span></div><div class="line">                    InputStream in = socket.getInputStream();</div><div class="line">                    <span class="keyword">new</span> Thread(<span class="keyword">new</span> ServerThread(in)).start();</div><div class="line"></div><div class="line">                    <span class="comment">//接收输入并发送给连接者</span></div><div class="line">                    reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</div><div class="line">                    String line;</div><div class="line">                    OutputStream out = socket.getOutputStream();</div><div class="line">                    <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span> &amp;&amp; !line.equals(<span class="string">"quit"</span>)) &#123;</div><div class="line">                        out.write(line.getBytes());</div><div class="line">                    &#125;</div><div class="line">                    <span class="comment">//服务端主动结束会话</span></div><div class="line">                    out.write(<span class="string">"先不聊了。bye~"</span>.getBytes());</div><div class="line"></div><div class="line">                    <span class="comment">//关闭套接字</span></div><div class="line">                    <span class="comment">//程序结束 这将导致ServerThread抛java.net.SocketException: Socket closed异常而结束（暂且就这样关闭此次会话对应的线程）</span></div><div class="line">                    socket.close();</div><div class="line"></div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    <span class="comment">//当客户端主动结束会话（输入quit时），而服务端试图发送信息时会抛出java.net.SocketException: Software caused connection abort: socket write error</span></div><div class="line">                    <span class="comment">//借这个异常让服务端回到等待客户端接入状态</span></div><div class="line">                    <span class="keyword">if</span> (e <span class="keyword">instanceof</span> SocketException) &#123;</div><div class="line">                        println(<span class="string">"您的聊天对象已离线\n"</span>);</div><div class="line">                        <span class="keyword">continue</span>;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">else</span></div><div class="line">                        e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ServerThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        InputStream input;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ServerThread</span><span class="params">(InputStream in)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.input = in;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">            <span class="keyword">int</span> len;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="comment">//当收到消息时把消息打印到控制台</span></div><div class="line">                <span class="keyword">while</span> ((len = input.read(bytes)) != -<span class="number">1</span>) &#123;</div><div class="line">                    println(<span class="keyword">new</span> String(bytes, <span class="number">0</span>, len));</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                <span class="comment">//当服务端或（输入quit时）会关闭socket从而抛出java.net.SocketException: Socket closed异常</span></div><div class="line">                <span class="comment">//当服务端输入quit时隐藏此异常不做处理让程序继续运行（回到等待客户端接入的状态）</span></div><div class="line">                <span class="keyword">if</span> (!(e <span class="keyword">instanceof</span> SocketException)) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println</span><span class="params">(String msg)</span> </span>&#123;</div><div class="line">        Date date = <span class="keyword">new</span> Date();</div><div class="line">        DateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss "</span>);</div><div class="line">        System.out.println(format.format(date) + msg);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<h5 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h5><ul>
-<li><p>分别编译Server.java，Client.java文件</p>
-<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">javac Server.java</div><div class="line">javac Client.java</div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>先后</strong>运行Server.class和Client.class</p>
-<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">java Server</div><div class="line">java Client</div></pre></td></tr></table></figure>
-</li>
-<li><p>此时可看到：<br><img src="http://img.blog.csdn.net/20170317112320578?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><br></p>
-</li>
-<li>接下来进行简单对话后<strong>在服务端输入<code>quit</code></strong>可看到：<br><img src="http://img.blog.csdn.net/20170317112416550?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><br></li>
-<li>此时客户端已经关闭，而服务端会循环阻塞在accept方法上。此时只需<strong>再次运行Client.class</strong>（在dos终端切换到Client.class文件所在路径后输入<code>java Client</code>）就能再次连接到服务端<br><br></li>
-<li>服务端主动结束会话，此时时这样的：<br><img src="http://img.blog.csdn.net/20170317112435267?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
-</ul>
-<center><em>有哪里可以改进的可以留言告诉我哦</em></center><br><center><u><b><em>END</em></b></u></center>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/14/Android-TextView及其子类（TextView、EditText、Button）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/14/Android-TextView及其子类（TextView、EditText、Button）/" itemprop="url">Android：TextView及其子类</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-14T23:25:11+08:00">
-                2017-03-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <hr>
-<h4 id="TextView及其子类"><a href="#TextView及其子类" class="headerlink" title="TextView及其子类"></a>TextView及其子类</h4><p>TextView直接继承自View，它还是EditText和Button的父类。</p>
-<h5 id="1-TextView"><a href="#1-TextView" class="headerlink" title="1.TextView"></a>1.TextView</h5><ol>
-<li>TextView及其子类的继承关系图如下：<br><img src="http://img.blog.csdn.net/20170314232142595?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
-<li>CheckedTextView跟TextView相比增加了一个checked状态，开发者可通过<code>setChecked(bool check)</code>和<code>isChecked()</code>方法来改变和判断其状态。通过<code>setCheckMarkDrawable()</code>设置它的勾选图标。</li>
-<li>TextView提供了大量的XML属性，这些属性大部分不仅适用于TextView，而且可使用于它的子类。</li>
+<h5 id="三-事件分发过程"><a href="#三-事件分发过程" class="headerlink" title="三. 事件分发过程"></a>三. 事件分发过程</h5><h6 id="3-1-ViewGroup-的-dispatchTouchEvent-方法"><a href="#3-1-ViewGroup-的-dispatchTouchEvent-方法" class="headerlink" title="3.1 ViewGroup 的 dispatchTouchEvent 方法"></a>3.1 ViewGroup 的 dispatchTouchEvent 方法</h6><ol>
+<li>对于一个根 ViewGroup 来说，点击事件产生后，首先会传递给它，这时它的<code>dispatchTouchEvent</code>就会被调用：</li>
 </ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">xml属性</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">android:autoLink</td>
-<td style="text-align:left">是否将符合指定格式的文本转换为可单击的超链接形式</td>
-</tr>
-<tr>
-<td style="text-align:left">android:autoText</td>
-<td style="text-align:left">是否将URL，Email地址等连接自动转换为可单击的超链接</td>
-</tr>
-<tr>
-<td style="text-align:left">android:linksClickable</td>
-<td style="text-align:left">控制该文本框的URL，Email等链接是否可以点击</td>
-</tr>
-<tr>
-<td style="text-align:left">android:capitalize</td>
-<td style="text-align:left">控制是否将用户输入的文本转换为大写字母，支持如下属性：<br>none：不转换<br>sentences：每个句子的首字母大写<br>words：每个单词的首字母大写<br>characters：每个字母都大写</td>
-</tr>
-<tr>
-<td style="text-align:left">android:drawableBottom[End\</td>
-<td style="text-align:left">Left\</td>
-<td>Top\</td>
-<td>Start\</td>
-<td>Right]</td>
-<td>在文本框内文本的底部（结尾处、左边、顶部、开始处、右边）绘制指定图像</td>
-</tr>
-<tr>
-<td style="text-align:left">android:drawablePadding</td>
-<td style="text-align:left">文本框内文本与图形之间的距离</td>
-</tr>
-<tr>
-<td style="text-align:left">android:ellipsize</td>
-<td style="text-align:left">设置当文本超过TextView的长度时如何处理文本，支持如下属性值：<br>none：不做任何处理<br>start：在文本开始处截断并显示省略号<br>middle：在文本中间截断并显示省略号<br>end：在文本结尾处截断并显示省略号<br>marquee：使用marquee滚动动画显示文本</td>
-</tr>
-<tr>
-<td style="text-align:left">android:marqueeRepeatLimit</td>
-<td style="text-align:left">设置marquee动画重复的次数</td>
-</tr>
-<tr>
-<td style="text-align:left">android:ems</td>
-<td style="text-align:left">设置该组件的宽度，以em为单位</td>
-</tr>
-<tr>
-<td style="text-align:left">android:fontFamily</td>
-<td style="text-align:left">设置文本框内文字的字体</td>
-</tr>
-<tr>
-<td style="text-align:left">android:gravity</td>
-<td style="text-align:left">设置文本框内文本的对齐方式</td>
-</tr>
-<tr>
-<td style="text-align:left">android:height</td>
-<td style="text-align:left">设置文本框的高度</td>
-</tr>
-<tr>
-<td style="text-align:left">android:width</td>
-<td style="text-align:left">设置文本框的宽度</td>
-</tr>
-<tr>
-<td style="text-align:left">android:hint</td>
-<td style="text-align:left">当文本框内没有文本时默认显示的提示文本</td>
-</tr>
-<tr>
-<td style="text-align:left">android:inputType</td>
-<td style="text-align:left">指定文本框的输入类型</td>
-</tr>
-<tr>
-<td style="text-align:left">android:lineSpacingExtra</td>
-<td style="text-align:left">控制两行文本之间的额外间距</td>
-</tr>
-<tr>
-<td style="text-align:left">android:lines</td>
-<td style="text-align:left">设置该文本框默认占几行</td>
-</tr>
-<tr>
-<td style="text-align:left">android:maxEms[Height\</td>
-<td style="text-align:left">Length\</td>
-<td>Lines\</td>
-<td>Width]</td>
-<td>设置该文本框的最大ems（高度、字符长度、占几行、宽度）</td>
-</tr>
-<tr>
-<td style="text-align:left">android:minEms[Height\</td>
-<td style="text-align:left">Lines\</td>
-<td>Width]</td>
-<td>设置该文本框的最小ems（高度、占几行、宽度）</td>
-</tr>
-<tr>
-<td style="text-align:left">android:scrollHorizontally</td>
-<td style="text-align:left">设置当文本框不够显示时是否允许水平滚动</td>
-</tr>
-<tr>
-<td style="text-align:left">android:shadowColor</td>
-<td style="text-align:left">设置文本框内文本的阴影颜色</td>
-</tr>
-<tr>
-<td style="text-align:left">android:shadowDx[y]</td>
-<td style="text-align:left">设置文本框内文本的阴影在水平（垂直）方向的偏移</td>
-</tr>
-<tr>
-<td style="text-align:left">android:shadowRadius</td>
-<td style="text-align:left">设置文本框内文本的模糊程度，值越大越模糊</td>
-</tr>
-<tr>
-<td style="text-align:left">android:text</td>
-<td style="text-align:left">指定文本内容</td>
-</tr>
-<tr>
-<td style="text-align:left">android:textAllCaps</td>
-<td style="text-align:left">文本全部大写</td>
-</tr>
-<tr>
-<td style="text-align:left">android:textColor</td>
-<td style="text-align:left">指定文本颜色</td>
-</tr>
-<tr>
-<td style="text-align:left">android:textColorHighLight</td>
-<td style="text-align:left">文本被选中时颜色</td>
-</tr>
-<tr>
-<td style="text-align:left">android:textColorHint</td>
-<td style="text-align:left">提示文本颜色</td>
-</tr>
-<tr>
-<td style="text-align:left">android:textScaleX</td>
-<td style="text-align:left">文本的水平缩放因子</td>
-</tr>
-<tr>
-<td style="text-align:left">android:textStyle</td>
-<td style="text-align:left">字体风格（粗体、斜体等）</td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li>如果这个 ViewGroup 的 <code>onInterceptTouchEvent</code>方法返回 true就表示它要拦截当前事件，接着事件就会交给这个 ViewGroup 处理，即它的 <code>onTouchEvent</code>方法就会被调用</li>
+<li>如果这个 ViewGroup 的 <code>onInterceptTouchEvent</code> 方法返回 false 就表示它不拦截当前事件，这时当前事件就会继续传递给它的子元素，接着子元素的 <code>dispatchTouchEvent</code>方法就会被调用，如此反复直到最终事件被处理。</li>
+</ul>
 <ol>
-<li>例子<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">    <span class="attr">android:textColorLink</span>=<span class="string">"#00ff0d"</span></div><div class="line">    <span class="attr">android:autoLink</span>=<span class="string">"email|web"</span></div><div class="line">    <span class="attr">android:lineSpacingExtra</span>=<span class="string">"10dp"</span></div><div class="line">    <span class="attr">android:ems</span>=<span class="string">"8"</span></div><div class="line">    <span class="attr">android:textSize</span>=<span class="string">"20sp"</span></div><div class="line">    <span class="attr">android:paddingLeft</span>=<span class="string">"20dp"</span></div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"end"</span></div><div class="line">    <span class="attr">android:paddingRight</span>=<span class="string">"20dp"</span></div><div class="line">    <span class="attr">android:drawablePadding</span>=<span class="string">"20dp"</span></div><div class="line">    <span class="attr">android:drawableTop</span>=<span class="string">"@drawable/lines"</span></div><div class="line">    <span class="attr">android:drawableBottom</span>=<span class="string">"@drawable/lines"</span></div><div class="line">    <span class="attr">android:shadowColor</span>=<span class="string">"@color/colorPrimaryDark"</span></div><div class="line">    <span class="attr">android:shadowDx</span>=<span class="string">"20.0"</span></div><div class="line">    <span class="attr">android:shadowDy</span>=<span class="string">"10.0"</span></div><div class="line">    <span class="attr">android:shadowRadius</span>=<span class="string">"10.0"</span></div><div class="line"></div><div class="line">    <span class="attr">android:text</span>=<span class="string">"23232@163.com**0872-18345678908**afffwerwerhttp://www.baidu.com"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">    /&gt;</div></pre></td></tr></table></figure>
-</li>
+<li>参照源码加深理解<br>源码 <code>dispatchTouchEvent</code> 方法比较复杂，这里分段从前往后选取关键部分依次进行分析。</li>
 </ol>
-<p>阴影效果需远行到模拟器中才能看到。<br><img src="http://img.blog.csdn.net/20170314232111985?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<h5 id="2-EditText、AutoCompleteTextView、ExtractEditText"><a href="#2-EditText、AutoCompleteTextView、ExtractEditText" class="headerlink" title="2.EditText、AutoCompleteTextView、ExtractEditText"></a>2.EditText、AutoCompleteTextView、ExtractEditText</h5><h6 id="2-1EditText"><a href="#2-1EditText" class="headerlink" title="2.1EditText"></a>2.1EditText</h6><ol>
-<li>EditText与TextView非常相似，它与TextView共用了绝大部分xml属性和方法。区别在于EditText可以接收用户的输入。</li>
-<li>EditText最重要的属性是InputType属性，该属性将EditText设置为指定类型的输入组件，该属性随着Android的不断升级也会被不断扩充。</li>
-<li>可参见此处：<a href="http://blog.csdn.net/u014651216/article/details/53199870" target="_blank" rel="external">Android EditText的属性和方法介绍使用及值得注意的点</a><br>|可用属性值|说明|<br>|:—-|:—|<br>|none|输入普通字符|<br>|text|输入普通字符|<br>|textCapCharacters|输入普通字符|<br>|textCapWords|单词首字母大小|<br>|textCapSentences|仅第一个字母大小|<br>|textAutoCorrect|前两个自动完成|<br>|textAutoComplete|前两个自动完成|<br>|textMultiLine|多行输入|<br>|textImeMultiLine|输入法多行（不一定支持）|<br>|textNoSuggestions|不提示|<br>|textUri|URI格式|<br>|textEmailAddress|电子邮件地址格式|<br>|textEmailSubject|邮件主题格式|<br>|textShortMessage|短消息格式|<br>|textLongMessage|长消息格式|<br>|textPersonName|人名格式|<br>|textPostalAddress|邮政格式|<br>|textPassword|密码格式|<br>|textVisiblePassword|密码可见格式|<br>|textWebEditText|作为网页表单的文本格式|<br>|textFilter|文本筛选格式|<br>|textPhonetic|拼音输入格式|<br>|number|数字格式|<br>|numberSigned|有符号数字格式|<br>|numberDecimal|可以带小数点的浮点格式|<br>|phone|拨号键盘|<br>|datetime|日期+时间格式|<br>|date|日期键盘|<br>|time|时间键盘|</li>
-</ol>
-<h6 id="2-2AutoCompleteTextView"><a href="#2-2AutoCompleteTextView" class="headerlink" title="2.2AutoCompleteTextView"></a>2.2AutoCompleteTextView</h6><p>带自动完成功能的EditText，该类需要与Adapter结合使用。</p>
-<h6 id="2-3ExtractEditText"><a href="#2-3ExtractEditText" class="headerlink" title="2.3ExtractEditText"></a>2.3ExtractEditText</h6><p>它并不是UI组件，而是EditText的底层服务类，负责提供全屏输入法支持</p>
-<h5 id="3-Button"><a href="#3-Button" class="headerlink" title="3.Button"></a>3.Button</h5><blockquote>
-<p>在Android L5.0中加入了触摸反馈动画。</p>
-</blockquote>
-<p>其中最明显，最具代表性的就是波纹动画，比如当点击按钮时会从点击的位置产生类似于波纹的扩散效果。<br>波纹效果<code>Ripple</code>：<br>当你使用了Material主题后，波纹动画会自动应用在所有的控件上</p>
-<h6 id="可以通过如下代码设置波纹的背景："><a href="#可以通过如下代码设置波纹的背景：" class="headerlink" title="可以通过如下代码设置波纹的背景："></a>可以通过如下代码设置波纹的背景：</h6><ul>
-<li><strong>波纹超出边界：</strong><code>android:background=&quot;?android:attr/selectableItemBackgroundBorderless&quot;</code> </li>
-<li><strong>背景透明，波纹有边界：</strong><code>android:background=&quot;?android:attr/selectableItemBackground&quot;</code></li>
-</ul>
-<h6 id="我们也可以通过设置xml属性来调节动画颜色，从而可以适应不同的主题："><a href="#我们也可以通过设置xml属性来调节动画颜色，从而可以适应不同的主题：" class="headerlink" title="我们也可以通过设置xml属性来调节动画颜色，从而可以适应不同的主题："></a>我们也可以通过设置xml属性来调节动画颜色，从而可以适应不同的主题：</h6><ul>
-<li><strong>设置波纹颜色：</strong><code>android:colorControlHighlight</code></li>
-<li><strong>设置checkbox等控件的选中颜色：</strong><code>android:colorAccent</code></li>
-</ul>
-<h6 id="为view添加波纹效果："><a href="#为view添加波纹效果：" class="headerlink" title="为view添加波纹效果："></a>为view添加波纹效果：</h6><ul>
-<li><code>android:clickable=&quot;true&quot;</code></li>
-<li><code>android:background=&quot;?android:attr/selectableItemBackground&quot;</code>  </li>
-</ul>
-<center><u><b><em>END</em></b></u></center>
+<p>（1）判断当前 View（ViewGroup）是否拦截事件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">		-------------ViewGroup#dispatchTouchEvent---------------</div><div class="line"> public boolean dispatchTouchEvent(MotionEvent ev) &#123;</div><div class="line"> ...</div><div class="line">// Check for interception.</div><div class="line">            final boolean intercepted;</div><div class="line">            if (actionMasked == MotionEvent.ACTION_DOWN</div><div class="line">                    || mFirstTouchTarget != null) &#123;</div><div class="line">                final boolean disallowIntercept = (mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT) != 0;</div><div class="line">                if (!disallowIntercept) &#123;</div><div class="line">                    intercepted = onInterceptTouchEvent(ev);</div><div class="line">                    ev.setAction(action); // restore action in case it was changed</div><div class="line">                &#125; else &#123;</div><div class="line">                    intercepted = false;</div><div class="line">                &#125;</div><div class="line">            &#125; else &#123;</div><div class="line">                // There are no touch targets and this action is not an initial down</div><div class="line">                // so this view group continues to intercept touches.</div><div class="line">                intercepted = true;</div><div class="line">            &#125;</div><div class="line">            ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一句一句进行分析：</p>
+<center><font size="+2"><strong><code>if (actionMasked == MotionEvent.ACTION_DOWN || mFirstTouchTarget != null)</code></strong>:</font></center><br>如果当前事件为 <em>ACTION_DOWN</em>，并且<code>mFirstTouchTarget</code>不为空，就进行后面的操作。那么<code>mFirstTouchTarget</code>是什么呢？<br>&gt;根据 ViewGroup 的 onDispatchTouchEvent 方法后面部分得分析可知，当事件由 <em>ViewGroup</em>的子元素成功处理时（ViewGroup）没有进行拦截，mFirstTouchTarget 将被赋值，并指向其子元素，反过来，如果<em>ViewGroup</em>对事件进行拦截，mFirstTouchTarget != null 就不成立。<br><br>大家可能疑惑这句将<code>mFirstTouchTarget</code>是否为空作为判断条件，而<code>mFirstTouchTarget</code>的赋值却在这个<code>if()</code>判断之后，那<code>mFirstTouchTarget</code>不是一定为 null！<br>    <code>mFirstTouchTarget</code>作为全局变量，当<code>dispatchTouchEvent</code><strong>第一次</strong>被调用时其值一定为空，而<code>actionMasked == MotionEvent.ACTION_DOWN</code>一定为 true ，这时，ViewGroup 的 <code>onInterceptTouchEvent</code>会被调用，如果其返回为 true，表示要拦截（那么 intercepted 为 true，mFirstTouchTarget 将不被赋值为空），那么此次的 <em>ACTION_DOWN</em>事件就被拦截，<em>ACTION_DOWN</em>是一次事件序列的开始，那么当此次事件序列的下一个事件到达调用<code>dispatchTouchEvent</code>方法并运行到<code>if()</code>时，该<code>if()</code>将为 false（此时 <code>actionMasked != MotionEvent.ACTION_DOWN</code>且<code>mFirstTouchTarget  == null</code>），则 <code>intercepted = true</code>，这就得出一个结论：<br>&gt;结论 1<br>&gt;&gt;某个 View 一旦决定拦截，那么这一事件序列都只能由它来处理（如果事件序列能够传递给他的话），并且它的 onInterceptTouchEvent 不会再被调用。<br><br><center><font size="+2"><strong><code>final boolean disallowIntercept = (mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT) != 0;if (!disallowIntercept) {...</code></strong></font></center><br>这句中使用到了一个标记位<code>FLAG_DISALLOW_INTERCEPT</code>，那么这个标记位是否启用是由谁决定、怎么决定的呢？<br>这里我们讨论的是 ViewGroup 的    <code>dispatchTouchEvent</code> 方法，<code>dispatchTouchEvent</code> 方法如果不拦截事件，那么 ViewGroup 就会将事件传递给它的子 View，这时子 View 可以通过其所在容器（父视图 ViewGroup）的引用调用 ViewGroup 的 <code>requestDisallowInterceptTouchEvent(boolean disallowIntercept)</code>方法改变 ViewGroup 的行为（启用或停用<code>FLAG_DISALLOW_INTERCEPT</code>标记位），使 ViewGroup 不再拦截除 ACTION_DOWN 以外的其它事件。<br><br>为什么说除了 ACTION_DOWN 以外的事件呢？<br>&gt;这是因为 ViewGroup 在分发事件时，如果是 ACTION_DOWN 事件就会重置 <code>FLAG_DISALLOW_INTERCEPT</code>标记位，使该标记位失效，即当面对 ACTION_DOWN 事件时，ViewGroup 总会调用自己的 <code>onInterceptTouchEvent</code>方法来询问自己是否要拦截事件。这一点在源码中也有体现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Handle an initial down.</span></div><div class="line">            <span class="keyword">if</span> (actionMasked == MotionEvent.ACTION_DOWN) &#123;</div><div class="line">                <span class="comment">// Throw away all previous state when starting a new touch gesture.</span></div><div class="line">                <span class="comment">// The framework may have dropped the up or cancel event for the previous gesture</span></div><div class="line">                <span class="comment">// due to an app switch, ANR, or some other state change.</span></div><div class="line">                cancelAndClearTouchTargets(ev);</div><div class="line">                resetTouchState();</div><div class="line">            &#125;</div></pre></td></tr></table></figure><br><br>&gt;结论 2<br>&gt;&gt;事件传递是由外向内的，即事件总是先传递给父元素，然后再由父元素分发给子元素，通过 requestDisallowInterceptTouchEvent 方法可以在子元素中干预父元素的事件分发过程，但是 ACTION_DOWN 事件除外。<br><br>（2）ViewGroup 不拦截事件，将事件分发给子 View<br><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">       -------------ViewGroup#dispatchTouchEvent---------------</div><div class="line">public boolean dispatchTouchEvent(MotionEvent ev) &#123;</div><div class="line">...</div><div class="line">						final View[] children = mChildren;</div><div class="line">                        for (int i = childrenCount - 1; i &gt;= 0; i--) &#123;</div><div class="line">                            final int childIndex = getAndVerifyPreorderedIndex(</div><div class="line">                                    childrenCount, i, customOrder);</div><div class="line">                            final View child = getAndVerifyPreorderedView(</div><div class="line">                                    preorderedList, children, childIndex);</div><div class="line"></div><div class="line">                            // If there is a view that has accessibility focus we want it</div><div class="line">                            // to get the event first and if not handled we will perform a</div><div class="line">                            // normal dispatch. We may do a double iteration but this is</div><div class="line">                            // safer given the timeframe.</div><div class="line">                            if (childWithAccessibilityFocus != null) &#123;</div><div class="line">                                if (childWithAccessibilityFocus != child) &#123;</div><div class="line">                                    continue;</div><div class="line">                                &#125;</div><div class="line">                                childWithAccessibilityFocus = null;</div><div class="line">                                i = childrenCount - 1;</div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            if (!canViewReceivePointerEvents(child)</div><div class="line">                                    || !isTransformedTouchPointInView(x, y, child, null)) &#123;</div><div class="line">                                ev.setTargetAccessibilityFocus(false);</div><div class="line">                                continue;</div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            newTouchTarget = getTouchTarget(child);</div><div class="line">                            if (newTouchTarget != null) &#123;</div><div class="line">                                // Child is already receiving touch within its bounds.</div><div class="line">                                // Give it the new pointer in addition to the ones it is handling.</div><div class="line">                                newTouchTarget.pointerIdBits |= idBitsToAssign;</div><div class="line">                                break;</div><div class="line">                            &#125;</div><div class="line"></div><div class="line">                            resetCancelNextUpFlag(child);</div><div class="line">                            if (dispatchTransformedTouchEvent(ev, false, child, idBitsToAssign)) &#123;</div><div class="line">                                // Child wants to receive touch within its bounds.</div><div class="line">                                mLastTouchDownTime = ev.getDownTime();</div><div class="line">                                if (preorderedList != null) &#123;</div><div class="line">                                    // childIndex points into presorted list, find original index</div><div class="line">                                    for (int j = 0; j &lt; childrenCount; j++) &#123;</div><div class="line">                                        if (children[childIndex] == mChildren[j]) &#123;</div><div class="line">                                            mLastTouchDownIndex = j;</div><div class="line">                                            break;</div><div class="line">                                        &#125;</div><div class="line">                                    &#125;</div><div class="line">                                &#125; else &#123;</div><div class="line">                                    mLastTouchDownIndex = childIndex;</div><div class="line">                                &#125;</div><div class="line">                                mLastTouchDownX = ev.getX();</div><div class="line">                                mLastTouchDownY = ev.getY();</div><div class="line">                                newTouchTarget = addTouchTarget(child, idBitsToAssign);</div><div class="line">                                alreadyDispatchedToNewTouchTarget = true;</div><div class="line">                                break;</div><div class="line">                            &#125;</div><div class="line">                   ...</div><div class="line">&#125;</div></pre></td></tr></table></figure><br><br><center><font size="+2"><code>for (int i = childrenCount - 1; i &gt;= 0; i--) {...</code></font><br></center><br>将事件分发给子 View 的过程通过遍历每一个子 View，判断子 View是否能接收到事件，能就调用其 <code>dispatchTouchEvent</code>方法，若子 View 的 <code>dispatchTouchEvent</code>方法返回 false ，表示子 View 未消耗事件，则继续循环；如果子 View 的 <code>dispatchTouchEvent</code>方法返回 true，表示子 View 消耗了事件，那么<code>mFirstTouchTarget</code>将被赋值，同时结束循环。<br>- 如何判断子 View 是否能接收到事件：<br>子元素是否在播放动画<br>点击事件的坐标是否落在子元素的区域内<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">if (childWithAccessibilityFocus != null) &#123;</div><div class="line">	...</div><div class="line">&#125;</div><div class="line">if (!canViewReceivePointerEvents(child) || !isTransformedTouchPointInView(x, y, child, null)) &#123;</div><div class="line">	...</div><div class="line">&#125;</div><div class="line">...</div></pre></td></tr></table></figure><br><br>- <code>mFirstTouchTarget</code>的赋值：对应代码为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">newTouchTarget = addTouchTarget(child, idBitsToAssign);</div><div class="line">alreadyDispatchedToNewTouchTarget = <span class="keyword">true</span>;</div><div class="line"><span class="keyword">break</span>;</div></pre></td></tr></table></figure><br><br>具体的赋值在<code>addTouchTarget</code>方法内部。<br>- 遍历所有子元素都没有被处理：这包含两种情况，第一种为 ViewGroup 没有子元素，第二种是子元素处理了点击事件，但 子元素的 <code>dispatchTouchEvent</code>方法返回了false（这一般是因为子元素在<code>onTouchEvent</code>方法中返回了false），此时 ViewGroup 将自己处理事件。<br>结论：<br><a id="result3"></a><br>&gt;结论 3<br>&gt;&gt;某个 View 一旦开始处理事件，如果它不消耗 ACTION_DOWN 事件（onTouchEvent返回false），那么同一事件序列中的其他事件都不会再交给它来处理，并且事件将重新交由它的父元素去处理，即父元素的 onTouchEvent 会被调用。意思就是事件一旦交给一个 View 来处理，那么它就必须消耗掉，否则同一事件序列中剩下的事件就不再交给它来处理。<br><br><br> 这个结论可以结合代码来理解：<br><strong><code>某个 View 一旦开始处理事件</code></strong>：在开始循环前各个关键变量的值应该是这样的：<br>1.<code>mFirstTouchTarget</code>一定为空<br>2.<code>intercepted</code>一定为 false<br>3.可以推出<code>actionMasked == MOtionEvent.ACTION_DOWN</code>（这里参照 3.1 的部分）。<br><br> 之后遍历子 View 开始，在确定了<strong>某一个</strong>子 View <em>CV</em> 能接收到事件后，调用<em>CV</em>的<code>dispatchTouchEvent</code>方法（<code>dispatchTransformedTouchEvent</code>方法内部）：<br> - 若<code>dispatchTouchEvent</code>返回 true ，表示<em>CV</em>消耗了<strong>ACTION_DOWN</strong>事件，这时对<code>mFirstTouchTarget</code>赋值，使其指向<em>CV</em>，并跳出循环。当此次事件序列的下一个事件到达，假设为 ACTION_MOVE，此时<code>mFirstTouchTarget != null</code>成立，如果<em>CV</em>调用了<code>requestDisallowInterceptTouchEvent</code>方法启用<code>FLAG_DISALLOW_INTERCEPT</code>标记位（<code>disallowIntercept 为 true</code>），则 <code>intercepted</code>为 false，若<code>FLAG_DISALLOW_INTERCEPT</code>标记位没有被启用，那么 ViewGroup 的 <code>onInterceptTouchEvent</code>再次调用，参考 <a href="#rule">规则 1 </a>可以知道，一般情况下<code>intercepted</code>也会为 false，那么 <strong>同一事件序列中的其他事件都会交给它处理</strong>。<br> - 若<code>dispatchTouchEvent</code>返回 false，即 <em>CV</em> 不消耗 ACTION_DOWN 事件（onTouchEvent返回false）,此时会继续往下遍历子 View，如果遍历结束都没有被处理，那么 ViewGroup 将自己处理该事件，即<strong>父元素的 onTouchEvent 会被调用</strong>。<br><br>###### 3.2 View 的 dispatchTouchEvent 方法<br><br>View 的<code>dispatchTouchEvent</code>方法要简单一些，这里的 View 不包括 ViewGroup 。<br>&gt;View（不包括 ViewGroup）做为一个单独的元素，它没有子元素无法向下传递事件，所以只能自己处理事件。<br><br>（一） 事件传递到了某一个具体的 View 那就表明该 View 能接收到触摸事件，传递过来的第一个事件一定是此次事件序列的 <code>ACTION_DOWN</code> 事件，如果 View 消耗了 <code>ACTION_DOWN</code> 事件（返回true），那么该事件序列的后续事件都会传递给他，如果没消耗 <code>ACTION_DOWN</code> ，那么它将无法收到后续事件。参考  <a href="#result3">结论 3 </a><br><br>如果 View 只想处理 <code>ACTION_DOWN</code> 事件，而不处理其他事件，那可以覆写 <code>dispatchTouchEvent</code>方法或通过设置监听器实现（<code>setOnTouchListener(OnTouchListener l)</code>），在方法中加入如下判断即可：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="keyword">if</span>(event.getAction() == MotionEvent.ACTION_DOWN)</div><div class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">...</div></pre></td></tr></table></figure><br><br>（二） 内部监听和外部监听<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">-------------View#dispatchTouchEvent---------------</div><div class="line"> public boolean dispatchTouchEvent(MotionEvent event) &#123;</div><div class="line">...</div><div class="line">        if (onFilterTouchEventForSecurity(event)) &#123;</div><div class="line">            if ((mViewFlags &amp; ENABLED_MASK) == ENABLED &amp;&amp; handleScrollBarDragging(event)) &#123;</div><div class="line">                result = true;</div><div class="line">            &#125;</div><div class="line">            //noinspection SimplifiableIfStatement</div><div class="line">            ListenerInfo li = mListenerInfo;</div><div class="line">            if (li != null &amp;&amp; li.mOnTouchListener != null</div><div class="line">                    &amp;&amp; (mViewFlags &amp; ENABLED_MASK) == ENABLED</div><div class="line">                    &amp;&amp; li.mOnTouchListener.onTouch(this, event)) &#123;</div><div class="line">                result = true;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if (!result &amp;&amp; onTouchEvent(event)) &#123;</div><div class="line">                result = true;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">...</div><div class="line">        return result;</div><div class="line">    &#125;</div></pre></td></tr></table></figure><br><br>&gt;从源码可以看出，首先会判断有没有设置 OnTouchListener ，如果有，并且 OnTouchListener 中的 onTouch 方法返回 true，那么 onTouchEvent 就不会被调用，可见 OnTouchListener 的优先级高于 OnTouchEvent，这样做的好处是方便在外界处理触摸事件。<br><br>所以如果想屏蔽 View 默认的触摸事件处理只需为 View 设置监听器并返回 true 即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">view.setOnTouchListener(<span class="keyword">new</span> View.OnTouchListener() &#123;</div><div class="line">	  <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View v, MotionEvent event)</span> </span>&#123;</div><div class="line">          <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">      &#125;</div><div class="line"> &#125;);</div></pre></td></tr></table></figure><br><br>（三）View 的 onTouchEvent 对 DISEABLED 的处理<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</div><div class="line">    ...</div><div class="line">     <span class="keyword">if</span> ((viewFlags &amp; ENABLED_MASK) == DISABLED) &#123;</div><div class="line">         <span class="keyword">if</span> (action == MotionEvent.ACTION_UP &amp;&amp; (mPrivateFlags &amp; PFLAG_PRESSED) != <span class="number">0</span>) &#123;</div><div class="line">             setPressed(<span class="keyword">false</span>);</div><div class="line">         &#125;</div><div class="line">         <span class="comment">// A disabled view that is clickable still consumes the touch</span></div><div class="line">         <span class="comment">// events, it just doesn't respond to them.</span></div><div class="line">         <span class="keyword">return</span> (((viewFlags &amp; CLICKABLE) == CLICKABLE</div><div class="line">                 || (viewFlags &amp; LONG_CLICKABLE) == LONG_CLICKABLE)</div><div class="line">                 || (viewFlags &amp; CONTEXT_CLICKABLE) == CONTEXT_CLICKABLE);</div><div class="line">     &#125;</div><div class="line">...</div><div class="line">     <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure><br><br>&gt;从源码可看出，当 View 处于不可用状态时，只要 CLICKABLE ，LONG_CLICKABLE 和 CONTEXT_CLICKABLE  有一者为 true，onTouchEvent 就会返回 true，即消耗事件。<br><br>这里有个<code>CONTEXT_CLICKABLE</code>，这个常量指的又是什么呢？<br><code>CONTEXT_CLICKABLE</code>是 Android SDK 23 （Android 6.0）加入的，表示触控笔上下文单击（触控笔按钮）和鼠标右键单击是否可用。为其设置监听器时应使用 onContextClick 代替 onStylusButtonPress。<br><br>（四）View 的 onTouchEvent 对点击事件的实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</div><div class="line">    ...</div><div class="line">      <span class="keyword">if</span> (((viewFlags &amp; CLICKABLE) == CLICKABLE ||</div><div class="line">             (viewFlags &amp; LONG_CLICKABLE) == LONG_CLICKABLE) ||</div><div class="line">             (viewFlags &amp; CONTEXT_CLICKABLE) == CONTEXT_CLICKABLE) &#123;</div><div class="line">       <span class="keyword">switch</span> (action) &#123;</div><div class="line">       <span class="keyword">case</span> MotionEvent.ACTION_UP:</div><div class="line">        ...</div><div class="line">                         <span class="keyword">if</span> (!focusTaken) &#123;</div><div class="line">                             <span class="comment">// Use a Runnable and post this rather than calling</span></div><div class="line">                             <span class="comment">// performClick directly. This lets other visual state</span></div><div class="line">                             <span class="comment">// of the view update before click actions start.</span></div><div class="line">                             <span class="keyword">if</span> (mPerformClick == <span class="keyword">null</span>) &#123;</div><div class="line">                                 mPerformClick = <span class="keyword">new</span> PerformClick();</div><div class="line">                             &#125;</div><div class="line">                             <span class="keyword">if</span> (!post(mPerformClick)) &#123;</div><div class="line">                                 performClick();</div><div class="line">                             &#125;</div><div class="line">                         &#125;</div><div class="line">                     &#125;</div><div class="line">...</div><div class="line">     <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure><br><br>&gt;当 ACTION_UP 事件到达时，会触发 performClick 方法，如果 View 设置了 OnClickListener，那么 performClick 内部会调用它的 onClick 方法。<br><br>注释中说明了要使用 post 方法通过 Handler 执行 onClick，这让我们能够在 onClick 执行之前看到 View 的状态更新。<br><br>（五）CLICKABLE ，LONG_CLICKABLE 和 CONTEXT_CLICKABLE  的设置<br>&gt;View 的 LONG_CLICKABLE 属性默认为 false ，而 CLICKABLE 属性是否为 false 和具体的 View 相关，确切来说是可点击的 View 的 CLICKABLE 为 true ，不可点击的 View 的 CLICKABLE 为 false，比如 Button 是可点击的，而 TextView 是不可点击 的。通过 setClickable 、 setLongClickable 和 setContextClickable 可修改三者的值。另外，setOnClickListener、setOnLongClickListener 和 setOnContextClickListener 方法内部会自动将 View 的对应属性的 XXXable 值改为 true。<br><br>文章大部分摘抄自《Android 开发艺术探索》，第三章 3.4 节 —— View的事件分发机制，加上部分自己的理解，可能有错误，欢迎指正。<br><center><u><b><em>END</em></b></u></center>
 
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/09/Android-的布局管理器（下篇）-GridLayout、AbsoluteLayout、android单位转换/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/09/Android-的布局管理器（下篇）-GridLayout、AbsoluteLayout、android单位转换/" itemprop="url">Android：的布局管理器（下篇）-GridLayout、AbsoluteLayout、android单位转换</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-09T14:22:11+08:00">
-                2017-03-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>线性布局，表格布局、帧布局和相对布局的介绍参看上一篇博文：<br><a href="http://blog.csdn.net/aimeimeits/article/details/59174975" target="_blank" rel="external">Android的布局管理器（上篇）</a></p>
-</blockquote>
-<ul>
-<li><font color="green">网格布局</font></li>
-<li><font color="green">绝对布局</font>
-
-</li>
-</ul>
-<h4 id="网格布局"><a href="#网格布局" class="headerlink" title="网格布局"></a>网格布局</h4><ol>
-<li>网格布局由GridLayout类表示，它是Android4.0新增的布局管理器。如果希望在更早的Android平台上使用该布局管理器，则需要导入相应支撑库。</li>
-<li>GridLayout的作用类似HTML中的table标签，它把整个容器划分成rows $\times$Columns个网格，每个网格可以放置一个组件，除此之外也可以设置一个组件<strong>横跨多少列</strong>，一个组件<strong>纵跨多少行</strong>。<blockquote>
-<p>参考：<a href="http://blog.csdn.net/pku_android/article/details/7343258" target="_blank" rel="external">浅谈android4.0开发之GridLayout布局</a><br> 如果需要设置某控件跨越多行或多列，只需将该子控件的android:layout_rowSpan或者layout_columnSpan属性设置为数值，再<strong>设置其layout_gravity属性为</strong><font color="red"><b>fill<b></b></b></font>即可，前一个设置表明该控件跨越的行数或列数，后一个设置表明该控件填满所跨越的整行或整列。</p>
-</blockquote>
-</li>
-</ol>
-<h5 id="GridLayout的常用属性"><a href="#GridLayout的常用属性" class="headerlink" title="GridLayout的常用属性"></a>GridLayout的常用属性</h5><ul>
-<li>android:alignmentMode   设置该布局管理器采用的对齐模式</li>
-<li>android:columnCount        设置该网格的列数量</li>
-<li>android:columnOrderPreserved   设置该网格布局管理器是否保留列序号</li>
-<li>android:rowCount              设置该网格的行数目</li>
-<li>android:rowOrderPreserved         设置该网格布局管理器是否保留行序号</li>
-<li>android:useDefaultMargins          设置布局管理器是否使用默认的页边距</li>
-</ul>
-<h5 id="GridLayout-LayoutParams常用属性"><a href="#GridLayout-LayoutParams常用属性" class="headerlink" title="GridLayout.LayoutParams常用属性"></a>GridLayout.LayoutParams常用属性</h5><ul>
-<li>android:layout_column        设置该子组件在GridLayout的第几列</li>
-<li>android:layout_columnSpan 设置该子组件在GridLayout横向上跨几行</li>
-<li>android:layout_gravity         设置该子组件采用何种方式占据该网格的空间</li>
-<li>android:layout_row              设置该子组件在GridLayout的第几行</li>
-<li>android:layout_rowSpan      设置该子组件在GridLayout纵向上跨几行</li>
-</ul>
-<h5 id="xml示例"><a href="#xml示例" class="headerlink" title="xml示例"></a>xml示例</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line"></div><div class="line">    &gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">GridLayout</span></span></div><div class="line">        <span class="attr">android:columnCount</span>=<span class="string">"4"</span></div><div class="line">        <span class="attr">android:rowCount</span>=<span class="string">"7"</span></div><div class="line"></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"bottom"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        &gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_columnSpan</span>=<span class="string">"4"</span></div><div class="line">            <span class="attr">android:paddingBottom</span>=<span class="string">"30dp"</span></div><div class="line">            <span class="attr">android:paddingLeft</span>=<span class="string">"16dp"</span></div><div class="line">            <span class="attr">android:paddingTop</span>=<span class="string">"30dp"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"22 * 10"</span></div><div class="line">            <span class="attr">android:textSize</span>=<span class="string">"30sp"</span></div><div class="line">            <span class="attr">android:textStyle</span>=<span class="string">"bold"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_columnSpan</span>=<span class="string">"4"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"right"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"clear"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"0"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"left"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#fff8f8"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"7"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line"></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"1"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#fde3e3"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"8"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#ffd9d9"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"9"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"3"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"right"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#ffc6c6"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"/"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"0"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"left"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"3"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#fff8f8"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"4"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line"></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"1"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"3"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#ffdbfb"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"5"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"3"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#ffc5f9"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"6"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"3"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"right"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"3"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#ff96f3"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"*"</span> /&gt;</div><div class="line"></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"0"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"left"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"4"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#fff8f8"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"1"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line"></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"1"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"4"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#fdcdce"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"2"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"4"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#ffbdbe"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"3"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"3"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"right"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"4"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#fd8789"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"-"</span> /&gt;</div><div class="line"></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"0"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"5"</span></div><div class="line">            <span class="attr">android:layout_columnSpan</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"fill"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#d9eaff"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"0"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line"></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"5"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#bbd9ff"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"."</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:textSize</span>=<span class="string">"30sp"</span></div><div class="line">            <span class="attr">android:textColor</span>=<span class="string">"#585858"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_columnSpan</span>=<span class="string">"3"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"fill"</span></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"0"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"6"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#7bedff"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"="</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">            <span class="attr">style</span>=<span class="string">"@style/Base.Widget.AppCompat.Button.Borderless.Colored"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line"></div><div class="line">            <span class="attr">android:layout_rowSpan</span>=<span class="string">"2"</span></div><div class="line">            <span class="attr">android:layout_column</span>=<span class="string">"3"</span></div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"fill"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">            <span class="attr">android:layout_row</span>=<span class="string">"5"</span></div><div class="line">            <span class="attr">android:background</span>=<span class="string">"#7dcfff"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"+"</span> /&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">GridLayout</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
-<p><img src="http://img.blog.csdn.net/20170309141059507?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="截图"></p>
-<h4 id="绝对布局"><a href="#绝对布局" class="headerlink" title="绝对布局"></a>绝对布局</h4><ol>
-<li>绝对布局由AbsoluteLayout表示，对于AbsoluteLayout布局Android不提供任何控制，而是由开发人员自己用过X坐标和Y坐标来控制组件的位置，以及其他的一些属性。</li>
-<li>大部分时候，使用绝对布局都不是一个好思路，因为运行Android应用的手机往往千差万别，因此屏幕分辨率，大小都可能存在较大差异，使用绝对布局会很难兼顾不同屏幕分辨率，大小不同的问题，因此<font color="#0000ff">AbsoluteLayout已经过时。</font></li>
-</ol>
-<h5 id="xml属性"><a href="#xml属性" class="headerlink" title="xml属性"></a>xml属性</h5><p>android:layout_x     指定该子组件的x坐标<br>android:layout_y     指定该子组件的y坐标</p>
-<h4 id="Android单位与换算"><a href="#Android单位与换算" class="headerlink" title="Android单位与换算"></a>Android单位与换算</h4><blockquote>
-<p>详细可参考：<a href="http://mp.weixin.qq.com/s?__biz=MzA4NTQwNDcyMA==&amp;mid=2650662634&amp;idx=1&amp;sn=88ee5d63f2552e65d5a0d7d8b1b5e055&amp;chksm=87d13bb5b0a6b2a3b39bebacbf322277fed65fc416ca35f9d4222e65a0fefccb6a2e9a8c9c2b&amp;mpshare=1&amp;scene=23&amp;srcid=0309RIgiFGJ1xIrK4O07POVS#rd" target="_blank" rel="external">关于 Android 适配，看完这篇文章就够了</a></p>
-</blockquote>
-<h5 id="单位"><a href="#单位" class="headerlink" title="单位"></a>单位</h5><ul>
-<li>px（像素）：每一个px对应屏幕上的一点</li>
-<li>in：表示英寸，每英寸相当于2.54厘米</li>
-<li>dpi（屏幕像素密度）：每英寸的像素点数比如120dpi、160dpi等，其值与屏幕尺寸和分辨率有关</li>
-<li>dp/dip（设备独立像素）：密度无关像素，以160dpi为基准。如求xdip对应的像素值y：<br>$\frac{dpi}{160}\times x=y$</li>
-</ul>
-<h5 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h5><font color="#df0000" face="黑体">一个手机屏幕分辨率为480*800，屏幕尺寸为3.7in。求其dpi？在布局中宽设为320dp时相当于多少px？</font>
-
-<ul>
-<li>dpi：$ \frac{\sqrt{480^2+800^2}}{3.7}  =252dpi$  <br><br></li>
-<li>320dp：$\frac{252}{160}\times320=504dp $<br><br></li>
-</ul>
-<p><em>然而手机屏幕才480px，算出的结果却是504px！</em><br><br><br><strong>注意：</strong><br>手机上面计算dpi为理论值，实际上只有120(low)，160(medium)，240(high)，320(xhigh)等几种，因此实际的计算公式为：<code>320</code>$\times\frac{240}{160}=480px$，与屏幕宽度相同，刚好占据整个屏幕。</p>
-<center><u><b><em>END</em></b></u></center>
           
         
       
@@ -1071,7 +413,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1233,7 +575,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
+    NexT.Mist
   </a>
 </div>
 
@@ -1312,13 +654,6 @@
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
-
-
 
   
 
