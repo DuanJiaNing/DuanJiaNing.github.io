@@ -264,7 +264,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/19/Kotlin-学习笔记-01/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/30/n 阶贝塞尔曲线计算公式实现 (1)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James Duan">
@@ -283,7 +283,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/05/19/Kotlin-学习笔记-01/" itemprop="url">Kotlin 学习笔记 - 01</a></h1>
+                <a class="post-title-link" href="/2017/05/30/n 阶贝塞尔曲线计算公式实现 (1)/" itemprop="url">n 阶贝塞尔曲线计算公式实现</a></h1>
         
 
         <div class="post-meta">
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-19T16:41:11+08:00">
-                2017-05-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-30T12:15:13+08:00">
+                2017-05-30
               </time>
             
 
@@ -308,6 +308,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/30/n 阶贝塞尔曲线计算公式实现 (1)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/30/n 阶贝塞尔曲线计算公式实现 (1)/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -332,41 +342,17 @@
       
         
           
-            <p>原文地址：<a href="http://www.cnblogs.com/figozhg/p/4983919.html" target="_blank" rel="external">用Kotlin开发Android应用</a></p>
-<h3 id="1-类定义"><a href="#1-类定义" class="headerlink" title="1 类定义"></a>1 类定义</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Personal</span></span>(</div><div class="line">        <span class="keyword">var</span> name: String,</div><div class="line">        <span class="keyword">var</span> id: <span class="built_in">Int</span> = <span class="number">1</span>,</div><div class="line">        <span class="keyword">var</span> sex: String = <span class="string">"male"</span></div><div class="line">)</div></pre></td></tr></table></figure>
-<p>格式：类名(构造参数…)<br>构造参数可以指定默认值，那么在初始化实例时，对应位置参数就可以不传值，方法也是，但这里要注意顺序的问题，如 id 不想传值，sex 想传值，这种情况的话似乎不行（就目前学到的关于 Kotlin 的知识来说）<br>初始化方式有以下几种：<br><code>val per = Personal(12)</code><br><code>val per1 = Personal(13,&quot;lili&quot;)</code><br><code>val per2 = Personal(14,&quot;tom&quot;,&quot;male&quot;)</code><br>另外构造参数同时可以作为该类的属性（域），可以直接操作：<br><code>per.name = &quot;jack&quot;</code><br><code>val id = per.id</code></p>
-<h3 id="2-字符串构造"><a href="#2-字符串构造" class="headerlink" title="2 字符串构造"></a>2 字符串构造</h3><p>使用 <code>${}</code> 嵌入字符串中<br><code>System.out.println(&quot;person name is = ${per.name}&quot;)</code><br>如果对变量直接引用则只需使用 <code>$</code> 后跟变量名即可<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">(</span></span></div><div class="line">        <span class="keyword">var</span> sex = <span class="string">"male"</span></div><div class="line">        System.<span class="keyword">out</span>.println(<span class="string">"person sex is = <span class="subst">$sex</span>"</span>)</div><div class="line">)</div></pre></td></tr></table></figure></p>
-<p>注意：<br>当<code>$sex</code>紧接着就是字母、数字或下划线时仍需要使用 <code>{}</code></p>
-<h3 id="3-空类型安全"><a href="#3-空类型安全" class="headerlink" title="3 空类型安全"></a>3 空类型安全</h3><h4 id="3-1-使用-显示指明对象可以为-null"><a href="#3-1-使用-显示指明对象可以为-null" class="headerlink" title="3.1 使用 ? 显示指明对象可以为 null"></a>3.1 使用 <code>?</code> 显示指明对象可以为 null</h4><p>此时要明确指定数据类型<br><code>var sex: String?</code><br>也只有这样，这个参数才能被赋为 null<br><code>var sex: String? = null</code><br>即不能为 null （没有 ? ）的变量是不允许赋 null 的，从而避免遇到非预期的空指针异常</p>
-<p>当变量可以为 null ，那么使用该变量的时候 Kotlin 就强制必须判断是否为 null<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> mTextView:TextView? = <span class="literal">null</span></div><div class="line"></div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</div><div class="line">        setContentView(R.layout.activity_main)</div><div class="line">        initViews(<span class="literal">null</span>)</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">initViews</span><span class="params">(view: <span class="type">View</span>?)</span></span> &#123;</div><div class="line">        mTextView = findViewById(R.id.text_view) <span class="keyword">as</span> TextView?</div><div class="line">        mTextView?.text = <span class="string">"i have change the text"</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>注意这一句，如果不加 <code>?</code>，编译是无法通过的。<br><code>mTextView?.text = &quot;i have change the text&quot;</code></p>
-<h4 id="3-2-确定不为-null-才使用，否则抛出异常"><a href="#3-2-确定不为-null-才使用，否则抛出异常" class="headerlink" title="3.2 确定不为 null 才使用，否则抛出异常"></a>3.2 确定不为 null 才使用，否则抛出异常</h4><p><code>id!!.toString()</code><br>使用 <code>!!</code> 代表，表示使用的时候开发者断定此变量一定不会为 null 。但如果开发者错了，变量为 null，那么程序会抛运行时异常而立即终止，开发者需要承担程序终止的风险，所有没十足的把握就尽量不用吧。</p>
-<h4 id="3-3-如果为空就给一个值"><a href="#3-3-如果为空就给一个值" class="headerlink" title="3.3 如果为空就给一个值"></a>3.3 如果为空就给一个值</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">testNull</span><span class="params">(id: <span class="type">Int</span>? = <span class="literal">null</span>)</span></span> &#123;</div><div class="line">       <span class="keyword">val</span> caseNull = id?.toString()</div><div class="line">       <span class="keyword">val</span> tr = caseNull ?: <span class="string">"144"</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>id 不为 null 才调用 toString 方法，id 为 null 则 id.toString 也为 null，此时caseNull 也会为 null，要使 caseNull 不为 null，就使用 <code>?:</code> 为其指定一个值。<br>也可以简写为：<code>val tr = id?.toString()?: &quot;144&quot;</code></p>
-<h3 id="4-扩展函数"><a href="#4-扩展函数" class="headerlink" title="4 扩展函数"></a>4 扩展函数</h3><p>可以为任何类添加新函数，只需在函数名前加上类名。在调用处，该函数将被导入到类中。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Util</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">fun</span> Activity.<span class="title">toast</span><span class="params">(context: <span class="type">Context</span>, message: <span class="type">CharSequence</span>, duration: <span class="type">Int</span> = Toast.LENGTH_SHORT)</span></span> &#123;</div><div class="line">    Toast.makeText(context, <span class="string">"msg:<span class="subst">$message</span>"</span>, duration).show()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>可以在 Activity 中这样使用</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">val</span> util = Util()</div><div class="line">    util.toast(<span class="keyword">this</span>,<span class="string">"a test msg"</span>)</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>但不能过度使用，应创建专门的委托类</p>
-<h3 id="5-函数式支持"><a href="#5-函数式支持" class="headerlink" title="5 函数式支持"></a>5 函数式支持</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">val</span> util = Util()</div><div class="line">	<span class="keyword">val</span> tv = TextView(<span class="keyword">this</span>)</div><div class="line">	tv.setOnClickListener &#123; </div><div class="line">	    <span class="keyword">var</span> i = <span class="number">12</span></div><div class="line">	    util.toast(<span class="keyword">this</span>,<span class="string">"click <span class="subst">$i</span>"</span>)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="6-when-关键字"><a href="#6-when-关键字" class="headerlink" title="6 when 关键字"></a>6 when 关键字</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</div><div class="line">     <span class="keyword">var</span> ii = <span class="number">0</span></div><div class="line">        <span class="keyword">when</span> (ii) &#123;</div><div class="line">            <span class="number">0</span> -&gt; println( <span class="string">"0：<span class="subst">$ii</span>"</span>)</div><div class="line">            <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10</span> -&gt; println(<span class="string">"1-10：<span class="subst">$ii</span>"</span>)</div><div class="line">            <span class="keyword">else</span> -&gt; println(<span class="string">"<span class="subst">$ii</span>"</span>)</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>in：在区间内（闭区间）<br>else：否则</p>
-<h3 id="7-open-关键字"><a href="#7-open-关键字" class="headerlink" title="7 open 关键字"></a>7 open 关键字</h3><p>一个类想被继承，必须标注为 open<br>一个方法想被覆写，父类方法上要加 open，子类覆写时要加 override</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Util</span> </span>&#123;</div><div class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">getUtil</span><span class="params">()</span></span>: Util &#123;</div><div class="line">        <span class="keyword">return</span> Util()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">StringUtil</span> : <span class="type">Util</span></span>() &#123;</div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getUtil</span><span class="params">()</span></span>: Util &#123;</div><div class="line">        <span class="keyword">return</span> StringUtil()</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="8-Data-class"><a href="#8-Data-class" class="headerlink" title="8 Data class"></a>8 Data class</h3><p>Java 中我们会创建一些只用于保存数据的实体类</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(</div><div class="line">        <span class="keyword">var</span> name: String,</div><div class="line">        <span class="keyword">var</span> id: <span class="built_in">Int</span></div><div class="line">)</div></pre></td></tr></table></figure>
-<p>hashCode equals toString getter/setter 自动生成</p>
-<h3 id="9-其他知识点"><a href="#9-其他知识点" class="headerlink" title="9 其他知识点"></a>9 其他知识点</h3><ul>
-<li>语句末可以（推荐）不使用 ; 号</li>
-<li>强类型语言：变量类型确定后就不能更改（不能强转）</li>
-<li>var：一般类型</li>
-<li>val：最终类型（只能赋值一次）</li>
-<li>使用 : 代替 java 中的 extends 关键字，所继承的类型同时要调用其构造方法</li>
-<li>类型和名称以另一种方式编写，用冒号分割。</li>
-<li>在Java中，我们可以用注释使我们的代码更清晰，但不是必须的。而Kotlin强制我们这么做。</li>
-<li>方法参数：类型和名称以另一种方式编写，用冒号分割。</li>
-<li>显示使用 override </li>
-</ul>
+            <h3 id="n-阶贝塞尔曲线计算公式实现"><a href="#n-阶贝塞尔曲线计算公式实现" class="headerlink" title="n 阶贝塞尔曲线计算公式实现"></a>n 阶贝塞尔曲线计算公式实现</h3><p>关于贝塞尔曲线是什么，可以用来做什么，这里就不再介绍，如果你还不了解，可以先去看看下面这篇文章：<a href="http://blog.csdn.net/cdnight/article/details/48468653" target="_blank" rel="external">贝塞尔曲线扫盲</a></p>
+<h4 id="1-效果参考"><a href="#1-效果参考" class="headerlink" title="1. 效果参考"></a>1. 效果参考</h4><table><br><tr><br><td><br><img src="http://img.blog.csdn.net/20170530115228765?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"><br></td><br><td><br><img src="http://htmljs.b0.upaiyun.com/uploads/1415845715278-bezier-quadratic-animation.gif"><br></td><br></tr><br></table><br><img src="http://img.blog.csdn.net/20170530115632598?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"><br>#### 2. 思路解析<br><br>百度百科上给出的一般参数公式是这样的：<br>给定点 P0,P1,P2, … ,Pn，其贝塞尔曲线公式如下（即贝塞尔曲线上的点 B(t) 可由如下公式计算得到）：<br><img src="http://img.blog.csdn.net/20170530115146448?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><br>可以看出其公式是由一个格式固定的表达式之和来表示，这个表达式就是关键：<br><img src="http://img.blog.csdn.net/20170530115205624?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>该表达式可分为四个部分看：<br><br>- 从 i 递增到 n 的常数部分<br>- Pi 坐标部分<br>- (1 - t)^(n - i)<br>- t^i<br>可以看出这四部分都与 i 的值相关，此外 t 值的计算方式为：i/(n+1)<br><br>##### 如果直接从上面的公式上找规律比较抽象，那就从具体的例子中找规律吧：<br><br>设 Bt 为要计算的贝塞尔曲线上的坐标，N 为控制点个数，P0,P1,P2..Pn 为贝塞尔曲线控制点的坐标，当 N 值不同时有如下计算公式:<br>如 N 为 3 表示贝塞尔曲线的控制点有 3 个点，这时 n 为 2 ，这三个点分别用 P0,P1,P2 表示。<br><br>- N = 3: P = (1-t)^2<em>P0 + 2</em>(1-t)<em>t</em>P1 + t^2<em>P2 <br><br>- N = 4: P = (1-t)^3</em>P0 + 3<em>(1-t)^2</em>t<em>P1 + 3(1-t)</em>t^2<em>P2 + t^3</em>P3 <br><br>- N = 5: P = (1-t)^4<em>P0 + 4</em>(1-t)^3<em>t</em>P1 + 6(1-t)^2<em>t^2</em>P2 + 4<em>(1-t)</em>t^3<em>P3 + t^4</em>P4 <br><br><br>将贝塞尔曲线一般参数公式中的表达式用如下方式表示：<br>设有常数 a,b 和 c，则该表达式可统一表示为如下形式：<br>a <em> (1 - t)^b </em> t^c <em> Pn;<br><br>分析当 N 分别为3,4,5 时对应 a,b,c 的值：<br>如 N = 3 时，公式有三个表达式，第一个表达式为 (1-t)^2</em>P0，其对应 a,b,c 值分别为：1,2,0<br><br>- N = 3:&nbsp;&nbsp;&nbsp;1,2,0&nbsp;&nbsp;&nbsp;2,1,1&nbsp;&nbsp;&nbsp;1,0,2<br>a: 1 2 1<br>b: 2 1 0<br>c: 0 1 2<br>- N = 4:&nbsp;&nbsp;&nbsp;1,3,0&nbsp;&nbsp;&nbsp;3,2,1&nbsp;&nbsp;&nbsp;3,1,2&nbsp;&nbsp;&nbsp;1,0,3<br>a: 1 3 3 1<br>b: 3 2 1 0<br>c: 0 1 2 3<br>- N = 5:&nbsp;&nbsp;&nbsp;1,4,0&nbsp;&nbsp;&nbsp;4,3,1&nbsp;&nbsp;&nbsp;6,2,2&nbsp;&nbsp;&nbsp;4,1,3&nbsp;&nbsp;&nbsp;1,0,4<br>a: 1 4 6 4 1<br>b: 4 3 2 1 0<br>c: 0 1 2 3 4<br><br>根据上面的分析就可以总结出 a,b,c 对应的取值规则：<br><br>- b: (N - 1) 递减到 0     (b 为 1-t 的幂)<br>- c: 0 递增到 (N - 1)     (c 为 t 的幂)<br>- a: 在 N 分别为 1,2,3,4,5 时将其值用如下形式表示： <br><br>N=1:———1<br>N=2:——–1&nbsp;&nbsp;1<br>N=3:——1&nbsp;&nbsp;2&nbsp;&nbsp;1<br>N=4:—–1&nbsp;&nbsp;3&nbsp;&nbsp;3&nbsp;&nbsp;1<br>N=5:—1&nbsp;&nbsp;4&nbsp;&nbsp;6&nbsp;&nbsp;4&nbsp;&nbsp;1<br>a 值的改变规则为： <a href="http://baike.baidu.com/item/杨辉三角" target="_blank" rel="external">杨辉三角</a><br><br>#### 3. 使用 java 来实现<br>接下来就实现它：先再来一个例子<br>比如计算控制点坐标分别为：P0(3,8)，P1(2,3)，P2(2,7)，想要返回 10 个在贝塞尔曲线上的点，用 java 可以这样写：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">float</span>[] p0 = &#123;<span class="number">3</span>, <span class="number">8</span>&#125;;</div><div class="line">        <span class="keyword">float</span>[] p1 = &#123;<span class="number">4</span>, <span class="number">3</span>&#125;;</div><div class="line">        <span class="keyword">float</span>[] p2 = &#123;<span class="number">2</span>, <span class="number">7</span>&#125;;</div><div class="line">        <span class="keyword">float</span>[][] result = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">10</span>][<span class="number">2</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            <span class="keyword">float</span> t = i / <span class="number">10</span>;</div><div class="line">            result[i][<span class="number">0</span>] = (<span class="keyword">float</span>) (<span class="number">1</span> * Math.pow(<span class="number">1</span> - t, <span class="number">2</span>) * Math.pow(t, <span class="number">0</span>) * p0[<span class="number">0</span>] + <span class="number">2</span> * Math.pow(<span class="number">1</span> - t, <span class="number">1</span>) * Math.pow(t, <span class="number">1</span>) * p1[<span class="number">0</span>] + <span class="number">1</span> * Math.pow(<span class="number">1</span> - t, <span class="number">0</span>) * Math.pow(t, <span class="number">2</span>) * p2[<span class="number">0</span>]);</div><div class="line">            result[i][<span class="number">1</span>] = (<span class="keyword">float</span>) (<span class="number">1</span> * Math.pow(<span class="number">1</span> - t, <span class="number">2</span>) * Math.pow(t, <span class="number">0</span>) * p0[<span class="number">1</span>] + <span class="number">2</span> * Math.pow(<span class="number">1</span> - t, <span class="number">1</span>) * Math.pow(t, <span class="number">1</span>) * p1[<span class="number">1</span>] + <span class="number">1</span> * Math.pow(<span class="number">1</span> - t, <span class="number">0</span>) * Math.pow(t, <span class="number">2</span>) * p2[<span class="number">1</span>]);</div><div class="line">        &#125;</div></pre></td></tr></table></figure><br><br>好了，最后的计算方法是下面这个：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">     <span class="comment">/**</span></div><div class="line">     * <span class="doctag">@param</span> poss      贝塞尔曲线控制点坐标</div><div class="line">     * <span class="doctag">@param</span> precision 精度，需要计算的该条贝塞尔曲线上的点的数目</div><div class="line">     * <span class="doctag">@return</span> 该条贝塞尔曲线上的点（二维坐标）</div><div class="line">	 */</div><div class="line"><span class="keyword">public</span> <span class="keyword">float</span>[][] calculate(<span class="keyword">float</span>[][] poss, <span class="keyword">int</span> precision) &#123;</div><div class="line"></div><div class="line">        <span class="comment">//维度，坐标轴数（二维坐标，三维坐标...）</span></div><div class="line">        <span class="keyword">int</span> dimersion = poss[<span class="number">0</span>].length;</div><div class="line"></div><div class="line">        <span class="comment">//贝塞尔曲线控制点数（阶数）</span></div><div class="line">        <span class="keyword">int</span> number = poss.length;</div><div class="line"></div><div class="line">        <span class="comment">//控制点数不小于 2 ，至少为二维坐标系</span></div><div class="line">        <span class="keyword">if</span> (number &lt; <span class="number">2</span> || dimersion &lt; <span class="number">2</span>)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">float</span>[][] result = <span class="keyword">new</span> <span class="keyword">float</span>[precision][dimersion];</div><div class="line"></div><div class="line">        <span class="comment">//计算杨辉三角</span></div><div class="line">        <span class="keyword">int</span>[] mi = <span class="keyword">new</span> <span class="keyword">int</span>[number];</div><div class="line">        mi[<span class="number">0</span>] = mi[<span class="number">1</span>] = <span class="number">1</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= number; i++) &#123;</div><div class="line"></div><div class="line">            <span class="keyword">int</span>[] t = <span class="keyword">new</span> <span class="keyword">int</span>[i - <span class="number">1</span>];</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; t.length; j++) &#123;</div><div class="line">                t[j] = mi[j];</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            mi[<span class="number">0</span>] = mi[i - <span class="number">1</span>] = <span class="number">1</span>;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i - <span class="number">2</span>; j++) &#123;</div><div class="line">                mi[j + <span class="number">1</span>] = t[j] + t[j + <span class="number">1</span>];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//计算坐标点</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; precision; i++) &#123;</div><div class="line">            <span class="keyword">float</span> t = (<span class="keyword">float</span>) i / precision;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; dimersion; j++) &#123;</div><div class="line">                <span class="keyword">float</span> temp = <span class="number">0.0f</span>;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; number; k++) &#123;</div><div class="line">                    temp += Math.pow(<span class="number">1</span> - t, number - k - <span class="number">1</span>) * poss[k][j] * Math.pow(t, k) * mi[k];</div><div class="line">                &#125;</div><div class="line">                result[i][j] = temp;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div></pre></td></tr></table></figure><br><br>在 android 中继承 View 然后重写 onDraw 方法，在 Activity 绑定的布局文件中加入该自定义 View ，调用 calculate 方法就可以画出来任意阶的贝塞尔曲线啦。<br><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">........</div><div class="line">	<span class="comment">// calculate 方法在 BezierImpl 中实现</span></div><div class="line">    <span class="keyword">private</span> BezierImpl bezier = <span class="keyword">new</span> BezierImpl();</div><div class="line">    <span class="keyword">private</span> Paint paint = <span class="keyword">new</span> Paint();</div><div class="line">    <span class="keyword">float</span>[][] poss = &#123;</div><div class="line">            &#123;<span class="number">353.0f</span>, <span class="number">383.0f</span>&#125;,</div><div class="line">            &#123;<span class="number">670.0f</span>, <span class="number">266.0f</span>&#125;,</div><div class="line">            &#123;<span class="number">403.0f</span>, <span class="number">128.0f</span>&#125;,</div><div class="line">            &#123;<span class="number">148.0f</span>, <span class="number">369.0f</span>&#125;,</div><div class="line">            &#123;<span class="number">400.0f</span>, <span class="number">513.0f</span>&#125;,</div><div class="line">            &#123;<span class="number">564.0f</span>, <span class="number">503.0f</span>&#125;,</div><div class="line">            &#123;<span class="number">582.0f</span>, <span class="number">378.0f</span>&#125;,</div><div class="line">            &#123;<span class="number">682.0f</span>, <span class="number">878.0f</span>&#125;,</div><div class="line">            &#123;<span class="number">182.0f</span>, <span class="number">878.0f</span>&#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">        <span class="keyword">float</span> x0, y0, x, y;</div><div class="line">        paint.setColor(Color.DKGRAY);</div><div class="line">        paint.setStrokeWidth(<span class="number">3.0f</span>);</div><div class="line">        x0 = poss[<span class="number">0</span>][<span class="number">0</span>];</div><div class="line">        y0 = poss[<span class="number">0</span>][<span class="number">1</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; poss.length; i++) &#123;</div><div class="line">            x = poss[i][<span class="number">0</span>];</div><div class="line">            y = poss[i][<span class="number">1</span>];</div><div class="line">            canvas.drawLine(x0, y0, x, y, paint);</div><div class="line">            x0 = x;</div><div class="line">            y0 = y;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        paint.setColor(Color.RED);</div><div class="line">        paint.setStrokeWidth(<span class="number">5.0f</span>);</div><div class="line">        <span class="keyword">float</span>[][] po = bezier.calculate(poss, <span class="number">500</span>);</div><div class="line">        x0 = po[<span class="number">0</span>][<span class="number">0</span>];</div><div class="line">        y0 = po[<span class="number">0</span>][<span class="number">1</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">500</span>; i++) &#123;</div><div class="line">            x = po[i][<span class="number">0</span>];</div><div class="line">            y = po[i][<span class="number">1</span>];</div><div class="line">            canvas.drawLine(x0, y0, x, y, paint);</div><div class="line">            x0 = x;</div><div class="line">            y0 = y;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    ...........</div></pre></td></tr></table></figure><br><br>——<br>最后贴一个最近在做的一个自定义 View（GummyView），使用了到了贝塞尔曲线，用了上面的方法，有兴趣的话可以 Fork 或给我留言 &gt;.<a href="。
+地址：[DuanJiaNing/GummyView](https://github.com/DuanJiaNing/GummyView)
+
+目前实现的效果是这样的：
+&lt;table">。
+地址：[DuanJiaNing/GummyView](https://github.com/DuanJiaNing/GummyView)
+
+目前实现的效果是这样的：
+&lt;table</a><br><tr><br><td><img src="https://raw.githubusercontent.com/DuanJiaNing/GummyView/master/gummy_01.gif"></td><br><td><img src="https://raw.githubusercontent.com/DuanJiaNing/GummyView/master/gummy_02.gif"></td><br><td><img src="https://raw.githubusercontent.com/DuanJiaNing/GummyView/master/gummy_03.gif"></td><br></tr><br>
+
 <center><u><b><em>END</em></b></u></center>
           
         
@@ -405,7 +391,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -415,6 +401,7 @@
 
 
           
+
 
         </div>
         
@@ -450,7 +437,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -463,7 +450,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -658,31 +645,39 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"duanjianing.github.io/"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
   
 
 
 
 
-	
 
 
 
 
 
-  
 
-
-
-
-
-  
-
-
-
-
-
-  
 
 
 
