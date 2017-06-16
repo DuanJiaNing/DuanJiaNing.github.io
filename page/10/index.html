@@ -264,7 +264,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/网易2017春招笔试真题编程题集合——2.优雅的点/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/03/Android-Activity-的启动模式和标记位/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James Duan">
@@ -283,7 +283,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/04/10/网易2017春招笔试真题编程题集合——2.优雅的点/" itemprop="url">网易2017春招笔试真题编程题集合 —— 2.优雅的点</a></h1>
+                <a class="post-title-link" href="/2017/05/03/Android-Activity-的启动模式和标记位/" itemprop="url">Activity 的启动模式和标记位</a></h1>
         
 
         <div class="post-meta">
@@ -295,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T16:44:11+08:00">
-                2017-04-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-03T13:59:11+08:00">
+                2017-05-03
               </time>
             
 
@@ -314,8 +314,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/10/网易2017春招笔试真题编程题集合——2.优雅的点/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/10/网易2017春招笔试真题编程题集合——2.优雅的点/" itemprop="commentCount"></span>
+                <a href="/2017/05/03/Android-Activity-的启动模式和标记位/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/03/Android-Activity-的启动模式和标记位/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -342,34 +342,43 @@
       
         
           
-            <h3 id="网易2017春招笔试真题编程题集合——2-优雅的点"><a href="#网易2017春招笔试真题编程题集合——2-优雅的点" class="headerlink" title="网易2017春招笔试真题编程题集合——2.优雅的点"></a>网易2017春招笔试真题编程题集合——<strong>2.优雅的点</strong></h3><p>原题地址在这里：<a href="https://www.nowcoder.com/question/next?pid=4575457&amp;qid=83061&amp;tid=7519540" target="_blank" rel="external">牛客网</a></p>
-<h4 id="题目是这样的："><a href="#题目是这样的：" class="headerlink" title="题目是这样的："></a>题目是这样的：</h4><blockquote>
-<p>小易有一个圆心在坐标原点的圆，小易知道圆的半径的平方。小易认为在圆上的点而且横纵坐标都是整数的点是优雅的，小易现在想寻找一个算法计算出优雅的点的个数，请你来帮帮他。<br>例如：半径的平方如果为25<br>优雅的点就有：(+/-3, +/-4), (+/-4, +/-3), (0, +/-5) (+/-5, 0)，一共12个点。 </p>
+            <h3 id="android-Activity-的启动模式和标记位"><a href="#android-Activity-的启动模式和标记位" class="headerlink" title="android-Activity 的启动模式和标记位"></a>android-Activity 的启动模式和标记位</h3><h5 id="Activity-启动过程涉及到的几个概念"><a href="#Activity-启动过程涉及到的几个概念" class="headerlink" title="Activity 启动过程涉及到的几个概念"></a>Activity 启动过程涉及到的几个概念</h5><blockquote>
+<p>任务栈：</p>
 </blockquote>
-<p>输入描述：</p>
-<blockquote>
-<p>输入为一个整数，即为圆半径的平方,范围在32位int范围内。</p>
-</blockquote>
-<p>输出描述：</p>
-<blockquote>
-<p>输出为一个整数，即为优雅的点的个数</p>
-</blockquote>
-<p>输入例子：</p>
-<blockquote>
-<p>25</p>
-</blockquote>
-<p>输出例子</p>
-<blockquote>
-<p>12</p>
-</blockquote>
-<h4 id="用java编写，思路是这样的："><a href="#用java编写，思路是这样的：" class="headerlink" title="用java编写，思路是这样的："></a>用java编写，思路是这样的：</h4><p>1 使用<code>java.util.Scanner</code>接收控制台输入<br>2 定义三个变量<code>int in,count = 0;double radius</code>；in 用于接收输入的圆的半径的平方，count 计录优雅点的个数，radius 为开平方后得到的半径<br>3 用变量 <code>int x</code> 遍历 0 到 radius 间的整数，x 作为横坐标求出对应的纵坐标 y，判断纵坐标是否为整数（小数位全为0）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        <span class="keyword">int</span> in = scanner.nextInt();</div><div class="line">        <span class="keyword">double</span> radius = Math.sqrt(in);</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt;= radius; x++) &#123;</div><div class="line">            <span class="keyword">double</span> y = Math.sqrt(in - x * x);</div><div class="line"><span class="comment">//            System.out.println("(" + x + "," + y + ")");</span></div><div class="line">            <span class="keyword">if</span> (y % <span class="number">1.0</span> == <span class="number">0</span>) &#123;</div><div class="line">                count++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        System.out.println(radius % <span class="number">1.0</span> == <span class="number">0</span> ? count * <span class="number">4</span> - <span class="number">4</span> : count * <span class="number">4</span> + <span class="string">""</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><em>提交运行</em> 之后就会提示通过所有测试用例：<br><img src="http://img.blog.csdn.net/20170410164323047?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<h4 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h4><ul>
-<li>使用 Math.sqrt(double d) 求平方根</li>
-<li>半径 radius 要用 double 型保存，因为 最后通过判断半径是否为整数决定要不要保留圆上与横纵坐标的四个交点</li>
-<li>判断一个 double 型变量是否为整数 <code>number % 1.0 == 0</code></li>
+<p>任务栈又称 Task，顾名思义使用的是 <strong>栈</strong> 结构，具有先进后出的特点，栈中存放的是 Activity 组件的实例，我们每次启动一个 Activity （该 Activity 的 onCreate 方法将首次被调用），该 Activity 将被压入启动它的 Activity 所在的任务栈，或通过 Intent 指定<code>addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)</code>在新的任务栈中创建该 Activity。任务栈有前台和后台之分，后台任务栈中的 Activity 处于暂停状态，用户可以通过切换应用（<em>Activity</em>）将后台任务栈调到前台。</p>
+<p>####Activity 的 LaunchMode</p>
+<ol>
+<li>standard 标准模式：<br>标准模式为系统默认启动模式。在该模式下每次启动 Activity 都会重新创建一个新的实例，不管这个实例是否已经存在。在这种模式下，谁启动了这个 Activity ，那么这个 Activity 就运行在启动它的那个 Activity 所在的任务栈中。</li>
+<li>singleTop 栈顶复用模式：</li>
+</ol>
+<ul>
+<li>在这种模式下，如果新 Activity 已经位于任务栈的栈顶，那么此 Activity 不会被重新创建    。</li>
+<li>如果新 Activity 的实例已存在但不位于栈顶，那么新的 Activity 任会重新。</li>
+<li>onNewIntent 方法会被回调。</li>
+</ul>
+<ol>
+<li><p>singleTask 栈内复用模式：<br>在这种模式下，只要 Activity 在一个栈中存在，那么多次启动该 Activity 都不会重新创建实例，同时系统会回调其 onNewIntent 方法。可以分为如下三种情况进行区分：</p>
+<ul>
+<li>要启动的 Activity A 所需的任务栈 S 不存在：<br>系统先创建任务栈 S ，然后创建 A 并入栈到 S。</li>
+<li>要启动的 Activity A 所需的任务栈 S 存在，且任务栈 S 中不存在 A 的实例：<br>系统将创建 A 的实例并入栈到 S。</li>
+<li>要启动的 Activity A 所需的任务栈 S 存在，且任务栈 S 中存在 A 的实例 ：<ol>
+<li>实例 A 位于栈顶：<br>直接复用（<em>栈顶复用</em>） </li>
+<li>实例 A 不位于栈顶：<br>此时 A 不会重新创建，同时将实例 A 切换到栈顶（<em>使实例 A 上面的所有 Activity 出栈</em>）     </li>
+</ol>
+</li>
+</ul>
+</li>
+<li>singleInstance 单实例模式：<br>这是一种加强的 singleTask 模式，它具有 singleTask 的所有特性之外还有一个特性，那就是具有此种启动模式的 Activity 只能单独位于一个任务栈中。 </li>
+</ol>
+<h4 id="Activity-的-Flags"><a href="#Activity-的-Flags" class="headerlink" title="Activity 的 Flags"></a>Activity 的 Flags</h4><p>Activity 的 Flags 有很多，标记位的作用有很多，有的标记位可以设定 Activity 的启动模式，有的可以影响 Activity 的运行状态。</p>
+<ul>
+<li>FLAG_ACTIVITY_NEW_TASK<br>指定 Activity 以 singleTask 模式启动</li>
+<li>FLAG_ACTIVITY_SINGLE_TOP<br>指定 Activity 以 singleTop 模式启动</li>
+<li>FLAG_ACTIVITY_CLEAR_TOP<br>具备此标记为的 Activity 在启动时会将位于同一任务栈的所有位于它上面的 Activity 出栈，这个标记位一般会和 singleTask一起出现，singleTask 启动模式默认就具有此标记位的效果</li>
+<li>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS<br>具有这个标记的 Activity 不会出现在历史 Activity 列表中。</li>
 </ul>
 <center><u><b><em>END</em></b></u></center>
+
           
         
       
@@ -407,7 +416,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -453,7 +462,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -466,7 +475,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
