@@ -160,7 +160,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -255,90 +255,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">Activity 的启动模式和标记位</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/03/Android-Activity-的启动模式和标记位/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Activity 的启动模式和标记位</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-03T13:59:11+08:00">
-                2017-05-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/03/Android-Activity-的启动模式和标记位/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/03/Android-Activity-的启动模式和标记位/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h3 id="android-Activity-的启动模式和标记位"><a href="#android-Activity-的启动模式和标记位" class="headerlink" title="android-Activity 的启动模式和标记位"></a>android-Activity 的启动模式和标记位</h3><h5 id="Activity-启动过程涉及到的几个概念"><a href="#Activity-启动过程涉及到的几个概念" class="headerlink" title="Activity 启动过程涉及到的几个概念"></a>Activity 启动过程涉及到的几个概念</h5><blockquote>
+      <h3 id="android-Activity-的启动模式和标记位"><a href="#android-Activity-的启动模式和标记位" class="headerlink" title="android-Activity 的启动模式和标记位"></a>android-Activity 的启动模式和标记位</h3><h5 id="Activity-启动过程涉及到的几个概念"><a href="#Activity-启动过程涉及到的几个概念" class="headerlink" title="Activity 启动过程涉及到的几个概念"></a>Activity 启动过程涉及到的几个概念</h5><blockquote>
 <p>任务栈：</p>
 </blockquote>
 <p>任务栈又称 Task，顾名思义使用的是 <strong>栈</strong> 结构，具有先进后出的特点，栈中存放的是 Activity 组件的实例，我们每次启动一个 Activity （该 Activity 的 onCreate 方法将首次被调用），该 Activity 将被压入启动它的 Activity 所在的任务栈，或通过 Intent 指定<code>addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)</code>在新的任务栈中创建该 Activity。任务栈有前台和后台之分，后台任务栈中的 Activity 处于暂停状态，用户可以通过切换应用（<em>Activity</em>）将后台任务栈调到前台。</p>
@@ -375,91 +302,7 @@
 </ul>
 <center><u><b><em>END</em></b></u></center>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/uploads/wechat.jpg" alt="James Duan WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-    </div>
-  </div>
-
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/" rel="tag"># Android</a>
-          
-        </div>
-      
-
-      
-        
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/04/10/网易2017春招笔试真题编程题集合——2.优雅的点/" rel="next" title="网易2017春招笔试真题编程题集合 —— 2.优雅的点">
-                <i class="fa fa-chevron-left"></i> 网易2017春招笔试真题编程题集合 —— 2.优雅的点
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/04/Android-自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”/" rel="prev" title="Android：自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”">
-                Android：自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图” <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -496,17 +339,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -606,22 +440,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#android-Activity-的启动模式和标记位"><span class="nav-number">1.</span> <span class="nav-text">android-Activity 的启动模式和标记位</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Activity-启动过程涉及到的几个概念"><span class="nav-number">1.0.1.</span> <span class="nav-text">Activity 启动过程涉及到的几个概念</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Activity-的-Flags"><span class="nav-number">1.1.</span> <span class="nav-text">Activity 的 Flags</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -735,10 +553,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
-
-
 
   
 
@@ -785,6 +599,21 @@
 
 
 
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt94Tr4K';
+      var conf = '27eea452f0038b91038f63bc34e0a689';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
 
 
 

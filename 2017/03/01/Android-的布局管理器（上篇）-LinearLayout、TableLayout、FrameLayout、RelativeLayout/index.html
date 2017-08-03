@@ -160,7 +160,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -255,90 +255,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">Android：的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/Android-的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Android：的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-01T22:30:11+08:00">
-                2017-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/01/Android-的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/01/Android-的布局管理器（上篇）-LinearLayout、TableLayout、FrameLayout、RelativeLayout/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>为了更好的管理Android应用的用户界面里的各种组件，Android提供了布局管理器。 通过使用布局管理器，Android应用的图形用户界面具有良好的平台无关性。同时合理的选择布局管理器是解决Android设备屏幕分辨率、尺寸差异较大问题的首选方式。<br>布局管理器分类：</p>
+      <p>为了更好的管理Android应用的用户界面里的各种组件，Android提供了布局管理器。 通过使用布局管理器，Android应用的图形用户界面具有良好的平台无关性。同时合理的选择布局管理器是解决Android设备屏幕分辨率、尺寸差异较大问题的首选方式。<br>布局管理器分类：</p>
 <h4 id="线性布局"><a href="#线性布局" class="headerlink" title="线性布局"></a>线性布局</h4><p>线性布局由LinearLayout类表示，LinearLayout可以控制各组件横向或纵向排列，线性布局不会换行，当组件一个挨着一个排到头之后，剩下的组件不会被显示出来。</p>
 <ol>
 <li>LinearLayout常用xml属性及说明：<br>Android:baselineAligned 该属性为false，将会阻止该布局管理器与它的子元素的基线对齐。<br>android:divider 设置垂直布局时两个子元素之间的分隔条，通常与android:showdivider配合使用<br>android:gravity 设置布局内组件的对齐方式，可以同时指定多种对齐方式（通过‘|’分隔），如center_vertical | bottom。<br>android:measureWithLargestChild 设置为true时，所有带权中的子元素都会具有最大子元素的最小尺寸。<br>android:orientation 设置布局管理器内子元素的排列方式。horizontal为水平排列，vertical为纵向。</li>
@@ -395,93 +322,7 @@
 
 
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/uploads/wechat.jpg" alt="James Duan WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-    </div>
-  </div>
-
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/" rel="tag"># Android</a>
-          
-            <a href="/tags/布局管理器/" rel="tag"># 布局管理器</a>
-          
-        </div>
-      
-
-      
-        
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/01/01/其它文章/" rel="next" title="其它文章">
-                <i class="fa fa-chevron-left"></i> 其它文章
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/09/Android-的布局管理器（下篇）-GridLayout、AbsoluteLayout、android单位转换/" rel="prev" title="Android：的布局管理器（下篇）-GridLayout、AbsoluteLayout、android单位转换">
-                Android：的布局管理器（下篇）-GridLayout、AbsoluteLayout、android单位转换 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -518,17 +359,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -628,22 +460,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性布局"><span class="nav-number">1.</span> <span class="nav-text">线性布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表格布局"><span class="nav-number">2.</span> <span class="nav-text">表格布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#帧布局"><span class="nav-number">3.</span> <span class="nav-text">帧布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相对布局"><span class="nav-number">4.</span> <span class="nav-text">相对布局</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -757,10 +573,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
-
-
 
   
 
@@ -807,6 +619,21 @@
 
 
 
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt94Tr4K';
+      var conf = '27eea452f0038b91038f63bc34e0a689';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
 
 
 

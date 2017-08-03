@@ -132,7 +132,7 @@
 
 
 
-  <title>Duan</title>
+  <title>归档 | Duan</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -158,9 +158,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left  page-archive  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -253,171 +251,70 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <section id="posts" class="posts-collapse">
+    <span class="archive-move-on"></span>
+
+    <span class="archive-page-counter">
+      
+      
+      
+        
+      
+      嗯..! 目前共计 23 篇日志。 继续努力。
+    </span>
+
     
+
+      
+      
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/03/Android-Activity-的启动模式和标记位/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
-
-    
-      <header class="post-header">
-
+      
         
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/03/Android-Activity-的启动模式和标记位/" itemprop="url">Activity 的启动模式和标记位</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-03T13:59:11+08:00">
-                2017-05-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/03/Android-Activity-的启动模式和标记位/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/03/Android-Activity-的启动模式和标记位/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+        <div class="collection-title">
+          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
       
       
 
       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
         
-          
-            <h3 id="android-Activity-的启动模式和标记位"><a href="#android-Activity-的启动模式和标记位" class="headerlink" title="android-Activity 的启动模式和标记位"></a>android-Activity 的启动模式和标记位</h3><h5 id="Activity-启动过程涉及到的几个概念"><a href="#Activity-启动过程涉及到的几个概念" class="headerlink" title="Activity 启动过程涉及到的几个概念"></a>Activity 启动过程涉及到的几个概念</h5><blockquote>
-<p>任务栈：</p>
-</blockquote>
-<p>任务栈又称 Task，顾名思义使用的是 <strong>栈</strong> 结构，具有先进后出的特点，栈中存放的是 Activity 组件的实例，我们每次启动一个 Activity （该 Activity 的 onCreate 方法将首次被调用），该 Activity 将被压入启动它的 Activity 所在的任务栈，或通过 Intent 指定<code>addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)</code>在新的任务栈中创建该 Activity。任务栈有前台和后台之分，后台任务栈中的 Activity 处于暂停状态，用户可以通过切换应用（<em>Activity</em>）将后台任务栈调到前台。</p>
-<p>####Activity 的 LaunchMode</p>
-<ol>
-<li>standard 标准模式：<br>标准模式为系统默认启动模式。在该模式下每次启动 Activity 都会重新创建一个新的实例，不管这个实例是否已经存在。在这种模式下，谁启动了这个 Activity ，那么这个 Activity 就运行在启动它的那个 Activity 所在的任务栈中。</li>
-<li>singleTop 栈顶复用模式：</li>
-</ol>
-<ul>
-<li>在这种模式下，如果新 Activity 已经位于任务栈的栈顶，那么此 Activity 不会被重新创建    。</li>
-<li>如果新 Activity 的实例已存在但不位于栈顶，那么新的 Activity 任会重新。</li>
-<li>onNewIntent 方法会被回调。</li>
-</ul>
-<ol>
-<li><p>singleTask 栈内复用模式：<br>在这种模式下，只要 Activity 在一个栈中存在，那么多次启动该 Activity 都不会重新创建实例，同时系统会回调其 onNewIntent 方法。可以分为如下三种情况进行区分：</p>
-<ul>
-<li>要启动的 Activity A 所需的任务栈 S 不存在：<br>系统先创建任务栈 S ，然后创建 A 并入栈到 S。</li>
-<li>要启动的 Activity A 所需的任务栈 S 存在，且任务栈 S 中不存在 A 的实例：<br>系统将创建 A 的实例并入栈到 S。</li>
-<li>要启动的 Activity A 所需的任务栈 S 存在，且任务栈 S 中存在 A 的实例 ：<ol>
-<li>实例 A 位于栈顶：<br>直接复用（<em>栈顶复用</em>） </li>
-<li>实例 A 不位于栈顶：<br>此时 A 不会重新创建，同时将实例 A 切换到栈顶（<em>使实例 A 上面的所有 Activity 出栈</em>）     </li>
-</ol>
-</li>
-</ul>
-</li>
-<li>singleInstance 单实例模式：<br>这是一种加强的 singleTask 模式，它具有 singleTask 的所有特性之外还有一个特性，那就是具有此种启动模式的 Activity 只能单独位于一个任务栈中。 </li>
-</ol>
-<h4 id="Activity-的-Flags"><a href="#Activity-的-Flags" class="headerlink" title="Activity 的 Flags"></a>Activity 的 Flags</h4><p>Activity 的 Flags 有很多，标记位的作用有很多，有的标记位可以设定 Activity 的启动模式，有的可以影响 Activity 的运行状态。</p>
-<ul>
-<li>FLAG_ACTIVITY_NEW_TASK<br>指定 Activity 以 singleTask 模式启动</li>
-<li>FLAG_ACTIVITY_SINGLE_TOP<br>指定 Activity 以 singleTop 模式启动</li>
-<li>FLAG_ACTIVITY_CLEAR_TOP<br>具备此标记为的 Activity 在启动时会将位于同一任务栈的所有位于它上面的 Activity 出栈，这个标记位一般会和 singleTask一起出现，singleTask 启动模式默认就具有此标记位的效果</li>
-<li>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS<br>具有这个标记的 Activity 不会出现在历史 Activity 列表中。</li>
-</ul>
-<center><u><b><em>END</em></b></u></center>
-
-          
+            <a class="post-title-link" href="/2017/05/03/Android-Activity-的启动模式和标记位/" itemprop="url">
+              
+                <span itemprop="name">Activity 的启动模式和标记位</span>
+              
+            </a>
         
-      
-    </div>
+      </h2>
 
-    <div>
-      
-    </div>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-05-03T13:59:11+08:00"
+              content="2017-05-03" >
+          05-03
+        </time>
+      </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
+    </header>
   </article>
 
 
+
     
+
   </section>
 
   
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right"></i></a>
   </nav>
+
 
 
 
@@ -660,6 +557,12 @@
   
 
   
+  
+    <script type="text/javascript" id="motion.page.archive">
+      $('.archive-year').velocity('transition.slideLeftIn');
+    </script>
+  
+
 
   
 
@@ -706,6 +609,10 @@
 
 
 
+
+  
+    <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyt94Tr4K"></script>
+  
 
 
 

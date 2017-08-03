@@ -132,7 +132,7 @@
 
 
 
-  <title>Duan</title>
+  <title>归档 | Duan</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -158,9 +158,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left  page-archive  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -253,167 +251,70 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <section id="posts" class="posts-collapse">
+    <span class="archive-move-on"></span>
+
+    <span class="archive-page-counter">
+      
+      
+      
+        
+      
+      嗯..! 目前共计 23 篇日志。 继续努力。
+    </span>
+
     
+
+      
+      
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/29/网易2017春招笔试真题编程题集合——4.消除重复元素/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
-
-    
-      <header class="post-header">
-
+      
         
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/29/网易2017春招笔试真题编程题集合——4.消除重复元素/" itemprop="url">网易2017春招笔试真题编程题集合 —— 4.消除重复元素</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-29T13:41:11+08:00">
-                2017-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/29/网易2017春招笔试真题编程题集合——4.消除重复元素/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/29/网易2017春招笔试真题编程题集合——4.消除重复元素/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+        <div class="collection-title">
+          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
       
       
 
       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
         
-          
-            <p>###网易2017春招笔试真题编程题集合——4.消除重复元素</p>
-<h4 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h4><blockquote>
-<p>小易有一个长度为n序列，小易想移除掉里面的重复元素，但是小易想是对于每种元素保留最后出现的那个。小易遇到了困难,希望你来帮助他。 </p>
-</blockquote>
-<p>原题地址 <a href="https://www.nowcoder.com/question/next?pid=4575457&amp;qid=83061&amp;tid=7519540" target="_blank" rel="external">在这</a></p>
-<h4 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述:"></a>输入描述:</h4><blockquote>
-<p>输入包括两行：<br>第一行为序列长度n(1 ≤ n ≤ 50)<br>第二行为n个数sequence<a href="1 ≤ sequence[i] ≤ 1000">i</a>，以空格分隔</p>
-</blockquote>
-<h4 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述:"></a>输出描述:</h4><blockquote>
-<p>输出消除重复元素之后的序列，以空格分隔，行末无空格</p>
-</blockquote>
-<h4 id="输入例子"><a href="#输入例子" class="headerlink" title="输入例子:"></a>输入例子:</h4><blockquote>
-<p>9<br>100 100 100 99 99 99 100 100 100</p>
-</blockquote>
-<h4 id="输出例子"><a href="#输出例子" class="headerlink" title="输出例子:"></a>输出例子:</h4><blockquote>
-<p>99 100</p>
-</blockquote>
-<h4 id="用java编写，思路是这样的："><a href="#用java编写，思路是这样的：" class="headerlink" title="用java编写，思路是这样的："></a>用java编写，思路是这样的：</h4><ul>
-<li>使用Scanner接收控制台输入</li>
-<li>难点应该是要求中的<code>对于每种元素保留最后出现的那个</code>这一句：<ul>
-<li>像出现如下情况时：100 100 99 11 11 11，移除重复元素必然是：100 99 11</li>
-<li>而若出现这种情况：100 100 100 99 99 99 100 100 100，为满足 <code>对于每种元素保留最后出现的那个</code> 这一要求，三个99前后都出现了100，这时只能保留99后面的100，即 <code>99 100</code>；</li>
-</ul>
-</li>
-<li>只需<strong>从后往前</strong>遍历给定的数组即可满足<code>对于每种元素保留最后出现的那个</code>这一要求，用一个<code>ArrayList</code>保存合并重复元素后的集合，每往前遍历一个元素先判断该元素是否已经存在集合中，不存在就添加到集合中。</li>
-<li>遍历结束要将集合<strong>倒序</strong>输出，因为遍历的时候对目标数组的遍历是从后往前的，加入到集合的顺序也是从后往前的，而输出时应该<strong>从前往后</strong>输出。</li>
-</ul>
-<h4 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        <span class="keyword">int</span> count = scanner.nextInt();</div><div class="line">        scanner.nextLine();</div><div class="line">        String sou = scanner.nextLine();</div><div class="line">        String[] strs = sou.split(<span class="string">" "</span>);</div><div class="line">        <span class="keyword">int</span>[] nums = <span class="keyword">new</span> <span class="keyword">int</span>[count];</div><div class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (String s : strs) &#123;</div><div class="line">            nums[i++] = Integer.parseInt(s);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        i = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = nums.length - <span class="number">1</span>; j &gt;= <span class="number">0</span>; j--) &#123;</div><div class="line">            <span class="keyword">if</span> (!list.contains(nums[j]))</div><div class="line">                list.add(i++, nums[j]);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = list.size() - <span class="number">1</span>; j &gt;= <span class="number">0</span>; j--) &#123;</div><div class="line">            String out = j == <span class="number">0</span> ? list.get(j) + <span class="string">""</span> : list.get(j) + <span class="string">" "</span>;</div><div class="line">            System.out.print(out);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="提交运行提示通过所有测试用例："><a href="#提交运行提示通过所有测试用例：" class="headerlink" title="提交运行提示通过所有测试用例："></a>提交运行提示通过所有测试用例：</h4><p><img src="http://img.blog.csdn.net/20170329133939169?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><ul>
-<li>调用<code>Arraylist</code>的<code>boolean contains(Object o)</code>方法判断集合中是否已经包含某一元素一简化代码</li>
-</ul>
-<center><u><b><em>END</em></b></u></center>
-          
+            <a class="post-title-link" href="/2017/03/29/网易2017春招笔试真题编程题集合——4.消除重复元素/" itemprop="url">
+              
+                <span itemprop="name">网易2017春招笔试真题编程题集合 —— 4.消除重复元素</span>
+              
+            </a>
         
-      
-    </div>
+      </h2>
 
-    <div>
-      
-    </div>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-03-29T13:41:11+08:00"
+              content="2017-03-29" >
+          03-29
+        </time>
+      </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
+    </header>
   </article>
 
 
+
     
+
   </section>
 
   
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right"></i></a>
   </nav>
+
 
 
 
@@ -656,6 +557,12 @@
   
 
   
+  
+    <script type="text/javascript" id="motion.page.archive">
+      $('.archive-year').velocity('transition.slideLeftIn');
+    </script>
+  
+
 
   
 
@@ -702,6 +609,10 @@
 
 
 
+
+  
+    <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyt94Tr4K"></script>
+  
 
 
 

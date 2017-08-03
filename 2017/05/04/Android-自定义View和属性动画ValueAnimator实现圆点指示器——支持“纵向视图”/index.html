@@ -162,7 +162,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -257,90 +257,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">Android：自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/04/Android-自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Android：自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-04T10:08:11+08:00">
-                2017-05-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/04/Android-自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/04/Android-自定义View和属性动画ValueAnimator实现圆点指示器——支持“纵向视图”/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h4 id="圆点指示器支持“纵向视图”啦"><a href="#圆点指示器支持“纵向视图”啦" class="headerlink" title="圆点指示器支持“纵向视图”啦"></a>圆点指示器支持“纵向视图”啦</h4><p>关于圆点指示器的实现请参看上一篇博文：<a href="http://blog.csdn.net/aimeimeits/article/details/69370853" target="_blank" rel="external">自定义View和属性动画ValueAnimator实现圆点指示器</a><br>该篇文章将对支持纵向视图过程的关键代码和使用方法进行介绍。</p>
+      <h4 id="圆点指示器支持“纵向视图”啦"><a href="#圆点指示器支持“纵向视图”啦" class="headerlink" title="圆点指示器支持“纵向视图”啦"></a>圆点指示器支持“纵向视图”啦</h4><p>关于圆点指示器的实现请参看上一篇博文：<a href="http://blog.csdn.net/aimeimeits/article/details/69370853" target="_blank" rel="external">自定义View和属性动画ValueAnimator实现圆点指示器</a><br>该篇文章将对支持纵向视图过程的关键代码和使用方法进行介绍。</p>
 <p>控件元素的构成<br>| 小圆点 | 指示点 | 线段 |<br>| :—– | :— | :—- |<br>|圆|椭圆|矩形|</p>
 <h5 id="一-效果图"><a href="#一-效果图" class="headerlink" title="一 效果图"></a>一 效果图</h5><p><img src="http://img.blog.csdn.net/20170504085814432?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
 <h5 id="二-如何使用"><a href="#二-如何使用" class="headerlink" title="二 如何使用"></a>二 如何使用</h5><p>使用时只需在你的<code>xml</code>布局文件中指定<code>indicatorOrientation</code>属性为<code>vertical</code>即可。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">com.duan.indicatorviewdemo.IndicatorView</span></span></div><div class="line"></div><div class="line">            <span class="attr">app:indicatorOrientation</span>=<span class="string">"vertical"</span></div><div class="line">            </div><div class="line">           <span class="attr">android:layout_marginLeft</span>=<span class="string">"30dp"</span></div><div class="line">           <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">           <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">           <span class="attr">app:dotNum</span>=<span class="string">"5"</span></div><div class="line">           <span class="attr">app:dotSize</span>=<span class="string">"20dp"</span></div><div class="line">           <span class="attr">app:indicatorSize</span>=<span class="string">"20dp"</span></div><div class="line">           <span class="attr">app:dotColor</span>=<span class="string">"#a5b7b3"</span></div><div class="line">           <span class="attr">app:indicatorColor</span>=<span class="string">"#52ffda"</span></div><div class="line">           <span class="attr">app:lineColor</span>=<span class="string">"#cacaca"</span></div><div class="line">           <span class="attr">app:lineLength</span>=<span class="string">"90dp"</span></div><div class="line">           <span class="attr">app:lineWidth</span>=<span class="string">"4dp"</span> /&gt;</div></pre></td></tr></table></figure></p>
@@ -382,97 +309,7 @@
 <p><font color="#afafaf" size="-1">觉得不错的话就给颗星吧&gt;.&lt;</font></p>
 <center><u><b><em>END</em></b></u></center>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/uploads/wechat.jpg" alt="James Duan WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-    </div>
-  </div>
-
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/" rel="tag"># Android</a>
-          
-            <a href="/tags/自定义-View/" rel="tag"># 自定义 View</a>
-          
-            <a href="/tags/属性动画/" rel="tag"># 属性动画</a>
-          
-            <a href="/tags/圆点指示器/" rel="tag"># 圆点指示器</a>
-          
-        </div>
-      
-
-      
-        
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/05/03/Android-Activity-的启动模式和标记位/" rel="next" title="Activity 的启动模式和标记位">
-                <i class="fa fa-chevron-left"></i> Activity 的启动模式和标记位
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/09/Android-View-的事件分发机制/" rel="prev" title="Android：View 的事件分发机制">
-                Android：View 的事件分发机制 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -509,17 +346,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -619,22 +447,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#圆点指示器支持“纵向视图”啦"><span class="nav-number">1.</span> <span class="nav-text">圆点指示器支持“纵向视图”啦</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一-效果图"><span class="nav-number">1.1.</span> <span class="nav-text">一 效果图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二-如何使用"><span class="nav-number">1.2.</span> <span class="nav-text">二 如何使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三-关键代码"><span class="nav-number">1.3.</span> <span class="nav-text">三 关键代码</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-attr-中添加方向属性定义"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 attr 中添加方向属性定义</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-修改-IndicatorView-java"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 修改 IndicatorView.java</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -748,10 +560,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
-
-
 
   
 
@@ -798,6 +606,21 @@
 
 
 
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt94Tr4K';
+      var conf = '27eea452f0038b91038f63bc34e0a689';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
 
 
 

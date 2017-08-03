@@ -132,7 +132,7 @@
 
 
 
-  <title>Duan</title>
+  <title>归档 | Duan</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -158,9 +158,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left  page-archive  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -253,247 +251,70 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <section id="posts" class="posts-collapse">
+    <span class="archive-move-on"></span>
+
+    <span class="archive-page-counter">
+      
+      
+      
+        
+      
+      嗯..! 目前共计 23 篇日志。 继续努力。
+    </span>
+
     
+
+      
+      
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/Android-使用HttpURLConnection实现多线程下载/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
-
-    
-      <header class="post-header">
-
+      
         
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/19/Android-使用HttpURLConnection实现多线程下载/" itemprop="url">Android：使用 HttpURLConnection 实现多线程下载</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T15:26:11+08:00">
-                2017-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/19/Android-使用HttpURLConnection实现多线程下载/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/19/Android-使用HttpURLConnection实现多线程下载/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+        <div class="collection-title">
+          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
       
       
 
       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
         
-          
-            <h4 id="使用HttpURLConnection实现多线程下载"><a href="#使用HttpURLConnection实现多线程下载" class="headerlink" title="使用HttpURLConnection实现多线程下载"></a>使用<code>HttpURLConnection</code>实现<strong>多线程下载</strong></h4><p>这个小程序是根据《疯狂Android讲义》<em>（第三版）</em>第13章 <em>Android网络应用</em>，13.3节 <em>使用HTTP访问网络</em>  扩展而来。<br><br></p>
-<blockquote>
-<p>使用多线程下载文件可以更快地完成下载任务，因为客户端启动多条线程进行下载就意味着服务器也需要为该客户端提供相应的服务。假设服务器同时最多服务100个用户，在服务器中一个线程对应一个用户，100条线程在计算机内并发执行，也就是由CPU划分时间轮片流执行，如果A应用使用了99条线程下载文件，那么相当于占用了99个用户的资源，自然就拥有了较快的下载速度。<font size="-1"><em>不考虑网络因素</em></font></p>
-</blockquote>
-<p><em>实际上并不是客户端并发的下载线程越多下载速度就越快，因为当开启太多并发线程后，应用程序需要维护每条线程的开销，线程同步的开销，这些开销可能反而使下载速度减慢</em></p>
-<h4 id="先看看最终效果"><a href="#先看看最终效果" class="headerlink" title="先看看最终效果"></a>先看看最终效果</h4><p><img src="http://img.blog.csdn.net/20170319152750479?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20170319152905169?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20170319153003310?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><img src="http://img.blog.csdn.net/20170319153045342?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<h5 id="1-这个小程序中负责开启多线程下载的核心类是：DownloadUtil-java"><a href="#1-这个小程序中负责开启多线程下载的核心类是：DownloadUtil-java" class="headerlink" title="1.这个小程序中负责开启多线程下载的核心类是：DownloadUtil.java"></a>1.这个小程序中负责开启多线程下载的核心类是：<code>DownloadUtil.java</code></h5><h6 id="这个类主要做了如下的事情："><a href="#这个类主要做了如下的事情：" class="headerlink" title="这个类主要做了如下的事情："></a>这个类主要做了如下的事情：</h6><ul>
-<li>创建URL对象（本程序使用的是<code>HttpURLConnection</code>）</li>
-<li>获取URL指向资源的大小（由<code>HttpURLConnection.getContentLength()</code>方法完成）</li>
-<li>在本地磁盘上创建一个与网络资源相同大小的空文件<br>（<code>RandomAccessFile.setLength()</code>）</li>
-<li>计算每条线程应该下载网络资源的哪一部分<br>（<em>从哪个字节开始，到哪个字节结束</em>）</li>
-<li>依次创建，启动多条线程来下载网络资源的指定部分</li>
-</ul>
-<p>######下面来看具体代码：</p>
-<ol>
-<li>先来看构造函数</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">DownloadUtil</span><span class="params">(OnDownloadFinish complete)</span> </span>&#123;</div><div class="line">       <span class="keyword">this</span>.downloadFinish = complete;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p><code>OnDownloadFinish</code>是下载完成后的回调</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnDownloadFinish</span> </span>&#123;</div><div class="line">      <span class="comment">/**</span></div><div class="line">       * 所有线程都结束后调用</div><div class="line">       * <span class="doctag">@param</span> file 下载好的文件</div><div class="line">       */</div><div class="line">      <span class="function"><span class="keyword">void</span> <span class="title">onComplete</span><span class="params">(File file)</span></span>;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>开启下载任务的入口方法<br>下载前的计算和开启线程下载都在这个方法中完成</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * 开始一次下载</div><div class="line">    * <span class="doctag">@param</span> sourcePath 目标URL</div><div class="line">    * <span class="doctag">@param</span> targetFilePath 目标保存路径</div><div class="line">    * <span class="doctag">@param</span> threadNumber 开启的线程数</div><div class="line">    * <span class="doctag">@param</span> fileName 保存的文件名</div><div class="line">    * <span class="doctag">@throws</span> IOException</div><div class="line">    */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(@NonNull String sourcePath, @Nullable String targetFilePath, <span class="keyword">int</span> threadNumber, @Nullable String fileName)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line"> ....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
-<li><strong>创建HttpURLConnection对象：</strong><br>对于一次下载该对象指向的URL资源地址应是同一个，封装成一个方法：<br>该方法在两个地方被调用到</li>
-</ol>
-<ul>
-<li>获得URL指向资源大小时。<em>获得大小后关闭该网络连接</em></li>
-<li>启动线程下载该线程对应的那部分资源时</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> HttpURLConnection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">       URL url = <span class="keyword">new</span> URL(sourcePath);</div><div class="line">       HttpURLConnection conn = (HttpURLConnection) url.openConnection();</div><div class="line">       conn.setConnectTimeout(<span class="number">1000</span> * <span class="number">5</span>);</div><div class="line">       conn.setRequestMethod(<span class="string">"GET"</span>);</div><div class="line">       conn.setRequestProperty(<span class="string">"Accept"</span>, accept);</div><div class="line">       conn.setRequestProperty(<span class="string">"Accept-Language"</span>, <span class="string">"zh-CN"</span>);</div><div class="line">       conn.setRequestProperty(<span class="string">"Charset"</span>, <span class="string">"UTF-8"</span>);</div><div class="line">       <span class="keyword">return</span> conn;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>下载前的计算和开启多个线程进行下载：<br>获得大小-&gt;本地磁盘创建同大小的空文件-&gt;求得每一个线程应下载多少字节-&gt;开启线程进行下载</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">HttpURLConnection conn = getConnection();</div><div class="line">      fileSize = conn.getContentLength();</div><div class="line">      conn.disconnect();</div><div class="line"></div><div class="line">      RandomAccessFile file = <span class="keyword">new</span> RandomAccessFile(targetFilePathAndName, <span class="string">"rw"</span>);</div><div class="line">      file.setLength(fileSize);</div><div class="line">      file.close();</div><div class="line"></div><div class="line">      partSize = fileSize / threadNumber + <span class="number">1</span>;</div><div class="line"></div><div class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadNumber; i++) &#123;</div><div class="line">          <span class="keyword">int</span> startPos = i * partSize;</div><div class="line">          threads[i] = <span class="keyword">new</span> DownLoadThread(startPos);</div><div class="line">          threads[i].start();</div><div class="line">      &#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>负责下载的线程类<code>private class</code> <strong><code>DownLoadThread</code></strong> <code>extends Thread</code><br>来看run方法<br>在构造函数中写了该句<code>currentPart = new RandomAccessFile(targetFilePathAndName, &quot;rw&quot;);</code></li>
-</ol>
-<blockquote>
-<p> <code>RandomAccessFile</code>: RandomAccessFile是用来访问那些保存数据记录的文件的，你可以用seek( )方法来访问记录，并进行读写了。这些记录的大小不必相同；但是其大小和位置必须是可知的。但是该类仅限于操作文件。——<a href="http://blog.csdn.net/akon_vm/article/details/7429245" target="_blank" rel="external">Java RandomAccessFile用法 </a><br><br>RandomAccessFile的对象包含一个记录指针，用于标识当前流的读写位置，这个位置可以向前移动，也可以向后移动。RandomAccessFile包含两个方法来操作文件记录指针。</p>
-<ul>
-<li>long getFilePoint():记录文件指针的当前位置。</li>
-<li>void seek(long pos):将文件记录指针定位到pos位置</li>
-</ul>
-</blockquote>
-<hr>
-<p>在<code>finally</code>里判断当前还有几个线程还在下载，当没有线程在下载了（下载结束了），就回调<code>onComplete</code>方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">              HttpURLConnection connection = getConnection();</div><div class="line">              InputStream in = connection.getInputStream();</div><div class="line">              skipFully(in, startPos);</div><div class="line">              <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">              <span class="keyword">int</span> hasRead;</div><div class="line">              <span class="keyword">while</span> ((currentDownLoaded &lt; partSize) &amp;&amp; (hasRead = in.read(bytes)) &gt; <span class="number">0</span>) &#123;</div><div class="line">                  currentPart.write(bytes, <span class="number">0</span>, hasRead);</div><div class="line">                  currentDownLoaded += hasRead;</div><div class="line">              &#125;</div><div class="line">              currentPart.close();</div><div class="line">              in.close();</div><div class="line">              connection.disconnect();</div><div class="line"></div><div class="line">          &#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</div><div class="line">              e.printStackTrace();</div><div class="line">          &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">              e.printStackTrace();</div><div class="line">          &#125; <span class="keyword">finally</span> &#123;</div><div class="line">              restTask--;</div><div class="line">              <span class="keyword">if</span> (restTask == <span class="number">0</span>)</div><div class="line">                  downloadFinish.onComplete(<span class="keyword">new</span> File(targetFilePathAndName));</div><div class="line"></div><div class="line">          &#125;</div><div class="line"></div><div class="line">      &#125;</div></pre></td></tr></table></figure>
-<p>其中用到一个跳过指定字节数的方法</p>
-<blockquote>
-<p>由于最新的Android平台上调用InputStream的skip方法时，并不能总是准确地跳过指定的字节数，因此程序实现了一个skipFully方法。</p>
-</blockquote>
-<p>参考此处：<br><a href="http://www.ablanxue.com/prone_7005_1.html" target="_blank" rel="external">Java.IO.InputStream.skip() 错误（跳过字节数和预想的不等）</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * 从输入流中从起点开始跳过指定长度</div><div class="line">     * <span class="doctag">@param</span> in    输入流</div><div class="line">     * <span class="doctag">@param</span> bytes 要跳过的字节数</div><div class="line">     * <span class="doctag">@throws</span> IOException</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">skipFully</span><span class="params">(InputStream in, <span class="keyword">long</span> bytes)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">long</span> len;</div><div class="line">        <span class="keyword">while</span> (bytes &gt; <span class="number">0</span>) &#123;</div><div class="line">            len = in.skip(bytes);</div><div class="line">            bytes -= len;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
-<p>好了，以上就时进行多线程下载的核心类，源码已上传到GitHub，你可以在这里找到：</p>
-<center><a href="https://github.com/DuanJiaNing/MultithreadDownload" target="_blank" rel="external">DuanJiaNing/MultithreadDownload</a></center>
-
-<h5 id="2-Activity部分"><a href="#2-Activity部分" class="headerlink" title="2. Activity部分"></a>2. Activity部分</h5><p>布局部分用到的控件主要有：<br><code>TextView</code>,<code>EditText</code>,<code>ProgressBar</code>,<code>CardView</code>,<code>FloatingActionButton</code>和<code>ListView</code>.</p>
-<h6 id="看起来是这样子的："><a href="#看起来是这样子的：" class="headerlink" title="看起来是这样子的："></a>看起来是这样子的：</h6><p><img src="http://img.blog.csdn.net/20170319152128133?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>解释一下：</p>
-<ul>
-<li>最上面的<code>任务详情</code>:<br>1.当点击了<code>下载</code>之后当前正在下载任务的信息会显示在这里。<br>2.当已完成多个下载任务后，已下载的文件名会显示在<code>ListView</code>处，<code>ListView</code>的<code>onItemClick</code>时间会获得已下载文件对应的下载信息显示在这里。</li>
-<li><code>进度</code>下面有个<code>ProgressBar</code>用于实时显示当前的下载进度</li>
-<li><code>下载速度</code>处显示实时的下载速度（两行<code>byte/s kb/s</code>）</li>
-<li><code>下载速度</code><strong>右边</strong>也会显示实时的下载进度，对应<code>ProgressBar</code>的 <code>Max</code>和<code>当前进度</code>.</li>
-<li><code>已下载</code><strong>上边</strong>有个<code>TextView</code>显示文件保存的路径</li>
-<li><code>FloatingActionButton</code>控制输入URL输入框，线程数输入框，下载按钮所在的<code>CardView</code>的显示和隐藏。<br><img src="./Image_001.png" alt="Alt text"></li>
-</ul>
-<h6 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h6><ol>
-<li>进入onCreate关联布局后其他几乎都在<code>init</code>方法里搞定了<strong><code>&gt;.&lt;</code></strong></li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">      <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">      setContentView(R.layout.main_activity);</div><div class="line"></div><div class="line">      init();</div><div class="line"></div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<ol>
-<li><code>init()</code>方法里做了这么些事情：</li>
-</ol>
-<ul>
-<li>初始化控件</li>
-<li>初始化用于保存已下载文件名和对应任务信息的<code>ArrayList</code></li>
-<li><code>ListView</code>绑定<code>adapter</code>，item点击事件</li>
-<li>从<code>anim</code>和<code>animator</code>中加载动画资源并绑定给<code>FloatingActionButton</code>和<code>CardView</code>,<code>FloatingActionButton</code>的点击事件（控制动画播放）</li>
-<li><code>new</code>一个<code>DownloadUtil</code>实例并定义回调方法<code>onComplete</code>,在这里遇到了不少问题[^1] [^2]（亦可在源码注释中查看）</li>
-<li><code>下载</code>按钮的点击事件，在点击事件里调用<code>DownloadUtil.start</code>方法，因为<code>start</code>方法里调用了<code>URLConnection.openConnection</code>方法，所以不能在<strong>UI线程</strong>里调用此方法。同时在这里开<br>启<code>Timer</code>实时更新UI。注意<a href="只有在调用了`DownloadUtil.start`方法后，DownloadUtil的`getFileSize(),getThreadNumber(),getPartSize()`等`Getter`方法才会正确的取到值。">^3</a></li>
-</ul>
-<ol>
-<li>控制<code>CardView</code>动画的代码</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> AnimatorSet cvShow = (AnimatorSet) AnimatorInflater.loadAnimator(<span class="keyword">this</span>, R.animator.input_show);</div><div class="line">       <span class="keyword">final</span> AnimatorSet cvHide = (AnimatorSet) AnimatorInflater.loadAnimator(<span class="keyword">this</span>, R.animator.input_hide);</div><div class="line">       cvShow.setTarget(cardView);</div><div class="line">       cvHide.setTarget(cardView);</div><div class="line"></div><div class="line">       input.setPivotX(<span class="number">100</span>);<span class="comment">//用ObjectAnimator实现旋转动画时用此方法指定旋转的原点</span></div><div class="line">       <span class="keyword">final</span> ObjectAnimator btShow = ObjectAnimator.ofFloat(input, <span class="string">"rotation"</span>, <span class="number">0</span>, <span class="number">180</span>).setDuration(<span class="number">1000</span>);</div><div class="line">       <span class="keyword">final</span> ObjectAnimator btHide = ObjectAnimator.ofFloat(input, <span class="string">"rotation"</span>, <span class="number">180</span>, <span class="number">0</span>).setDuration(<span class="number">1000</span>);</div><div class="line">       btShow.setInterpolator(<span class="keyword">new</span> OvershootInterpolator());</div><div class="line">       btHide.setInterpolator(<span class="keyword">new</span> DecelerateInterpolator());</div><div class="line"></div><div class="line">       btShow.start();</div><div class="line">       cvShow.start();</div><div class="line"></div><div class="line">       input.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">           <span class="keyword">boolean</span> hasCardViewShow = <span class="keyword">true</span>;</div><div class="line"></div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">               <span class="keyword">if</span> (hasCardViewShow) &#123;</div><div class="line">                   btHide.start();</div><div class="line">                   cvHide.start();</div><div class="line">                   hasCardViewShow = <span class="keyword">false</span>;</div><div class="line">               &#125; <span class="keyword">else</span> &#123;</div><div class="line">                   btShow.start();</div><div class="line">                   cvShow.start();</div><div class="line">                   hasCardViewShow = <span class="keyword">true</span>;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;);</div></pre></td></tr></table></figure>
-<ol>
-<li>下载完成后的回调和下载按钮的点击事件<br>代码有点多就直接上张图吧！<br><img src="http://img.blog.csdn.net/20170319152255946?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYWltZWltZWlUUw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
-<li>还有动画部分的代码</li>
-</ol>
-<p>控制cardView隐藏<br><code>/res/animator/input_hide.xml</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">set</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:ordering</span>=<span class="string">"together"</span></div><div class="line">    &gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">objectAnimator</span></span></div><div class="line">        <span class="attr">android:duration</span>=<span class="string">"800"</span></div><div class="line">        <span class="attr">android:propertyName</span>=<span class="string">"translationY"</span></div><div class="line">        <span class="attr">android:interpolator</span>=<span class="string">"@android:anim/linear_interpolator"</span></div><div class="line">        <span class="attr">android:valueFrom</span>=<span class="string">"0.0f"</span></div><div class="line">        <span class="attr">android:valueTo</span>=<span class="string">"400.0f"</span></div><div class="line">        <span class="attr">android:valueType</span>=<span class="string">"floatType"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">objectAnimator</span></span></div><div class="line">        <span class="attr">android:duration</span>=<span class="string">"1000"</span></div><div class="line">        <span class="attr">android:propertyName</span>=<span class="string">"alpha"</span></div><div class="line">        <span class="attr">android:valueFrom</span>=<span class="string">"1.0f"</span></div><div class="line">        <span class="attr">android:valueTo</span>=<span class="string">"0.0f"</span></div><div class="line">        <span class="attr">android:valueType</span>=<span class="string">"floatType"</span></div><div class="line">        /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">set</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>控制cardView显示<br><code>/res/animator/input_show.xml</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">set</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:ordering</span>=<span class="string">"together"</span></div><div class="line">    &gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">objectAnimator</span></span></div><div class="line">        <span class="attr">android:duration</span>=<span class="string">"800"</span></div><div class="line">        <span class="attr">android:propertyName</span>=<span class="string">"translationY"</span></div><div class="line">        <span class="attr">android:interpolator</span>=<span class="string">"@android:anim/overshoot_interpolator"</span></div><div class="line">        <span class="attr">android:valueFrom</span>=<span class="string">"400f"</span></div><div class="line">        <span class="attr">android:valueTo</span>=<span class="string">"0.0f"</span></div><div class="line">        <span class="attr">android:valueType</span>=<span class="string">"floatType"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">objectAnimator</span></span></div><div class="line">        <span class="attr">android:duration</span>=<span class="string">"1000"</span></div><div class="line">        <span class="attr">android:propertyName</span>=<span class="string">"alpha"</span></div><div class="line">        <span class="attr">android:valueFrom</span>=<span class="string">"0.0f"</span></div><div class="line">        <span class="attr">android:valueTo</span>=<span class="string">"1.0f"</span></div><div class="line">        <span class="attr">android:valueType</span>=<span class="string">"floatType"</span></div><div class="line">        /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">set</span>&gt;</span></div></pre></td></tr></table></figure>
-<ol>
-<li><code>FloatingActionButton</code>的动画直接定义在java代码中了</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">input.setPivotX(<span class="number">100</span>);<span class="comment">//用ObjectAnimator实现旋转动画时用此方法指定旋转的原点</span></div><div class="line"><span class="keyword">final</span> ObjectAnimator btShow = ObjectAnimator.ofFloat(input, <span class="string">"rotation"</span>, <span class="number">0</span>, <span class="number">180</span>).setDuration(<span class="number">1000</span>);</div><div class="line"><span class="keyword">final</span> ObjectAnimator btHide = ObjectAnimator.ofFloat(input, <span class="string">"rotation"</span>, <span class="number">180</span>, <span class="number">0</span>).setDuration(<span class="number">1000</span>);</div><div class="line">btShow.setInterpolator(<span class="keyword">new</span> OvershootInterpolator());</div><div class="line">btHide.setInterpolator(<span class="keyword">new</span> DecelerateInterpolator());</div></pre></td></tr></table></figure>
-<ol>
-<li>界面上有<code>EditText</code>所以一打开程序就会把软键盘调出来效果不好，所以在<code>style</code>里加了下面两句：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:configChanges"</span>&gt;</span>keyboardHidden|orientation<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowSoftInputMode"</span>&gt;</span>stateHidden<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div></pre></td></tr></table></figure>
-<ol>
-<li>要访问网络和读写磁盘，所以加入如下三条权限：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.INTERNET"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.READ_EXTERNAL_STORAGE"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span></div></pre></td></tr></table></figure>
-<hr>
-<center><font size="+2" color="#bbb">源码已上传到GitHub，你可以在这里找到</font></center><br><center><font size="+3"><a href="https://github.com/DuanJiaNing/MultithreadDownload" target="_blank" rel="external">DuanJiaNing/MultithreadDownload</a></font></center>
-
-<p>[^1]: 定义全局的<code>MainActivity.this.file</code>来获得<code>onComplete</code>返回的<code>File</code>引用 或 在此处（<code>onComplete</code>内）定义一个final的File来获得file的引用。<strong>不能使用第二种方法</strong> ——假设使用第二种方法：当第一次下载（<em>打开程序进行的第一次下载任务</em>）成功回调该方法时file被赋值，赋值后dialog初始化，此时dialog持有file的引用，onComplete方法执结束时file被GC回收，但dialog初始时在onclick方法里使用了他的值，使每次调用dialog里onclick方法时使用的file都是第一次调用onComplete时的值，从而使File.reNameTo方法在调用两次之后就出错无法正常重命名。而每次调用editText.setText();时用的却是该次新的final File对象使对话框能正确显示文件名。因此应使用全局的file对象。</p>
-<p>[^2]: <code>onComplete</code>方法在<code>DownloadUtil$DownLoadThread</code>中调用（<font size="+2">非<code>UI</code>线程</font>），因此在<code>onComplete</code>中更新UI要使用<code>Handler</code>,<code>Activity.runOnUiThread</code>或<code>View.post</code>。</p>
-<center><u><b><em>END</em></b></u></center>
-          
+            <a class="post-title-link" href="/2017/03/19/Android-使用HttpURLConnection实现多线程下载/" itemprop="url">
+              
+                <span itemprop="name">Android：使用 HttpURLConnection 实现多线程下载</span>
+              
+            </a>
         
-      
-    </div>
+      </h2>
 
-    <div>
-      
-    </div>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-03-19T15:26:11+08:00"
+              content="2017-03-19" >
+          03-19
+        </time>
+      </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
+    </header>
   </article>
 
 
+
     
+
   </section>
 
   
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right"></i></a>
   </nav>
+
 
 
 
@@ -736,6 +557,12 @@
   
 
   
+  
+    <script type="text/javascript" id="motion.page.archive">
+      $('.archive-year').velocity('transition.slideLeftIn');
+    </script>
+  
+
 
   
 
@@ -782,6 +609,10 @@
 
 
 
+
+  
+    <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyt94Tr4K"></script>
+  
 
 
 

@@ -160,7 +160,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -255,90 +255,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">Android - Bitmap 的加载和 Cache</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/Android - Bitmap 的加载和 Cache/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James Duan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Duan">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Android - Bitmap 的加载和 Cache</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T17:43:13+08:00">
-                2017-06-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/13/Android - Bitmap 的加载和 Cache/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/13/Android - Bitmap 的加载和 Cache/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>Android - Bitmap 的加载和 Cache</p>
+      <p>Android - Bitmap 的加载和 Cache</p>
 <h3 id="Android-Bitmap-的加载和-Cache"><a href="#Android-Bitmap-的加载和-Cache" class="headerlink" title="Android - Bitmap 的加载和 Cache"></a>Android - Bitmap 的加载和 Cache</h3><p>Android 应用可使用的最大堆内存受到 Android 系统的限制，通常情况为 16 M - 48 M，当应用使用的内存超出限制时就会引发内存溢出错误：<code>java.lang.OutOfMemoryError</code></p>
 <p>大多数应用中都会涉及到 Bitmap ，而 Bitmap 往往会占用较多的内存，因此实现高效加载的同时控制好内存占用是加载 Bitmap 时需要遵循的原则。</p>
 <p>缓存在很多开发场景中都会涉及，实际开发中经常需要对 Bitmap 进行缓存，通过缓存 Bitmap，能够极大的提高图片加载效率以及用户体验，同时能够减轻内存负担。</p>
@@ -379,95 +306,7 @@
 <p>DiskLruCache 得到了 android 官方文档的推荐，但它不属于 Android SDK 的一部分，源码可在这里获得：<a href="http://download.csdn.net/detail/sinyu890807/7709759" target="_blank" rel="external">DiskLruCache.java</a></p>
 <p>DiskLruCache 的使用不做介绍，可参看这篇文章：<a href="http://blog.csdn.net/guolin_blog/article/details/28863651" target="_blank" rel="external">Android DiskLruCache完全解析，硬盘缓存的最佳方案</a></p>
 <center><b><em>END</em></b></center>
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/uploads/wechat.jpg" alt="James Duan WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-    </div>
-  </div>
-
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/" rel="tag"># Android</a>
-          
-            <a href="/tags/Bitmap/" rel="tag"># Bitmap</a>
-          
-            <a href="/tags/Cache/" rel="tag"># Cache</a>
-          
-        </div>
-      
-
-      
-        
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/05/30/n 阶贝塞尔曲线计算公式实现 (1)/" rel="next" title="n 阶贝塞尔曲线计算公式实现">
-                <i class="fa fa-chevron-left"></i> n 阶贝塞尔曲线计算公式实现
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/16/Android - 带阴影点击效果，可自定义属性的媒体播放控制按钮(播放、暂停、下一曲、上一曲)/" rel="prev" title="Android - 带阴影点击效果，可自定义属性的媒体播放控制按钮(播放、暂停、下一曲、上一曲)">
-                Android - 带阴影点击效果，可自定义属性的媒体播放控制按钮(播放、暂停、下一曲、上一曲) <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -504,17 +343,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -614,22 +444,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-Bitmap-的加载和-Cache"><span class="nav-number">1.</span> <span class="nav-text">Android - Bitmap 的加载和 Cache</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Bitmap-的加载"><span class="nav-number">1.1.</span> <span class="nav-text">1 Bitmap 的加载</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-如何高效加载-Bitmap？"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 如何高效加载 Bitmap？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Android-中的缓存策略"><span class="nav-number">1.2.</span> <span class="nav-text">2 Android 中的缓存策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-LruCache"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 LruCache</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-弱引用、软引用、虚引用、强引用"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 弱引用、软引用、虚引用、强引用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#2-2-1-强引用-Strong-Reference"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 强引用(Strong Reference)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-2-2-弱引用-WeakReference"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2 弱引用 (WeakReference)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-2-3-软引用-SoftReference"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.2.3 软引用(SoftReference)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-2-4-虚引用-PhantomReference"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">2.2.4 虚引用{PhantomReference}</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-DiskLruCache"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 DiskLruCache</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -743,10 +557,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
-
-
 
   
 
@@ -793,6 +603,21 @@
 
 
 
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt94Tr4K';
+      var conf = '27eea452f0038b91038f63bc34e0a689';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
 
 
 
