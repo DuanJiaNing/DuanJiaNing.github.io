@@ -772,9 +772,9 @@
         
         <tags>
             
-            <tag> 自定义 View </tag>
-            
             <tag> Android </tag>
+            
+            <tag> 自定义 View </tag>
             
             <tag> 属性动画 </tag>
             
@@ -991,11 +991,11 @@
             
             <tag> Android </tag>
             
+            <tag> 自定义View </tag>
+            
             <tag> 属性动画 </tag>
             
             <tag> 圆点指示器 </tag>
-            
-            <tag> 自定义View </tag>
             
         </tags>
         
@@ -1815,9 +1815,9 @@
             
             <tag> Android </tag>
             
-            <tag> java </tag>
-            
             <tag> 属性动画 </tag>
+            
+            <tag> java </tag>
             
             <tag> AsyncTask </tag>
             
